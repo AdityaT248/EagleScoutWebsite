@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cutlery Rental Service - Home</title>
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <style>
+      /* Global Styles */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+      }
+      header, footer {
+        background-color: #35424a;
+        color: #fff;
+        text-align: center;
+        padding: 15px;
+      }
+      footer {
+        font-size: 0.9em;
+      }
+      /* Main container */
+      .container {
+        display: flex;
+        height: calc(100vh - 130px);
+      }
+      /* Sidebar */
+      .sidebar {
+        width: 300px;
+        background: #ffffff;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        overflow-y: auto;
+      }
+      .sidebar h2 {
+        margin-top: 0;
+      }
+      nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 15px 0;
+      }
+      nav ul li {
+        margin: 10px 0;
+      }
+      nav ul li a {
+        text-decoration: none;
+        color: #35424a;
+        font-weight: 600;
+      }
+      nav ul li a:hover {
+        color: #e8491d;
+      }
+      /* Calendar improvements */
+      #calendar {
+        max-width: 260px;
+        margin: 0 auto 20px auto;
+        background: #ffffff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        margin-top: 20px;
+      }
+      .fc-toolbar {
+        margin-bottom: 15px;
+      }
+      .fc .fc-button {
+        background: #35424a;
+        border: none;
+        color: #fff;
+        border-radius: 3px;
+        padding: 5px 10px;
+        font-size: 0.9em;
+        padding: 6px 12px;
+        border-radius: 4px;
+        background-color: #35424a;
+        border: none;
+        color: #fff;
+        transition: background-color 0.3s;
+      }
+      .fc .fc-button:hover {
+        background: #e8491d;
+        background-color: #e8491d;
+      }
+      .fc .fc-button:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(232,73,29,0.5);
+      }
+      .fc-toolbar-title {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #35424a;
+      }
+      /* Main content (products grid) */
+      .main-content {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+      }
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+      }
+      .product-card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .product-card img {
+        width: 100%;
+        border-radius: 8px;
+      }
+      .product-info {
+        padding: 10px 0;
+      }
+      .product-info h3 {
+        margin: 10px 0 5px;
+      }
+      .price {
+        font-size: 1.2em;
+        color: #e8491d;
+        margin-bottom: 10px;
+      }
+      .comment-form textarea {
+        width: 100%;
+        min-height: 60px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 5px;
+        resize: vertical;
+      }
+      .comment-form button {
+        background: #35424a;
+        color: #fff;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 5px;
+      }
+      .comment-form button:hover {
+        background: #e8491d;
+      }
+      /* Buttons */
+      .btn {
+        background: #35424a;
+        color: #fff;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-block;
+        margin: 5px 0;
+      }
+      .btn:hover {
+        background: #e8491d;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Cutlery Rental Service</h1>
+      <nav>
+        <a class="btn" href="/">Home</a>
+        <a class="btn" href="/availability_page">Availability</a>
+        <a class="btn" href="/comments_page">Comments</a>
+        <a class="btn" href="/contact_page">Contact</a>
+      </nav>
+    </header>
+    
+    <div class="container">
+      <aside class="sidebar">
+        <h2>Calendar</h2>
+        <div id="calendar"></div>
+        <hr />
+        <h2>Navigation</h2>
+        <nav>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/availability_page">Availability</a></li>
+            <li><a href="/comments_page">Comments</a></li>
+            <li><a href="/contact_page">Contact</a></li>
+          </ul>
+        </nav>
+        <hr />
+        <h2>Contact Us</h2>
+        <p>
+          WhatsApp:<br>
+          <a class="btn" href="https://wa.me/your_whatsapp_number" target="_blank">Chat Now</a>
+        </p>
+      </aside>
+      
+      <section class="main-content">
+        <h2>Featured Products</h2>
+        <p>Explore our top cutlery and kitchenware items below.</p>
+        <div class="products-grid">
+          <!-- Product 1 -->
+          <div class="product-card">
+            <a href="https://media.istockphoto.com/id/185307922/photo/cutlery.jpg?s=2048x2048&w=is&k=20&c=f5xqneU46sZ9XvZAQDyybreTiodP1eCS-ardrV4NdzA=" target="_blank">
+              <img src="https://media.istockphoto.com/id/185307922/photo/cutlery.jpg?s=2048x2048&w=is&k=20&c=f5xqneU46sZ9XvZAQDyybreTiodP1eCS-ardrV4NdzA=" alt="Stainless Steel Cutlery">
+            </a>
+            <div class="product-info">
+              <h3>Stainless Steel Cutlery</h3>
+              <p class="price">$29.99</p>
+              <form class="comment-form" action="/comments/" method="post">
+                <textarea name="comment" placeholder="Leave a comment..." required></textarea>
+                <button type="submit">Submit Comment</button>
+              </form>
+            </div>
+          </div>
+          <!-- Product 2 -->
+          <div class="product-card">
+            <a href="https://media.istockphoto.com/id/1220650125/photo/bunner-eco-friendly-disposable-kitchenware-utensils-on-white-background-wooden-forks-and.jpg?s=2048x2048&w=is&k=20&c=mPXodqihyVw8OCf2Dxnolxr4xVjFrE9QURAk7QRLbqA=" target="_blank">
+              <img src="https://media.istockphoto.com/id/1220650125/photo/bunner-eco-friendly-disposable-kitchenware-utensils-on-white-background-wooden-forks-and.jpg?s=2048x2048&w=is&k=20&c=mPXodqihyVw8OCf2Dxnolxr4xVjFrE9QURAk7QRLbqA=" alt="Eco-friendly Kitchenware">
+            </a>
+            <div class="product-info">
+              <h3>Eco-friendly Kitchenware</h3>
+              <p class="price">$19.99</p>
+              <form class="comment-form" action="/comments/" method="post">
+                <textarea name="comment" placeholder="Leave a comment..." required></textarea>
+                <button type="submit">Submit Comment</button>
+              </form>
+            </div>
+          </div>
+          <!-- Product 3 -->
+          <div class="product-card">
+            <a href="https://media.istockphoto.com/id/105863327/photo/cutlery.jpg?s=2048x2048&w=is&k=20&c=TPZ4bUTdDnbv9V-HYSltl9pkoRfjqETJBpnMaG0xM6k=" target="_blank">
+              <img src="https://media.istockphoto.com/id/105863327/photo/cutlery.jpg?s=2048x2048&w=is&k=20&c=TPZ4bUTdDnbv9V-HYSltl9pkoRfjqETJBpnMaG0xM6k=" alt="Elegant Cutlery Set">
+            </a>
+            <div class="product-info">
+              <h3>Elegant Cutlery Set</h3>
+              <p class="price">$34.99</p>
+              <form class="comment-form" action="/comments/" method="post">
+                <textarea name="comment" placeholder="Leave a comment..." required></textarea>
+                <button type="submit">Submit Comment</button>
+              </form>
+            </div>
+          </div>
+          <!-- Product 4 -->
+          <div class="product-card">
+            <a href="https://media.istockphoto.com/id/1223414833/photo/clean-saucepan-on-a-gas-stove-in-kitchen.jpg?s=1024x1024&w=is&k=20&c=4GcTkhHYC_79aZ0FAYCDV2sb4qVrMJViFs_RbIsvDl0=" target="_blank">
+              <img src="https://media.istockphoto.com/id/1223414833/photo/clean-saucepan-on-a-gas-stove-in-kitchen.jpg?s=1024x1024&w=is&k=20&c=4GcTkhHYC_79aZ0FAYCDV2sb4qVrMJViFs_RbIsvDl0=" alt="Gas Stove Saucepans">
+            </a>
+            <div class="product-info">
+              <h3>Gas Stove Saucepans</h3>
+              <p class="price">$24.99</p>
+              <form class="comment-form" action="/comments/" method="post">
+                <textarea name="comment" placeholder="Leave a comment..." required></textarea>
+                <button type="submit">Submit Comment</button>
+              </form>
+            </div>
+          </div>
+          <!-- Product 5 -->
+          <div class="product-card">
+            <a href="https://media.istockphoto.com/id/1408070003/photo/empty-pans-setting-on-a-gray-granite-background-table.jpg?s=1024x1024&w=is&k=20&c=QvFl3zGPUCX72_ws_LfYCaxraF9ARhzb5nlzcG3i5AQ=" target="_blank">
+              <img src="https://media.istockphoto.com/id/1408070003/photo/empty-pans-setting-on-a-gray-granite-background-table.jpg?s=1024x1024&w=is&k=20&c=QvFl3zGPUCX72_ws_LfYCaxraF9ARhzb5nlzcG3i5AQ=" alt="Empty Pan Set">
+            </a>
+            <div class="product-info">
+              <h3>Empty Pan Set</h3>
+              <p class="price">$14.99</p>
+              <form class="comment-form" action="/comments/" method="post">
+                <textarea name="comment" placeholder="Leave a comment..." required></textarea>
+                <button type="submit">Submit Comment</button>
+              </form>
+            </div>
+          </div>
+          <!-- Product 6 -->
+          <div class="product-card">
+            <a href="https://media.istockphoto.com/id/1146833253/photo/barbecue-tools-on-wooden-table-flat-lay-top-view.jpg?s=1024x1024&w=is&k=20&c=8AWu_6dTnu_2vm9P9ZK0v0HOW79ypEcjL04v2XO-BQo=" target="_blank">
+              <img src="https://media.istockphoto.com/id/1146833253/photo/barbecue-tools-on-wooden-table-flat-lay-top-view.jpg?s=1024x1024&w=is&k=20&c=8AWu_6dTnu_2vm9P9ZK0v0HOW79ypEcjL04v2XO-BQo=" alt="Barbecue Tools">
+            </a>
+            <div class="product-info">
+              <h3>Barbecue Tools</h3>
+              <p class="price">$39.99</p>
+              <form class="comment-form" action="/comments/" method="post">
+                <textarea name="comment" placeholder="Leave a comment..." required></textarea>
+                <button type="submit">Submit Comment</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <footer>
+      <p>&copy; 2025 Cutlery Rental Service. All rights reserved.</p>
+    </footer>
+    
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var calendarEl = document.getElementById("calendar");
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: "dayGridMonth",
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          },
+          height: 'auto', // Let calendar adjust its height
+          events: "/availability/events"
+        });
+        calendar.render();
+      });
+    </script>
+    <script src="/static/js/scripts.js"></script>
+  </body>
+</html>

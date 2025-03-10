@@ -1,0 +1,27 @@
+{
+  "name": "eagle-scout-website",
+  "version": "1.0.0",
+  "description": "A FastAPI web application for managing cutlery rental services.",
+  "main": "src/main.py",
+  "scripts": {
+    "start": "uvicorn src.main:app --reload",
+    "test": "pytest"
+  },
+  "dependencies": {
+    "fastapi": "^0.68.0",
+    "uvicorn": "^0.15.0",
+    "python-multipart": "^0.0.5"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.4",
+    "ts-node": "^10.4.0"
+  },
+  "keywords": [
+    "fastapi",
+    "web",
+    "rental",
+    "service"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

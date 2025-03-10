@@ -1,0 +1,53 @@
+<html>
+<head>
+    <title>Cutlery Rental - Home</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Cutlery Rental Service</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/availability">Check Availability</a></li>
+                <li><a href="/comments">Comments</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Our Services</h2>
+            <p>We offer a wide range of cutlery for rental. Check our availability, upload images of your events, and leave your comments!</p>
+        </section>
+        <section>
+            <h2>Check Availability</h2>
+            <form action="/availability" method="get">
+                <label for="date">Select a date:</label>
+                <input type="date" id="date" name="date" required>
+                <button type="submit">Check</button>
+            </form>
+        </section>
+        <section>
+            <h2>Upload Images</h2>
+            <form action="/upload_image/" method="post" enctype="multipart/form-data">
+                <label for="file">Choose an image to upload:</label>
+                <input type="file" id="file" name="file" accept="image/*" required>
+                <button type="submit">Upload</button>
+            </form>
+        </section>
+        <section>
+            <h2>Leave a Comment</h2>
+            <form action="/comment/" method="post">
+                <label for="comment">Your Comment:</label>
+                <textarea id="comment" name="comment" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Cutlery Rental Service. All rights reserved.</p>
+    </footer>
+    <script src="/static/js/scripts.js"></script>
+</body>
+</html>

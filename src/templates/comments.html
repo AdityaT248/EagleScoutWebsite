@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comments - Cutlery Rental Service</title>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <style>
+      html, body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background: #f0f2f5; }
+      header, footer { background: #35424a; color: #fff; text-align: center; padding: 15px; }
+      .container { max-width: 800px; margin: auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+      .btn { background: #35424a; color: #fff; padding: 8px 12px; border-radius: 4px; text-decoration: none; }
+      .btn:hover { background: #e8491d; }
+      .comment { border-bottom: 1px solid #ddd; padding: 10px 0; }
+      .comment:last-child { border-bottom: none; }
+      .comment-author { font-weight: bold; }
+      form textarea { width: 100%; min-height: 80px; border: 1px solid #ccc; border-radius: 4px; padding: 5px; resize: vertical; }
+      form button { background: #35424a; color: #fff; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px; }
+      form button:hover { background: #e8491d; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Customer Comments</h1>
+      <nav>
+        <a class="btn" href="home_page">Home</a>
+        <a class="btn" href="availability_page">Availability</a>
+        <a class="btn" href="contact_page">Contact</a>
+      </nav>
+    </header>
+    
+    <div class="container">
+      <h2>Leave a Comment</h2>
+      <form action="/comments/" method="post">
+        <input type="text" name="author" placeholder="Your name" required style="width:100%;margin-bottom:10px;padding:8px;border:1px solid #ccc;border-radius:4px;">
+        <textarea name="comment" placeholder="Your comment" required></textarea>
+        <button type="submit">Submit Comment</button>
+      </form>
+      
+      <h2>All Comments</h2>
+      <!-- Sample comments list; you can populate this dynamically -->
+      <div class="comment">
+        <p class="comment-author">Alice:</p>
+        <p>Great products and excellent service!</p>
+      </div>
+      <div class="comment">
+        <p class="comment-author">Bob:</p>
+        <p>I loved the elegant cutlery set. Highly recommended!</p>
+      </div>
+    </div>
+    
+    <footer>
+      <p>&copy; 2025 Cutlery Rental Service</p>
+    </footer>
+  </body>
+</html>

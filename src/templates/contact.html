@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact - Cutlery Rental Service</title>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <style>
+      html, body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background: #f0f2f5; }
+      header, footer { background: #35424a; color: #fff; text-align: center; padding: 15px; }
+      .container { max-width: 800px; margin: auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+      form input, form textarea { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
+      form button { background: #35424a; color: #fff; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
+      form button:hover { background: #e8491d; }
+      .btn { background: #35424a; color: #fff; padding: 8px 12px; border-radius: 4px; text-decoration: none; }
+      .btn:hover { background: #e8491d; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Contact Us</h1>
+      <nav>
+        <a class="btn" href="home_page">Home</a>
+        <a class="btn" href="availability_page">Availability</a>
+        <a class="btn" href="comments_page">Comments</a>
+      </nav>
+    </header>
+    
+    <div class="container">
+      <h2>Get in Touch</h2>
+      <p>Please use the form below to send us a message.</p>
+      <form action="/contact/" method="post">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      
+      <h2>Our Contact Information</h2>
+      <p><strong>Phone:</strong> (123) 456-7890</p>
+      <p><strong>Email:</strong> info@cutleryrental.com</p>
+      <p><strong>Address:</strong> 1234 Kitchen Street, Culinary City, Country</p>
+    </div>
+    
+    <footer>
+      <p>&copy; 2025 Cutlery Rental Service. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

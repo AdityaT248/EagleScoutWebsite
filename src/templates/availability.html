@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Availability - Cutlery Rental Service</title>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <style>
+      /* Reuse global styling from index.html */
+      html, body { margin: 0; padding: 0; font-family: 'Segoe UI'; background: #f0f2f5; }
+      header, footer { background: #35424a; color: #fff; text-align: center; padding: 15px; }
+      .container { max-width: 1200px; margin: auto; padding: 20px; }
+      .btn { background: #35424a; color: #fff; padding: 8px 12px; border-radius: 4px; text-decoration: none; }
+      .btn:hover { background: #e8491d; }
+      #calendar { max-width: 900px; margin: 20px auto; }
+
+      /* Enhanced Calendar Styles */
+      #calendar {
+        background: #ffffff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        margin-top: 20px;
+      }
+      .fc-toolbar {
+        margin-bottom: 15px;
+      }
+      .fc .fc-button {
+        font-size: 0.9em;
+        padding: 6px 12px;
+        border-radius: 4px;
+        background-color: #35424a;
+        border: none;
+        color: #fff;
+        transition: background-color 0.3s;
+      }
+      .fc .fc-button:hover {
+        background-color: #e8491d;
+      }
+      .fc .fc-button:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(232,73,29,0.5);
+      }
+      .fc-toolbar-title {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #35424a;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Availability Calendar</h1>
+      <nav>
+        <a class="btn" href="home_page">Home</a>
+        <a class="btn" href="comments_page">Comments</a>
+        <a class="btn" href="contact_page">Contact</a>
+      </nav>
+    </header>
+    
+    <div class="container">
+      <div id="calendar"></div>
+    </div>
+    
+    <footer>
+      <p>&copy; 2025 Cutlery Rental Service</p>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var calendarEl = document.getElementById("calendar");
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: "dayGridMonth",
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          },
+          height: 'auto', // Let calendar adjust its height
+          events: "/availability/events"
+        });
+        calendar.render();
+      });
+    </script>
+  </body>
+</html>

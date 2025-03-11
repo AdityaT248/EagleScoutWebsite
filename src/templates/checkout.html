@@ -1,0 +1,317 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout - Cutlery Rental{% endblock %}
+
+{% block content %}
+<div class="checkout-page">
+  <div class="container">
+    <!-- Breadcrumb navigation -->
+    <div class="breadcrumb">
+      <a href="/">Home</a>
+      <span class="separator">/</span>
+      <span>Checkout</span>
+    </div>
+    
+    <h1>Complete Your Rental</h1>
+    
+    <div class="checkout-container">
+      <div class="checkout-summary">
+        <h2>Order Summary</h2>
+        <div class="product-summary">
+          <div class="product-image">
+            <img src="{{ product_image|default('https://via.placeholder.com/150') }}" alt="{{ product_name }}">
+          </div>
+          <div class="product-details">
+            <h3>{{ product_name }}</h3>
+            <p class="product-price">${{ "%.2f"|format(product_price) }}</p>
+            <div class="quantity-selector">
+              <label for="rental-days">Rental Period (days):</label>
+              <div class="quantity-controls">
+                <button type="button" class="quantity-btn minus" aria-label="Decrease days">-</button>
+                <input type="number" id="rental-days" name="rental-days" value="1" min="1" max="30">
+                <button type="button" class="quantity-btn plus" aria-label="Increase days">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="order-details">
+          <div class="order-row">
+            <span>Rental Price:</span>
+            <span class="base-price">${{ "%.2f"|format(product_price) }}</span>
+          </div>
+          <div class="order-row">
+            <span>Rental Days:</span>
+            <span class="rental-days-display">1</span>
+          </div>
+          <div class="order-row">
+            <span>Subtotal:</span>
+            <span class="subtotal">${{ "%.2f"|format(product_price) }}</span>
+          </div>
+          <div class="order-row">
+            <span>Tax (8%):</span>
+            <span class="tax">${{ "%.2f"|format(product_price * 0.08) }}</span>
+          </div>
+          <div class="order-row total">
+            <span>Total:</span>
+            <span class="total-price">${{ "%.2f"|format(product_price * 1.08) }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="checkout-form">
+        <h2>Rental Information</h2>
+        <form id="rental-form">
+          <div class="form-group">
+            <label for="pickup-date">Pickup Date</label>
+            <input type="date" id="pickup-date" name="pickup-date" required min="{{ today_date }}">
+          </div>
+          
+          <div class="form-group">
+            <label for="return-date">Return Date</label>
+            <input type="date" id="return-date" name="return-date" required min="{{ today_date }}">
+          </div>
+          
+          <div class="form-group">
+            <label for="customer-name">Full Name</label>
+            <input type="text" id="customer-name" name="customer-name" placeholder="Enter your full name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="customer-email">Email Address</label>
+            <input type="email" id="customer-email" name="customer-email" placeholder="Enter your email address" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="customer-phone">Phone Number</label>
+            <input type="tel" id="customer-phone" name="customer-phone" placeholder="Enter your phone number" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="special-requests">Special Requests (Optional)</label>
+            <textarea id="special-requests" name="special-requests" placeholder="Any special requests or notes"></textarea>
+          </div>
+          
+          <div class="payment-options">
+            <h3>Payment Method</h3>
+            <div class="payment-methods">
+              <div class="payment-method active" data-method="paypal">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" alt="PayPal">
+                <span>PayPal</span>
+              </div>
+              <div class="payment-method" data-method="credit-card">
+                <i class="fas fa-credit-card"></i>
+                <span>Credit Card</span>
+              </div>
+            </div>
+            
+            <!-- PayPal Button Container -->
+            <div id="paypal-button-container" class="paypal-button-container"></div>
+            
+            <!-- Credit Card Form (hidden by default) -->
+            <div id="credit-card-form" class="credit-card-form" style="display: none;">
+              <div class="form-group">
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19">
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="card-expiry">Expiry Date</label>
+                  <input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5">
+                </div>
+                
+                <div class="form-group">
+                  <label for="card-cvc">CVC</label>
+                  <input type="text" id="card-cvc" placeholder="123" maxlength="3">
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="card-name">Name on Card</label>
+                <input type="text" id="card-name" placeholder="John Doe">
+              </div>
+              
+              <button type="button" class="btn btn-primary btn-block process-payment">Complete Payment</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&currency=USD&intent=capture"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Variables
+    const rentalDaysInput = document.getElementById('rental-days');
+    const rentalDaysDisplay = document.querySelector('.rental-days-display');
+    const basePrice = parseFloat(document.querySelector('.base-price').textContent.replace('$', ''));
+    const subtotalElement = document.querySelector('.subtotal');
+    const taxElement = document.querySelector('.tax');
+    const totalElement = document.querySelector('.total-price');
+    const pickupDateInput = document.getElementById('pickup-date');
+    const returnDateInput = document.getElementById('return-date');
+    const paymentMethods = document.querySelectorAll('.payment-method');
+    const creditCardForm = document.getElementById('credit-card-form');
+    const paypalContainer = document.getElementById('paypal-button-container');
+    
+    // Set minimum dates for pickup and return
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    pickupDateInput.min = today.toISOString().split('T')[0];
+    returnDateInput.min = tomorrow.toISOString().split('T')[0];
+    
+    // Update return date when pickup date changes
+    pickupDateInput.addEventListener('change', function() {
+      const pickupDate = new Date(this.value);
+      const minReturnDate = new Date(pickupDate);
+      minReturnDate.setDate(minReturnDate.getDate() + parseInt(rentalDaysInput.value));
+      returnDateInput.min = minReturnDate.toISOString().split('T')[0];
+      
+      if (new Date(returnDateInput.value) < minReturnDate) {
+        returnDateInput.value = minReturnDate.toISOString().split('T')[0];
+      }
+    });
+    
+    // Update rental days when return date changes
+    returnDateInput.addEventListener('change', function() {
+      if (pickupDateInput.value) {
+        const pickupDate = new Date(pickupDateInput.value);
+        const returnDate = new Date(this.value);
+        const diffTime = Math.abs(returnDate - pickupDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        rentalDaysInput.value = diffDays;
+        updatePrices();
+      }
+    });
+    
+    // Quantity controls
+    document.querySelector('.quantity-btn.minus').addEventListener('click', function() {
+      if (rentalDaysInput.value > 1) {
+        rentalDaysInput.value = parseInt(rentalDaysInput.value) - 1;
+        updatePrices();
+        updateReturnDate();
+      }
+    });
+    
+    document.querySelector('.quantity-btn.plus').addEventListener('click', function() {
+      rentalDaysInput.value = parseInt(rentalDaysInput.value) + 1;
+      updatePrices();
+      updateReturnDate();
+    });
+    
+    rentalDaysInput.addEventListener('change', function() {
+      updatePrices();
+      updateReturnDate();
+    });
+    
+    // Update return date based on rental days
+    function updateReturnDate() {
+      if (pickupDateInput.value) {
+        const pickupDate = new Date(pickupDateInput.value);
+        const returnDate = new Date(pickupDate);
+        returnDate.setDate(returnDate.getDate() + parseInt(rentalDaysInput.value));
+        returnDateInput.value = returnDate.toISOString().split('T')[0];
+      }
+    }
+    
+    // Update prices based on rental days
+    function updatePrices() {
+      const days = parseInt(rentalDaysInput.value);
+      rentalDaysDisplay.textContent = days;
+      
+      const subtotal = basePrice * days;
+      const tax = subtotal * 0.08;
+      const total = subtotal + tax;
+      
+      subtotalElement.textContent = '$' + subtotal.toFixed(2);
+      taxElement.textContent = '$' + tax.toFixed(2);
+      totalElement.textContent = '$' + total.toFixed(2);
+    }
+    
+    // Payment method selection
+    paymentMethods.forEach(method => {
+      method.addEventListener('click', function() {
+        paymentMethods.forEach(m => m.classList.remove('active'));
+        this.classList.add('active');
+        
+        const paymentMethod = this.dataset.method;
+        if (paymentMethod === 'paypal') {
+          creditCardForm.style.display = 'none';
+          paypalContainer.style.display = 'block';
+        } else {
+          creditCardForm.style.display = 'block';
+          paypalContainer.style.display = 'none';
+        }
+      });
+    });
+    
+    // Initialize PayPal button
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        const total = parseFloat(totalElement.textContent.replace('$', ''));
+        
+        return actions.order.create({
+          purchase_units: [{
+            description: 'Cutlery Rental: {{ product_name }}',
+            amount: {
+              value: total.toFixed(2),
+              currency_code: 'USD'
+            },
+            payee: {
+              email_address: '{{ merchant_email }}',
+              merchant_id: '{{ merchant_id|default("") }}'
+            },
+            custom_id: 'product_{{ product_id }}_days_' + rentalDaysInput.value,
+            invoice_id: 'INV-' + Date.now(),
+            soft_descriptor: '{{ merchant_name|default("Cutlery Rental") }}'
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          // Show success message
+          alert('Transaction completed by ' + details.payer.name.given_name + '! Your rental is confirmed.');
+          
+          // Redirect to confirmation page (you would implement this)
+          // window.location.href = '/confirmation?order_id=' + data.orderID;
+        });
+      }
+    }).render('#paypal-button-container');
+    
+    // Credit card form handling
+    document.querySelector('.process-payment').addEventListener('click', function() {
+      // Here you would typically integrate with a payment processor
+      // For demo purposes, we'll just show a success message
+      alert('Payment processed successfully! Your rental is confirmed.');
+      
+      // Redirect to confirmation page (you would implement this)
+      // window.location.href = '/confirmation?order_id=123456';
+    });
+    
+    // Format credit card number with spaces
+    document.getElementById('card-number').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\s+/g, '');
+      if (value.length > 0) {
+        value = value.match(new RegExp('.{1,4}', 'g')).join(' ');
+      }
+      e.target.value = value;
+    });
+    
+    // Format expiry date with slash
+    document.getElementById('card-expiry').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length > 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+      }
+      e.target.value = value;
+    });
+  });
+</script>
+{% endblock %} 

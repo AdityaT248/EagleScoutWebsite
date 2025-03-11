@@ -435,16 +435,33 @@ class FilterSystem {
 class AIChatbot {
   constructor() {
     this.isOpen = false;
-    this.init();
+    this.messageHistory = [];
+    // Wait for DOM to be fully loaded before initializing
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => this.init());
+    } else {
+      this.init();
+    }
   }
   
   init() {
-    this.chatbotContainer = document.querySelector('.chatbot-container');
-    this.chatbotTrigger = document.querySelector('.chatbot-trigger');
-    this.chatbotClose = document.querySelector('.chatbot-close');
-    this.chatbotMessages = document.querySelector('.chatbot-messages');
-    this.chatbotInput = document.querySelector('.chatbot-input input');
-    this.chatbotSendButton = document.querySelector('.chatbot-input button');
+    console.log('Initializing chatbot...');
+    
+    // Get DOM elements
+    this.chatbotContainer = document.getElementById('chatbot-container');
+    this.chatbotTrigger = document.getElementById('chatbot-trigger');
+    this.chatbotClose = document.getElementById('chatbot-close');
+    this.chatbotMessages = document.getElementById('chatbot-messages');
+    this.chatbotInput = document.getElementById('chatbot-input');
+    this.chatbotSendButton = document.getElementById('chatbot-send');
+    
+    // Check if elements exist
+    if (!this.chatbotContainer || !this.chatbotTrigger) {
+      console.error('Chatbot elements not found in the DOM');
+      return;
+    }
+    
+    console.log('Chatbot elements found, adding event listeners');
     
     this.addEventListeners();
     this.addWelcomeMessage();
@@ -452,29 +469,45 @@ class AIChatbot {
   
   addEventListeners() {
     // Toggle chatbot
-    this.chatbotTrigger?.addEventListener('click', () => {
-      this.toggleChatbot();
-    });
+    if (this.chatbotTrigger) {
+      console.log('Adding click event to chatbot trigger');
+      this.chatbotTrigger.addEventListener('click', (e) => {
+        console.log('Chatbot trigger clicked');
+        e.preventDefault();
+        e.stopPropagation();
+        this.toggleChatbot();
+      });
+    }
     
-    this.chatbotClose?.addEventListener('click', () => {
-      this.toggleChatbot(false);
-    });
+    if (this.chatbotClose) {
+      this.chatbotClose.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.toggleChatbot(false);
+      });
+    }
     
     // Send message on button click
-    this.chatbotSendButton?.addEventListener('click', () => {
-      this.sendMessage();
-    });
+    if (this.chatbotSendButton) {
+      this.chatbotSendButton.addEventListener('click', () => {
+        this.sendMessage();
+      });
+    }
     
     // Send message on Enter key
-    this.chatbotInput?.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        this.sendMessage();
-      }
-    });
+    if (this.chatbotInput) {
+      this.chatbotInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          this.sendMessage();
+        }
+      });
+    }
     
     // Close chatbot when clicking outside
     document.addEventListener('click', (e) => {
       if (this.isOpen && 
+          this.chatbotContainer && 
+          this.chatbotTrigger && 
           !this.chatbotContainer.contains(e.target) && 
           !this.chatbotTrigger.contains(e.target)) {
         this.toggleChatbot(false);
@@ -483,18 +516,41 @@ class AIChatbot {
   }
   
   addWelcomeMessage() {
-    this.addMessage('Hello! How can I help you with your cutlery rental needs today?', 'bot');
+    if (!this.chatbotMessages) return;
+    
+    // Check if welcome message already exists
+    if (this.chatbotMessages.children.length === 0) {
+      const welcomeMessage = "Hello! I'm your Cutlery Rental assistant. How can I help you today? You can ask me about our products, pricing, availability, or rental process.";
+      this.addMessage(welcomeMessage, 'bot');
+      
+      // Add to message history
+      this.messageHistory.push({
+        role: 'assistant',
+        content: welcomeMessage
+      });
+    }
   }
   
   async sendMessage() {
+    if (!this.chatbotInput || !this.chatbotMessages) return;
+    
     const message = this.chatbotInput.value.trim();
     if (!message) return;
     
     // Add user message
     this.addMessage(message, 'user');
     
+    // Add to message history
+    this.messageHistory.push({
+      role: 'user',
+      content: message
+    });
+    
     // Clear input
     this.chatbotInput.value = '';
+    
+    // Disable input while waiting for response
+    this.setInputState(false);
     
     // Show typing indicator
     this.addTypingIndicator();
@@ -504,13 +560,43 @@ class AIChatbot {
       const response = await this.getAIResponse(message);
       this.removeTypingIndicator();
       this.addMessage(response, 'bot');
+      
+      // Add to message history
+      this.messageHistory.push({
+        role: 'assistant',
+        content: response
+      });
+      
+      // Limit message history to last 10 messages to prevent excessive context
+      if (this.messageHistory.length > 10) {
+        this.messageHistory = this.messageHistory.slice(-10);
+      }
     } catch (error) {
+      console.error('Error getting AI response:', error);
       this.removeTypingIndicator();
       this.addMessage('Sorry, I encountered an error. Please try again later.', 'bot');
+    } finally {
+      // Re-enable input
+      this.setInputState(true);
+    }
+  }
+  
+  setInputState(enabled) {
+    if (this.chatbotInput && this.chatbotSendButton) {
+      this.chatbotInput.disabled = !enabled;
+      this.chatbotSendButton.disabled = !enabled;
+      
+      if (!enabled) {
+        this.chatbotSendButton.classList.add('disabled');
+      } else {
+        this.chatbotSendButton.classList.remove('disabled');
+      }
     }
   }
   
   addMessage(text, sender) {
+    if (!this.chatbotMessages) return;
+    
     const messageElement = document.createElement('div');
     messageElement.className = `chat-message ${sender}`;
     
@@ -532,6 +618,8 @@ class AIChatbot {
   }
   
   addTypingIndicator() {
+    if (!this.chatbotMessages) return;
+    
     const typingElement = document.createElement('div');
     typingElement.className = 'chat-message bot typing-indicator';
     
@@ -551,6 +639,8 @@ class AIChatbot {
   }
   
   removeTypingIndicator() {
+    if (!this.chatbotMessages) return;
+    
     const typingIndicator = this.chatbotMessages.querySelector('.typing-indicator');
     if (typingIndicator) {
       typingIndicator.remove();
@@ -558,33 +648,52 @@ class AIChatbot {
   }
   
   async getAIResponse(message) {
-    // Simulate AI response with delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Simple responses based on keywords
-    const lowerMessage = message.toLowerCase();
-    
-    if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
-      return 'Hello! How can I help you with your cutlery rental needs today?';
-    } else if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
-      return 'Our prices range from $20 for basic items to $95 for premium sets. You can see all prices on our product listings.';
-    } else if (lowerMessage.includes('delivery') || lowerMessage.includes('shipping')) {
-      return 'We offer free delivery for orders over $50. Standard delivery takes 1-2 business days.';
-    } else if (lowerMessage.includes('return')) {
-      return 'Returns are accepted within 7 days of delivery. Please ensure items are in their original condition.';
-    } else if (lowerMessage.includes('availability')) {
-      return 'Most of our items are in stock and ready to ship. Items marked as "limited" have low stock, while "out of stock" items can be pre-ordered.';
-    } else {
-      return 'Thank you for your message. If you have any specific questions about our cutlery rental service, please let me know!';
+    try {
+      // Show typing indicator for at least 1 second for better UX
+      const typingDelay = new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Make API request to our chatbot endpoint
+      const response = await fetch('/api/chatbot', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          message: message,
+          history: this.messageHistory // Send message history for context
+        })
+      });
+      
+      // Wait for both the typing delay and API response
+      await typingDelay;
+      
+      if (!response.ok) {
+        throw new Error('Failed to get response from chatbot');
+      }
+      
+      const data = await response.json();
+      return data.response;
+    } catch (error) {
+      console.error('Chatbot error:', error);
+      return "I'm sorry, I'm having trouble connecting right now. Please try again later or contact us directly at (123) 456-7890.";
     }
   }
   
   toggleChatbot(open = !this.isOpen) {
+    console.log('Toggling chatbot, current state:', this.isOpen, 'new state:', open);
+    
+    if (!this.chatbotContainer) {
+      console.error('Chatbot container not found');
+      return;
+    }
+    
     this.isOpen = open;
     
     if (open) {
       this.chatbotContainer.classList.add('active');
-      this.chatbotInput.focus();
+      if (this.chatbotInput) {
+        this.chatbotInput.focus();
+      }
     } else {
       this.chatbotContainer.classList.remove('active');
     }

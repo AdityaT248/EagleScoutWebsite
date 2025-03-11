@@ -73,14 +73,14 @@
   <section id="products" class="products-section">
     <h2 class="section-title">Our Collection</h2>
     
-    <div class="products-grid">
+        <div class="products-grid">
       {% if products %}
-        {% for product in products %}
+          {% for product in products %}
           <article class="product-card" data-category="{{ product.category|default('other') }}" data-availability="{{ product.availability|default('in-stock') }}" data-rating="{{ product.rating|default(4) }}">
             <div class="product-image">
               <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy">
             </div>
-            <div class="product-info">
+              <div class="product-info">
               <h3 class="product-title">{{ product.name }}</h3>
               <div class="product-price" data-price="{{ product.price }}">
                 ${{ "%.2f"|format(product.price) }}
@@ -98,10 +98,10 @@
                 <span class="rating-count">({{ product.reviews|default(10) }})</span>
               </div>
               <p class="product-description">{{ product.description }}</p>
-              <a href="#" class="btn btn-primary">Rent Now</a>
+              <a href="/checkout?product_id={{ product.id }}&name={{ product.name|urlencode }}&price={{ product.price }}&image_url={{ product.image_url|urlencode }}" class="btn btn-primary">Rent Now</a>
             </div>
           </article>
-        {% endfor %}
+          {% endfor %}
       {% else %}
         <!-- Fallback static products if no dynamic products are available -->
         <!-- Product Card 1 -->
@@ -117,7 +117,7 @@
               <span class="rating-count">(42)</span>
             </div>
             <p class="product-description">Elegant silver-plated forks perfect for formal dining events.</p>
-            <a href="#" class="btn btn-primary">Rent Now</a>
+            <a href="/checkout?product_id=1&name=Silver%20Fork%20Set&price=25&image_url=https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?w=500%26auto=format%26fit=crop%26q=80" class="btn btn-primary">Rent Now</a>
           </div>
         </article>
         
@@ -134,27 +134,12 @@
               <span class="rating-count">(28)</span>
             </div>
             <p class="product-description">High-quality stainless steel steak knives with wooden handles.</p>
-            <a href="#" class="btn btn-primary">Rent Now</a>
+            <a href="/checkout?product_id=2&name=Premium%20Steak%20Knives&price=35&image_url=https://images.unsplash.com/photo-1593618998160-e34014e67546?w=500%26auto=format%26fit=crop%26q=80" class="btn btn-primary">Rent Now</a>
           </div>
         </article>
       {% endif %}
+        </div>
+      </section>
     </div>
-  </section>
-</div>
-
-<!-- Chatbot Trigger -->
-<button class="chatbot-trigger" aria-label="Open chat assistant">💬</button>
-
-<!-- Chatbot Container -->
-<div class="chatbot-container" aria-label="Chat assistant">
-  <div class="chatbot-header">
-    <h3 class="chatbot-title">Cutlery Assistant</h3>
-    <button class="chatbot-close" aria-label="Close chat">✕</button>
-  </div>
-  <div class="chatbot-messages" aria-live="polite"></div>
-  <div class="chatbot-input">
-    <input type="text" placeholder="Ask about our cutlery..." aria-label="Type your message">
-    <button aria-label="Send message">Send</button>
-  </div>
-</div>
+    
 {% endblock %}

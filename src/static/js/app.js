@@ -604,12 +604,48 @@ function debounce(func, wait) {
   };
 }
 
-// Header Scroll Effect
+// Header scroll effect
 function handleHeaderScroll() {
   const header = document.querySelector('header');
-  const scrolled = window.scrollY > 20;
-  header?.classList.toggle('scrolled', scrolled);
+  if (!header) return;
+  
+  if (window.scrollY > 50) {
+    header.classList.add('header-scrolled');
+  } else {
+    header.classList.remove('header-scrolled');
+  }
 }
+
+// Dark mode toggle function
+function toggleDarkMode() {
+  const html = document.documentElement;
+  const isDarkMode = html.getAttribute('data-theme') === 'dark';
+  
+  html.setAttribute('data-theme', isDarkMode ? 'light' : 'dark');
+  localStorage.setItem('theme', isDarkMode ? 'light' : 'dark');
+  
+  // Update toggle button text/icon if needed
+  const darkModeToggle = document.getElementById('dark-mode-toggle');
+  if (darkModeToggle) {
+    darkModeToggle.innerHTML = isDarkMode ? 
+      '<i class="fas fa-moon"></i>' : 
+      '<i class="fas fa-sun"></i>';
+  }
+}
+
+// Initialize theme from localStorage
+(function() {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    // Update toggle button text/icon if needed
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    if (darkModeToggle && savedTheme === 'dark') {
+      darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+  }
+})();
 
 // Smooth scroll for anchor links
 function initSmoothScroll() {
@@ -634,48 +670,118 @@ function initSmoothScroll() {
   });
 }
 
-// Initialize components
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialize filter system
-  window.filterSystem = new FilterSystem();
+// Initialize mobile menu
+function initMobileMenu() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navMenu = document.querySelector('.nav-menu');
   
-  // Initialize chatbot
+  if (!menuToggle || !navMenu) return;
+  
+  menuToggle.addEventListener('click', function() {
+    menuToggle.classList.toggle('active');
+    navMenu.classList.toggle('active');
+    document.body.classList.toggle('menu-open');
+  });
+  
+  // Close menu when clicking on a link
+  const navLinks = navMenu.querySelectorAll('a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      menuToggle.classList.remove('active');
+      navMenu.classList.remove('active');
+      document.body.classList.remove('menu-open');
+    });
+  });
+}
+
+// Newsletter Form Handler
+class NewsletterForm {
+  constructor() {
+    this.form = document.querySelector('.newsletter-form');
+    if (this.form) {
+      this.init();
+    }
+  }
+  
+  init() {
+    this.emailInput = this.form.querySelector('input[type="email"]');
+    this.submitButton = this.form.querySelector('button[type="submit"]');
+    
+    this.addEventListeners();
+  }
+  
+  addEventListeners() {
+    this.form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this.handleSubmit();
+    });
+  }
+  
+  handleSubmit() {
+    const email = this.emailInput.value.trim();
+    
+    if (!email) {
+      this.showMessage('Please enter your email address', 'error');
+      return;
+    }
+    
+    if (!this.validateEmail(email)) {
+      this.showMessage('Please enter a valid email address', 'error');
+      return;
+    }
+    
+    // Here you would typically send the email to your server
+    // For now, we'll just simulate a successful subscription
+    this.showMessage('Thank you for subscribing!', 'success');
+    this.emailInput.value = '';
+  }
+  
+  validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+  
+  showMessage(message, type) {
+    // Remove any existing message
+    const existingMessage = this.form.querySelector('.newsletter-message');
+    if (existingMessage) {
+      existingMessage.remove();
+    }
+    
+    // Create new message
+    const messageElement = document.createElement('div');
+    messageElement.className = `newsletter-message ${type}`;
+    messageElement.textContent = message;
+    
+    // Add message after the form
+    this.form.appendChild(messageElement);
+    
+    // Remove message after 3 seconds
+    setTimeout(() => {
+      messageElement.remove();
+    }, 3000);
+  }
+}
+
+// Initialize all components when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize existing components
+  const filterSystem = new FilterSystem();
   const chatbot = new AIChatbot();
+  const uiEnhancer = new UIEnhancer();
   
   // Initialize header scroll effect
-  window.addEventListener('scroll', debounce(handleHeaderScroll, 10));
-  handleHeaderScroll();
+  window.addEventListener('scroll', handleHeaderScroll);
+  handleHeaderScroll(); // Call once to set initial state
   
   // Initialize smooth scroll
   initSmoothScroll();
   
-  // Add animation classes to elements
-  document.querySelectorAll('.product-card').forEach((card, index) => {
-    card.classList.add('animate-on-scroll');
-    card.dataset.animation = 'fade-up';
-    card.style.animationDelay = `${index * 0.1}s`;
-  });
+  // Initialize mobile menu
+  initMobileMenu();
   
-  // Initialize animations
-  const animateOnScroll = () => {
-    const elements = document.querySelectorAll('.animate-on-scroll:not(.animated)');
-    
-    elements.forEach(element => {
-      const elementTop = element.getBoundingClientRect().top;
-      const elementVisible = 150;
-      
-      if (elementTop < window.innerHeight - elementVisible) {
-        element.classList.add('animated');
-        
-        // Add specific animation class based on data attribute
-        const animation = element.dataset.animation || 'fade-in';
-        element.classList.add(animation);
-      }
-    });
-  };
-  
-  window.addEventListener('scroll', debounce(animateOnScroll, 10));
-  animateOnScroll(); // Initial check
+  // Initialize newsletter form
+  const newsletterForm = new NewsletterForm();
 });
 
 // UI Enhancements
@@ -819,313 +925,4 @@ class UIEnhancer {
       });
     }
   }
-}
-
-// Initialize UI enhancements
-const uiEnhancer = new UIEnhancer();
-
-/**
- * Product Form Handler
- * Manages the product form functionality including image preview and form submission
- */
-class ProductFormHandler {
-  constructor() {
-    this.form = document.querySelector('.product-form');
-    this.imageInput = document.querySelector('#product-image');
-    this.imagePreview = document.querySelector('#image-preview');
-    this.resetButton = document.querySelector('#reset-form');
-    
-    this.init();
-  }
-  
-  init() {
-    if (!this.form) return;
-    
-    // Set up event listeners
-    this.imageInput?.addEventListener('change', this.handleImagePreview.bind(this));
-    this.form.addEventListener('submit', this.handleSubmit.bind(this));
-    this.resetButton?.addEventListener('click', this.resetForm.bind(this));
-    
-    // Initialize form validation
-    this.setupFormValidation();
-  }
-  
-  handleImagePreview(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    // Check if file is an image
-    if (!file.type.match('image.*')) {
-      this.showAlert('Please select an image file (JPEG, PNG, GIF, etc.)', 'error');
-      return;
-    }
-    
-    // Check file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      this.showAlert('Image size should be less than 5MB', 'error');
-      return;
-    }
-    
-    const reader = new FileReader();
-    
-    reader.onload = (e) => {
-      if (this.imagePreview) {
-        this.imagePreview.src = e.target.result;
-        this.imagePreview.style.display = 'block';
-        
-        // Add animation
-        this.imagePreview.style.opacity = '0';
-        setTimeout(() => {
-          this.imagePreview.style.opacity = '1';
-        }, 50);
-      }
-    };
-    
-    reader.readAsDataURL(file);
-  }
-  
-  handleSubmit(event) {
-    event.preventDefault();
-    
-    // Validate form
-    if (!this.validateForm()) {
-      return;
-    }
-    
-    // Get form data
-    const formData = new FormData(this.form);
-    
-    // Show loading state
-    this.setLoadingState(true);
-    
-    // Simulate form submission (replace with actual API call)
-    setTimeout(() => {
-      // Success response simulation
-      this.setLoadingState(false);
-      this.showAlert('Product added successfully!', 'success');
-      this.resetForm();
-      
-      // In a real application, you would send the formData to your backend:
-      /*
-      fetch('/api/products', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        this.setLoadingState(false);
-        if (data.success) {
-          this.showAlert('Product added successfully!', 'success');
-          this.resetForm();
-        } else {
-          this.showAlert(data.message || 'Failed to add product', 'error');
-        }
-      })
-      .catch(error => {
-        this.setLoadingState(false);
-        this.showAlert('An error occurred. Please try again.', 'error');
-        console.error('Error:', error);
-      });
-      */
-    }, 1500);
-  }
-  
-  validateForm() {
-    let isValid = true;
-    const requiredFields = this.form.querySelectorAll('[required]');
-    
-    requiredFields.forEach(field => {
-      if (!field.value.trim()) {
-        isValid = false;
-        field.classList.add('error');
-        
-        // Add error message
-        const errorMessage = document.createElement('div');
-        errorMessage.className = 'error-message';
-        errorMessage.textContent = `${field.getAttribute('placeholder') || 'This field'} is required`;
-        
-        // Remove existing error message if any
-        const existingError = field.parentNode.querySelector('.error-message');
-        if (existingError) {
-          field.parentNode.removeChild(existingError);
-        }
-        
-        field.parentNode.appendChild(errorMessage);
-      } else {
-        field.classList.remove('error');
-        const existingError = field.parentNode.querySelector('.error-message');
-        if (existingError) {
-          field.parentNode.removeChild(existingError);
-        }
-      }
-    });
-    
-    // Validate price (must be a positive number)
-    const priceField = this.form.querySelector('#product-price');
-    if (priceField && priceField.value) {
-      const price = parseFloat(priceField.value);
-      if (isNaN(price) || price <= 0) {
-        isValid = false;
-        priceField.classList.add('error');
-        
-        // Add error message
-        const errorMessage = document.createElement('div');
-        errorMessage.className = 'error-message';
-        errorMessage.textContent = 'Price must be a positive number';
-        
-        // Remove existing error message if any
-        const existingError = priceField.parentNode.querySelector('.error-message');
-        if (existingError) {
-          priceField.parentNode.removeChild(existingError);
-        }
-        
-        priceField.parentNode.appendChild(errorMessage);
-      }
-    }
-    
-    if (!isValid) {
-      this.showAlert('Please fill in all required fields correctly', 'error');
-    }
-    
-    return isValid;
-  }
-  
-  resetForm() {
-    this.form.reset();
-    if (this.imagePreview) {
-      this.imagePreview.src = '';
-      this.imagePreview.style.display = 'none';
-    }
-    
-    // Remove all error messages
-    const errorMessages = this.form.querySelectorAll('.error-message');
-    errorMessages.forEach(message => message.remove());
-    
-    // Remove error classes
-    const errorFields = this.form.querySelectorAll('.error');
-    errorFields.forEach(field => field.classList.remove('error'));
-  }
-  
-  setLoadingState(isLoading) {
-    const submitButton = this.form.querySelector('button[type="submit"]');
-    
-    if (isLoading) {
-      submitButton.disabled = true;
-      submitButton.innerHTML = '<span class="loading-spinner-small"></span> Adding...';
-      this.form.classList.add('loading');
-    } else {
-      submitButton.disabled = false;
-      submitButton.innerHTML = 'Add Product';
-      this.form.classList.remove('loading');
-    }
-  }
-  
-  showAlert(message, type = 'success') {
-    // Remove existing alerts
-    const existingAlerts = document.querySelectorAll('.alert');
-    existingAlerts.forEach(alert => alert.remove());
-    
-    // Create alert element
-    const alertElement = document.createElement('div');
-    alertElement.className = `alert alert-${type}`;
-    alertElement.textContent = message;
-    
-    // Insert alert before the form
-    this.form.parentNode.insertBefore(alertElement, this.form);
-    
-    // Auto-dismiss after 5 seconds
-    setTimeout(() => {
-      alertElement.style.opacity = '0';
-      setTimeout(() => {
-        alertElement.remove();
-      }, 300);
-    }, 5000);
-  }
-  
-  setupFormValidation() {
-    const inputs = this.form.querySelectorAll('input, textarea, select');
-    
-    inputs.forEach(input => {
-      input.addEventListener('input', () => {
-        input.classList.remove('error');
-        const errorMessage = input.parentNode.querySelector('.error-message');
-        if (errorMessage) {
-          errorMessage.remove();
-        }
-      });
-    });
-  }
-}
-
-// Initialize all components when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize existing components
-  const darkModeToggle = document.getElementById('dark-mode-toggle');
-  if (darkModeToggle) {
-    darkModeToggle.addEventListener('click', toggleDarkMode);
-  }
-  
-  // Initialize header scroll effect
-  window.addEventListener('scroll', handleHeaderScroll);
-  
-  // Initialize filter system if elements exist
-  if (document.querySelector('.search-filter')) {
-    new FilterSystem();
-  }
-  
-  // Initialize chatbot if elements exist
-  if (document.querySelector('.chatbot-container')) {
-    new AIChatbot();
-  }
-  
-  // Initialize product form if it exists
-  if (document.querySelector('.product-form')) {
-    new ProductFormHandler();
-  }
-  
-  // Call header scroll handler once to set initial state
-  handleHeaderScroll();
-});
-
-// Dark mode toggle function
-function toggleDarkMode() {
-  const html = document.documentElement;
-  const isDarkMode = html.getAttribute('data-theme') === 'dark';
-  
-  html.setAttribute('data-theme', isDarkMode ? 'light' : 'dark');
-  localStorage.setItem('theme', isDarkMode ? 'light' : 'dark');
-  
-  // Update toggle button text/icon if needed
-  const darkModeToggle = document.getElementById('dark-mode-toggle');
-  if (darkModeToggle) {
-    darkModeToggle.innerHTML = isDarkMode ? 
-      '<i class="fas fa-moon"></i>' : 
-      '<i class="fas fa-sun"></i>';
-  }
-}
-
-// Header scroll effect
-function handleHeaderScroll() {
-  const header = document.querySelector('header');
-  if (!header) return;
-  
-  if (window.scrollY > 50) {
-    header.classList.add('header-scrolled');
-  } else {
-    header.classList.remove('header-scrolled');
-  }
-}
-
-// Initialize theme from localStorage
-(function() {
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    
-    // Update toggle button text/icon if needed
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
-    if (darkModeToggle && savedTheme === 'dark') {
-      darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-    }
-  }
-})(); 
+} 

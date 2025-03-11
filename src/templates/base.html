@@ -1,11 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Premium cutlery rental service for all occasions. Browse our collection of high-quality forks, knives, spoons, and complete dining sets.">
     <title>{% block title %}Cutlery Rental{% endblock %}</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- FullCalendar CSS (only loaded when needed) -->
+    {% if request.path == '/availability' %}
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet">
+    {% endif %}
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/styles.css">
+    <!-- Custom JavaScript -->
     <script src="/static/js/app.js" defer></script>
 </head>
 <body>
@@ -18,22 +30,17 @@
             <div class="nav-wrapper">
                 <nav>
                     <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/availability">Availability</a></li>
-                        <li><a href="/comments">Reviews</a></li>
-                        <li><a href="/contact">Contact</a></li>
-                        <li><a href="/add_product">Add Product</a></li>
+                        <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="/availability"><i class="fas fa-calendar-alt"></i> Availability</a></li>
+                        <li><a href="/comments"><i class="fas fa-star"></i> Reviews</a></li>
+                        <li><a href="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
+                        <li><a href="/add_product"><i class="fas fa-plus-circle"></i> Add Product</a></li>
                     </ul>
                 </nav>
                 
-                <div class="theme-toggle">
-                    <label class="theme-toggle-label" for="dark-mode-toggle">
-                        <input type="checkbox" class="theme-toggle-input" id="dark-mode-toggle">
-                        <span class="theme-toggle-slider"></span>
-                        <i class="theme-toggle-icon sun">☀️</i>
-                        <i class="theme-toggle-icon moon">🌙</i>
-                    </label>
-                </div>
+                <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
             
             <div class="menu-toggle" aria-label="Toggle menu">
@@ -47,11 +54,11 @@
     <div class="nav-menu">
         <nav>
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/availability">Availability</a></li>
-                <li><a href="/comments">Reviews</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="/add_product">Add Product</a></li>
+                <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="/availability"><i class="fas fa-calendar-alt"></i> Availability</a></li>
+                <li><a href="/comments"><i class="fas fa-star"></i> Reviews</a></li>
+                <li><a href="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="/add_product"><i class="fas fa-plus-circle"></i> Add Product</a></li>
             </ul>
         </nav>
     </div>
@@ -62,9 +69,69 @@
     
     <footer>
         <div class="container">
-            <p>&copy; 2025 Cutlery Rental. All rights reserved.</p>
-            <p>Premium cutlery rental service for all occasions</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Cutlery Rental</h3>
+                    <p>Premium cutlery rental service for all occasions. We provide high-quality cutlery for weddings, parties, corporate events, and more.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="/"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="/availability"><i class="fas fa-chevron-right"></i> Availability</a></li>
+                        <li><a href="/comments"><i class="fas fa-chevron-right"></i> Reviews</a></li>
+                        <li><a href="/contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="/add_product"><i class="fas fa-chevron-right"></i> Add Product</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <div class="contact-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>123 Cutlery Street, Silvertown, NY 10001</p>
+                    </div>
+                    <div class="contact-info">
+                        <i class="fas fa-phone"></i>
+                        <p>(123) 456-7890</p>
+                    </div>
+                    <div class="contact-info">
+                        <i class="fas fa-envelope"></i>
+                        <p>info@cutleryrental.com</p>
+                    </div>
+                    <div class="contact-info">
+                        <i class="fas fa-clock"></i>
+                        <p>Mon-Fri: 9am - 5pm</p>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to our newsletter for the latest updates and offers.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address" aria-label="Email for newsletter">
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cutlery Rental. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
         </div>
     </footer>
+    
+    <!-- WhatsApp Chat Button -->
+    <a href="https://wa.me/1234567890" class="whatsapp-button" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <!-- AI Chatbot Trigger -->
+    <button class="chatbot-trigger" aria-label="Open AI Assistant">
+        <i class="fas fa-robot"></i>
+    </button>
 </body>
 </html>

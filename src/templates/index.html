@@ -74,107 +74,70 @@
     <h2 class="section-title">Our Collection</h2>
     
     <div class="products-grid">
-      <!-- Product Card 1 -->
-      <article class="product-card" data-category="forks" data-availability="in-stock" data-rating="4.5">
-        <div class="product-image">
-          <img src="https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?w=500&auto=format&fit=crop&q=80" alt="Silver Fork Set" loading="lazy">
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">Silver Fork Set</h3>
-          <div class="product-price" data-price="25">$25.00</div>
-          <div class="product-rating" aria-label="4.5 out of 5 stars, 42 reviews">
-            <div class="rating-stars">★★★★☆</div>
-            <span class="rating-count">(42)</span>
+      {% if products %}
+        {% for product in products %}
+          <article class="product-card" data-category="{{ product.category|default('other') }}" data-availability="{{ product.availability|default('in-stock') }}" data-rating="{{ product.rating|default(4) }}">
+            <div class="product-image">
+              <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy">
+            </div>
+            <div class="product-info">
+              <h3 class="product-title">{{ product.name }}</h3>
+              <div class="product-price" data-price="{{ product.price }}">
+                ${{ "%.2f"|format(product.price) }}
+              </div>
+              <div class="product-rating" aria-label="{{ product.rating|default(4) }} out of 5 stars">
+                <div class="rating-stars">
+                  {% for i in range(1, 6) %}
+                    {% if i <= product.rating|default(4) %}
+                      ★
+                    {% else %}
+                      ☆
+                    {% endif %}
+                  {% endfor %}
+                </div>
+                <span class="rating-count">({{ product.reviews|default(10) }})</span>
+              </div>
+              <p class="product-description">{{ product.description }}</p>
+              <a href="#" class="btn btn-primary">Rent Now</a>
+            </div>
+          </article>
+        {% endfor %}
+      {% else %}
+        <!-- Fallback static products if no dynamic products are available -->
+        <!-- Product Card 1 -->
+        <article class="product-card" data-category="forks" data-availability="in-stock" data-rating="4.5">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?w=500&auto=format&fit=crop&q=80" alt="Silver Fork Set" loading="lazy">
           </div>
-          <p class="product-description">Elegant silver-plated forks perfect for formal dining events.</p>
-          <a href="#" class="btn btn-primary">Rent Now</a>
-        </div>
-      </article>
-      
-      <!-- Product Card 2 -->
-      <article class="product-card" data-category="knives" data-availability="in-stock" data-rating="5">
-        <div class="product-image">
-          <img src="https://images.unsplash.com/photo-1593618998160-e34014e67546?w=500&auto=format&fit=crop&q=80" alt="Premium Steak Knives" loading="lazy">
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">Premium Steak Knives</h3>
-          <div class="product-price" data-price="35">$35.00</div>
-          <div class="product-rating" aria-label="5 out of 5 stars, 28 reviews">
-            <div class="rating-stars">★★★★★</div>
-            <span class="rating-count">(28)</span>
+          <div class="product-info">
+            <h3 class="product-title">Silver Fork Set</h3>
+            <div class="product-price" data-price="25">$25.00</div>
+            <div class="product-rating" aria-label="4.5 out of 5 stars, 42 reviews">
+              <div class="rating-stars">★★★★☆</div>
+              <span class="rating-count">(42)</span>
+            </div>
+            <p class="product-description">Elegant silver-plated forks perfect for formal dining events.</p>
+            <a href="#" class="btn btn-primary">Rent Now</a>
           </div>
-          <p class="product-description">High-quality stainless steel steak knives with wooden handles.</p>
-          <a href="#" class="btn btn-primary">Rent Now</a>
-        </div>
-      </article>
-      
-      <!-- Product Card 3 -->
-      <article class="product-card" data-category="spoons" data-availability="limited" data-rating="4">
-        <div class="product-image">
-          <img src="https://images.unsplash.com/photo-1603199506016-b9a594b593c0?w=500&auto=format&fit=crop&q=80" alt="Dessert Spoon Collection" loading="lazy">
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">Dessert Spoon Collection</h3>
-          <div class="product-price" data-price="20">$20.00</div>
-          <div class="product-rating" aria-label="4 out of 5 stars, 36 reviews">
-            <div class="rating-stars">★★★★☆</div>
-            <span class="rating-count">(36)</span>
+        </article>
+        
+        <!-- Product Card 2 -->
+        <article class="product-card" data-category="knives" data-availability="in-stock" data-rating="5">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1593618998160-e34014e67546?w=500&auto=format&fit=crop&q=80" alt="Premium Steak Knives" loading="lazy">
           </div>
-          <p class="product-description">Elegant dessert spoons perfect for serving cakes and ice cream.</p>
-          <a href="#" class="btn btn-primary">Rent Now</a>
-        </div>
-      </article>
-      
-      <!-- Product Card 4 -->
-      <article class="product-card" data-category="sets" data-availability="in-stock" data-rating="4.8">
-        <div class="product-image">
-          <img src="https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?w=500&auto=format&fit=crop&q=80" alt="Complete Dining Set" loading="lazy">
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">Complete Dining Set</h3>
-          <div class="product-price" data-price="75">$75.00</div>
-          <div class="product-rating" aria-label="4.8 out of 5 stars, 52 reviews">
-            <div class="rating-stars">★★★★★</div>
-            <span class="rating-count">(52)</span>
+          <div class="product-info">
+            <h3 class="product-title">Premium Steak Knives</h3>
+            <div class="product-price" data-price="35">$35.00</div>
+            <div class="product-rating" aria-label="5 out of 5 stars, 28 reviews">
+              <div class="rating-stars">★★★★★</div>
+              <span class="rating-count">(28)</span>
+            </div>
+            <p class="product-description">High-quality stainless steel steak knives with wooden handles.</p>
+            <a href="#" class="btn btn-primary">Rent Now</a>
           </div>
-          <p class="product-description">Full dining set including forks, knives, and spoons for 8 people.</p>
-          <a href="#" class="btn btn-primary">Rent Now</a>
-        </div>
-      </article>
-      
-      <!-- Product Card 5 -->
-      <article class="product-card" data-category="forks" data-availability="out-of-stock" data-rating="4.2">
-        <div class="product-image">
-          <img src="https://images.unsplash.com/photo-1587301669187-732ea66e7617?w=500&auto=format&fit=crop&q=80" alt="Gold-Plated Forks" loading="lazy">
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">Gold-Plated Forks</h3>
-          <div class="product-price" data-price="45">$45.00</div>
-          <div class="product-rating" aria-label="4.2 out of 5 stars, 18 reviews">
-            <div class="rating-stars">★★★★☆</div>
-            <span class="rating-count">(18)</span>
-          </div>
-          <p class="product-description">Luxury gold-plated forks for special occasions and events.</p>
-          <a href="#" class="btn btn-outline">Notify Me</a>
-        </div>
-      </article>
-      
-      <!-- Product Card 6 -->
-      <article class="product-card" data-category="sets" data-availability="limited" data-rating="4.6">
-        <div class="product-image">
-          <img src="https://images.unsplash.com/photo-1622428051717-dcd9565a8e00?w=500&auto=format&fit=crop&q=80" alt="Vintage Cutlery Set" loading="lazy">
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">Vintage Cutlery Set</h3>
-          <div class="product-price" data-price="95">$95.00</div>
-          <div class="product-rating" aria-label="4.6 out of 5 stars, 31 reviews">
-            <div class="rating-stars">★★★★★</div>
-            <span class="rating-count">(31)</span>
-          </div>
-          <p class="product-description">Antique-style cutlery set with ornate designs for 6 people.</p>
-          <a href="#" class="btn btn-primary">Rent Now</a>
-        </div>
-      </article>
+        </article>
+      {% endif %}
     </div>
   </section>
 </div>

@@ -3,66 +3,92 @@
 {% block title %}Add New Product - Cutlery Rental{% endblock %}
 
 {% block content %}
-<div class="container">
-  <section class="add-product-section">
-    <h1 class="section-title">Add New Product</h1>
+<div class="add-product-page">
+  <div class="container">
+    <!-- Breadcrumb navigation -->
+    <div class="breadcrumb">
+      <a href="/">Home</a>
+      <span class="separator">/</span>
+      <span>Add New Product</span>
+    </div>
+    
+    <h1>Add New Product</h1>
     
     <div class="form-container">
-      <form id="add-product-form" class="product-form">
+      <form class="product-form" id="product-form" action="/add_product" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <label for="product-name">Product Name</label>
-          <input type="text" id="product-name" name="product-name" required placeholder="Enter product name">
+          <input type="text" id="product-name" name="name" placeholder="Enter product name" required>
         </div>
         
         <div class="form-group">
-          <label for="product-price">Price ($)</label>
-          <input type="number" id="product-price" name="product-price" min="1" step="1" required placeholder="Enter price">
+          <label for="product-price">Price ($ per day)</label>
+          <input type="number" id="product-price" name="price" placeholder="Enter price" min="0.01" step="0.01" required>
         </div>
         
         <div class="form-group">
-          <label for="category">Category</label>
-          <select id="category" name="category" required>
-            <option value="">Select a category</option>
-            <option value="forks">Forks</option>
-            <option value="knives">Knives</option>
-            <option value="spoons">Spoons</option>
-            <option value="sets">Complete Sets</option>
+          <label for="product-category">Category</label>
+          <select id="product-category" name="category" required>
+            <option value="" disabled selected>Select a category</option>
+            <option value="cutlery">Cutlery</option>
+            <option value="plates">Plates</option>
+            <option value="glasses">Glasses</option>
+            <option value="serving">Serving Dishes</option>
+            <option value="decorations">Decorations</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="product-availability">Availability</label>
+          <select id="product-availability" name="availability" required>
+            <option value="" disabled selected>Select availability</option>
+            <option value="in-stock">In Stock</option>
+            <option value="limited">Limited Availability</option>
+            <option value="out-of-stock">Out of Stock</option>
           </select>
         </div>
         
         <div class="form-group">
           <label for="product-description">Description</label>
-          <textarea id="product-description" name="product-description" rows="4" required placeholder="Enter product description"></textarea>
+          <textarea id="product-description" name="description" placeholder="Enter product description" required></textarea>
         </div>
         
         <div class="form-group">
           <label for="product-image">Product Image</label>
-          <input type="file" id="product-image" name="product-image" accept="image/*">
+          <input type="file" id="product-image" name="file" accept="image/*" required>
           <div class="image-preview-container">
-            <img id="image-preview" src="https://via.placeholder.com/300x200?text=Product+Preview" alt="Product preview">
+            <img id="image-preview" style="display: none;" alt="Product image preview">
           </div>
         </div>
         
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">Add Product</button>
-          <button type="reset" class="btn btn-outline">Reset</button>
+          <button type="button" id="reset-form" class="btn btn-secondary">Reset Form</button>
         </div>
       </form>
     </div>
-  </section>
+  </div>
 </div>
 
 <script>
-  // Image preview functionality
+  // Image preview functionality is handled by the ProductFormHandler class in app.js
   document.getElementById('product-image').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = function(e) {
-        document.getElementById('image-preview').src = e.target.result;
+        const preview = document.getElementById('image-preview');
+        preview.src = e.target.result;
+        preview.style.display = 'block';
       }
       reader.readAsDataURL(file);
     }
+  });
+  
+  document.getElementById('reset-form').addEventListener('click', function() {
+    document.getElementById('product-form').reset();
+    document.getElementById('image-preview').style.display = 'none';
   });
 </script>
 {% endblock %}

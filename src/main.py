@@ -95,7 +95,7 @@ async def upload_image(file: UploadFile = File(...)):
 async def post_comment(author: str = Form(...), comment: str = Form(...)):
     new_comment = {"author": author, "content": comment}
     comments.append(new_comment)
-    return RedirectResponse(url="/comments_page", status_code=303)
+    return RedirectResponse(url="/comments", status_code=303)
 
 @app.get("/availability/events")
 async def get_availability_events():
@@ -105,21 +105,22 @@ async def get_availability_events():
         {"title": "Unavailable", "start": "2025-03-11"}
     ]
 
-@app.get("/availability_page", include_in_schema=False)
+@app.get("/availability", include_in_schema=False)
 def availability_page(request: Request):
     return templates.TemplateResponse("availability.html", {"request": request})
 
-@app.get("/comments_page", include_in_schema=False)
+@app.get("/comments", include_in_schema=False)
 def comments_page(request: Request):
     return templates.TemplateResponse("comments.html", {"request": request, "comments": comments})
 
-@app.get("/contact_page", include_in_schema=False)
+@app.get("/contact", include_in_schema=False)
 def contact_page(request: Request):
     return templates.TemplateResponse("contact.html", {"request": request})
 
 @app.get("/home_page", include_in_schema=False)
-def contact_page(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+def home_page_old(request: Request):
+    return RedirectResponse(url="/", status_code=301)
+    
 
 @app.get("/add_product", include_in_schema=False)
 def add_product_form(request: Request):
@@ -131,6 +132,8 @@ async def add_product(
     name: str = Form(...),
     description: str = Form(...),
     price: float = Form(...),
+    category: str = Form(...),
+    availability: str = Form(...),
     file: UploadFile = File(...)
 ):
     file_location = uploads_dir / file.filename
@@ -140,7 +143,24 @@ async def add_product(
         "name": name,
         "description": description,
         "price": price,
-        "image_url": f"/uploads/{file.filename}"
+        "category": category,
+        "availability": availability,
+        "image_url": f"/uploads/{file.filename}",
+        "rating": 4.0,  # Default rating
+        "reviews": 0  # Default number of reviews
     }
     products.append(product)
     return RedirectResponse(url="/", status_code=303)
+
+# Keep the old routes for backward compatibility
+@app.get("/availability_page", include_in_schema=False)
+def availability_page_old(request: Request):
+    return RedirectResponse(url="/availability", status_code=301)
+
+@app.get("/comments_page", include_in_schema=False)
+def comments_page_old(request: Request):
+    return RedirectResponse(url="/comments", status_code=301)
+
+@app.get("/contact_page", include_in_schema=False)
+def contact_page_old(request: Request):
+    return RedirectResponse(url="/contact", status_code=301)

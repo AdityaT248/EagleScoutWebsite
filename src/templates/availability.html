@@ -1,88 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Availability - Cutlery Rental Service</title>
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/static/css/styles.css" />
-    <style>
-      /* Reuse global styling from index.html */
-      html, body { margin: 0; padding: 0; font-family: 'Segoe UI'; background: #f0f2f5; }
-      header, footer { background: #35424a; color: #fff; text-align: center; padding: 15px; }
-      .container { max-width: 1200px; margin: auto; padding: 20px; }
-      .btn { background: #35424a; color: #fff; padding: 8px 12px; border-radius: 4px; text-decoration: none; }
-      .btn:hover { background: #e8491d; }
-      #calendar { max-width: 900px; margin: 20px auto; }
+{% extends "base.html" %}
 
-      /* Enhanced Calendar Styles */
-      #calendar {
-        background: #ffffff;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-        margin-top: 20px;
-      }
-      .fc-toolbar {
-        margin-bottom: 15px;
-      }
-      .fc .fc-button {
-        font-size: 0.9em;
-        padding: 6px 12px;
-        border-radius: 4px;
-        background-color: #35424a;
-        border: none;
-        color: #fff;
-        transition: background-color 0.3s;
-      }
-      .fc .fc-button:hover {
-        background-color: #e8491d;
-      }
-      .fc .fc-button:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(232,73,29,0.5);
-      }
-      .fc-toolbar-title {
-        font-size: 1.2em;
-        font-weight: 600;
-        color: #35424a;
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>Availability Calendar</h1>
-      <nav>
-        <a class="btn" href="home_page">Home</a>
-        <a class="btn" href="comments_page">Comments</a>
-        <a class="btn" href="contact_page">Contact</a>
-      </nav>
-    </header>
-    
-    <div class="container">
-      <div id="calendar"></div>
+{% block title %}Availability - Cutlery Rental{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="breadcrumb">
+    <a href="/">Home</a>
+    <span class="separator">/</span>
+    <span>Availability</span>
+  </div>
+  
+  <h1>Availability Calendar</h1>
+  <p class="section-description">Check our product availability and plan your rental accordingly.</p>
+  
+  <div class="calendar-container">
+    <div id="calendar"></div>
+  </div>
+  
+  <div class="availability-legend">
+    <div class="legend-item">
+      <span class="legend-color" style="background-color: var(--success-color);"></span>
+      <span>Available</span>
     </div>
+    <div class="legend-item">
+      <span class="legend-color" style="background-color: var(--warning-color);"></span>
+      <span>Limited Availability</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-color" style="background-color: var(--error-color);"></span>
+      <span>Unavailable</span>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var calendarEl = document.getElementById("calendar");
     
-    <footer>
-      <p>&copy; 2025 Cutlery Rental Service</p>
-    </footer>
+    if (!calendarEl) return;
     
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var calendarEl = document.getElementById("calendar");
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: "dayGridMonth",
-          headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          },
-          height: 'auto', // Let calendar adjust its height
-          events: "/availability/events"
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: "dayGridMonth",
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      height: 'auto',
+      themeSystem: 'bootstrap',
+      events: [
+        // Sample events - replace with your actual data
+        {
+          title: 'Silver Cutlery Set',
+          start: '2025-03-15',
+          end: '2025-03-18',
+          color: 'var(--error-color)'
+        },
+        {
+          title: 'Gold Plated Forks',
+          start: '2025-03-20',
+          end: '2025-03-22',
+          color: 'var(--warning-color)'
+        },
+        {
+          title: 'Premium Knife Set',
+          start: '2025-03-25',
+          end: '2025-03-27',
+          color: 'var(--success-color)'
+        }
+      ],
+      eventDidMount: function(info) {
+        // Add tooltips to events
+        const tooltip = document.createElement('div');
+        tooltip.className = 'event-tooltip';
+        tooltip.innerHTML = `
+          <strong>${info.event.title}</strong><br>
+          ${info.event.extendedProps.description || 'Click for details'}
+        `;
+        
+        info.el.addEventListener('mouseover', function() {
+          document.body.appendChild(tooltip);
+          const rect = info.el.getBoundingClientRect();
+          tooltip.style.top = rect.bottom + window.scrollY + 5 + 'px';
+          tooltip.style.left = rect.left + window.scrollX + 'px';
+          tooltip.style.display = 'block';
         });
-        calendar.render();
+        
+        info.el.addEventListener('mouseout', function() {
+          if (tooltip.parentNode) {
+            tooltip.parentNode.removeChild(tooltip);
+          }
+        });
+      }
+    });
+    
+    calendar.render();
+    
+    // Apply theme colors based on current theme
+    function updateCalendarTheme() {
+      const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+      const calendarEl = document.querySelector('.fc');
+      
+      if (calendarEl) {
+        if (isDarkMode) {
+          calendarEl.classList.add('fc-theme-dark');
+        } else {
+          calendarEl.classList.remove('fc-theme-dark');
+        }
+      }
+    }
+    
+    // Update theme when calendar is rendered
+    updateCalendarTheme();
+    
+    // Listen for theme changes
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    if (darkModeToggle) {
+      darkModeToggle.addEventListener('click', function() {
+        setTimeout(updateCalendarTheme, 100);
       });
-    </script>
-  </body>
-</html>
+    }
+  });
+</script>
+{% endblock %}

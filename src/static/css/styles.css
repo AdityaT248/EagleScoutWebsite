@@ -1,15 +1,33 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+/* Import a modern Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+  --primary-color: #35424a;
+  --secondary-color: #4f5d75;
+  --accent-color: #e8491d;
+  --background-color: #f0f2f5;
+  --text-color: #333;
+  --btn-bg: var(--primary-color);
+  --btn-hover: var(--primary-color);
 }
 
+/* Global styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Header styling for a modern look */
 header {
-    background: #35424a;
-    color: #ffffff;
-    padding: 10px 0;
-    text-align: center;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
@@ -22,29 +40,45 @@ h1 {
     overflow: hidden;
 }
 
+/* Improve navigation styling */
 nav {
     margin: 20px 0;
 }
 
-nav a {
-    color: #ffffff;
-    text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 5px;
+nav ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
 }
 
-nav a:hover {
-    background: #e8491d;
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+  color: #ffffff; /* sets the font to white */
+  background: #b6babf; /* dark blue for increased contrast */
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+nav ul li a:hover {
+  background: #37475A;
+  transform: scale(1.05);
 }
 
 footer {
-    background: #35424a;
-    color: #ffffff;
-    text-align: center;
-    padding: 10px 0;
-    position: relative;
-    bottom: 0;
-    width: 100%;
+  background: var(--primary-color);
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+  margin-top: 20px;
 }
 
 .comment-section {
@@ -92,4 +126,68 @@ footer {
     background: #ffffff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar with rounded corners and shadow */
+.sidebar {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Mini-calendar container */
+#mini-calendar {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Update button styling */
+.btn {
+  background: var(--btn-bg);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* Update FullCalendar button animations */
+.fc .fc-button {
+    background: #35424a;
+    border: none;
+    color: #fff;
+    border-radius: 3px;
+    padding: 6px 12px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.fc .fc-button:hover {
+    background: #35424a; /* Keeps the same color */
+    transform: translateY(-2px);
+}
+
+/* Product cards */
+.product-card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+.product-card:hover {
+  transform: translateY(-5px);
+}
+.product-info {
+  padding: 15px;
+}
+.product-info h3 {
+  margin: 0 0 10px;
+  font-weight: 500;
 }

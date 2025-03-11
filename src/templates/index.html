@@ -179,14 +179,14 @@
         <a class="btn" href="/availability_page">Availability</a>
         <a class="btn" href="/comments_page">Comments</a>
         <a class="btn" href="/contact_page">Contact</a>
+        <a class="btn" href="/add_product">Add Product</a>
       </nav>
     </header>
     
     <div class="container">
       <aside class="sidebar">
-        <h2>Calendar</h2>
-        <div id="calendar"></div>
-        <hr />
+        <!-- Mini calendar container -->
+        <div id="mini-calendar"></div>
         <h2>Navigation</h2>
         <nav>
           <ul>
@@ -194,6 +194,7 @@
             <li><a href="/availability_page">Availability</a></li>
             <li><a href="/comments_page">Comments</a></li>
             <li><a href="/contact_page">Contact</a></li>
+            <li><a href="/add_product">Add Product</a></li>
           </ul>
         </nav>
         <hr />
@@ -205,93 +206,21 @@
       </aside>
       
       <section class="main-content">
-        <h2>Featured Products</h2>
+        <h2>Featured Items</h2>
         <p>Explore our top cutlery and kitchenware items below.</p>
         <div class="products-grid">
-          <!-- Product 1 -->
-          <div class="product-card">
-            <a href="https://media.istockphoto.com/id/185307922/photo/cutlery.jpg?s=2048x2048&w=is&k=20&c=f5xqneU46sZ9XvZAQDyybreTiodP1eCS-ardrV4NdzA=" target="_blank">
-              <img src="https://media.istockphoto.com/id/185307922/photo/cutlery.jpg?s=2048x2048&w=is&k=20&c=f5xqneU46sZ9XvZAQDyybreTiodP1eCS-ardrV4NdzA=" alt="Stainless Steel Cutlery">
-            </a>
-            <div class="product-info">
-              <h3>Stainless Steel Cutlery</h3>
-              <p class="price">$29.99</p>
-              <form class="comment-form" action="/comments/" method="post">
-                <textarea name="comment" placeholder="Leave a comment..." required></textarea>
-                <button type="submit">Submit Comment</button>
-              </form>
+          {% for product in products %}
+            <div class="product-card">
+              <img src="{{ product.image_url }}" alt="{{ product.name }}">
+              <div class="product-info">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description }}</p>
+                <p class="price">${{ "%.2f"|format(product.price) }}</p>
+                <!-- New Comment button -->
+                <a class="btn comment-btn" href="/comments_page?product_id={{ loop.index0 }}">Comment</a>
+              </div>
             </div>
-          </div>
-          <!-- Product 2 -->
-          <div class="product-card">
-            <a href="https://media.istockphoto.com/id/1220650125/photo/bunner-eco-friendly-disposable-kitchenware-utensils-on-white-background-wooden-forks-and.jpg?s=2048x2048&w=is&k=20&c=mPXodqihyVw8OCf2Dxnolxr4xVjFrE9QURAk7QRLbqA=" target="_blank">
-              <img src="https://media.istockphoto.com/id/1220650125/photo/bunner-eco-friendly-disposable-kitchenware-utensils-on-white-background-wooden-forks-and.jpg?s=2048x2048&w=is&k=20&c=mPXodqihyVw8OCf2Dxnolxr4xVjFrE9QURAk7QRLbqA=" alt="Eco-friendly Kitchenware">
-            </a>
-            <div class="product-info">
-              <h3>Eco-friendly Kitchenware</h3>
-              <p class="price">$19.99</p>
-              <form class="comment-form" action="/comments/" method="post">
-                <textarea name="comment" placeholder="Leave a comment..." required></textarea>
-                <button type="submit">Submit Comment</button>
-              </form>
-            </div>
-          </div>
-          <!-- Product 3 -->
-          <div class="product-card">
-            <a href="https://media.istockphoto.com/id/105863327/photo/cutlery.jpg?s=2048x2048&w=is&k=20&c=TPZ4bUTdDnbv9V-HYSltl9pkoRfjqETJBpnMaG0xM6k=" target="_blank">
-              <img src="https://media.istockphoto.com/id/105863327/photo/cutlery.jpg?s=2048x2048&w=is&k=20&c=TPZ4bUTdDnbv9V-HYSltl9pkoRfjqETJBpnMaG0xM6k=" alt="Elegant Cutlery Set">
-            </a>
-            <div class="product-info">
-              <h3>Elegant Cutlery Set</h3>
-              <p class="price">$34.99</p>
-              <form class="comment-form" action="/comments/" method="post">
-                <textarea name="comment" placeholder="Leave a comment..." required></textarea>
-                <button type="submit">Submit Comment</button>
-              </form>
-            </div>
-          </div>
-          <!-- Product 4 -->
-          <div class="product-card">
-            <a href="https://media.istockphoto.com/id/1223414833/photo/clean-saucepan-on-a-gas-stove-in-kitchen.jpg?s=1024x1024&w=is&k=20&c=4GcTkhHYC_79aZ0FAYCDV2sb4qVrMJViFs_RbIsvDl0=" target="_blank">
-              <img src="https://media.istockphoto.com/id/1223414833/photo/clean-saucepan-on-a-gas-stove-in-kitchen.jpg?s=1024x1024&w=is&k=20&c=4GcTkhHYC_79aZ0FAYCDV2sb4qVrMJViFs_RbIsvDl0=" alt="Gas Stove Saucepans">
-            </a>
-            <div class="product-info">
-              <h3>Gas Stove Saucepans</h3>
-              <p class="price">$24.99</p>
-              <form class="comment-form" action="/comments/" method="post">
-                <textarea name="comment" placeholder="Leave a comment..." required></textarea>
-                <button type="submit">Submit Comment</button>
-              </form>
-            </div>
-          </div>
-          <!-- Product 5 -->
-          <div class="product-card">
-            <a href="https://media.istockphoto.com/id/1408070003/photo/empty-pans-setting-on-a-gray-granite-background-table.jpg?s=1024x1024&w=is&k=20&c=QvFl3zGPUCX72_ws_LfYCaxraF9ARhzb5nlzcG3i5AQ=" target="_blank">
-              <img src="https://media.istockphoto.com/id/1408070003/photo/empty-pans-setting-on-a-gray-granite-background-table.jpg?s=1024x1024&w=is&k=20&c=QvFl3zGPUCX72_ws_LfYCaxraF9ARhzb5nlzcG3i5AQ=" alt="Empty Pan Set">
-            </a>
-            <div class="product-info">
-              <h3>Empty Pan Set</h3>
-              <p class="price">$14.99</p>
-              <form class="comment-form" action="/comments/" method="post">
-                <textarea name="comment" placeholder="Leave a comment..." required></textarea>
-                <button type="submit">Submit Comment</button>
-              </form>
-            </div>
-          </div>
-          <!-- Product 6 -->
-          <div class="product-card">
-            <a href="https://media.istockphoto.com/id/1146833253/photo/barbecue-tools-on-wooden-table-flat-lay-top-view.jpg?s=1024x1024&w=is&k=20&c=8AWu_6dTnu_2vm9P9ZK0v0HOW79ypEcjL04v2XO-BQo=" target="_blank">
-              <img src="https://media.istockphoto.com/id/1146833253/photo/barbecue-tools-on-wooden-table-flat-lay-top-view.jpg?s=1024x1024&w=is&k=20&c=8AWu_6dTnu_2vm9P9ZK0v0HOW79ypEcjL04v2XO-BQo=" alt="Barbecue Tools">
-            </a>
-            <div class="product-info">
-              <h3>Barbecue Tools</h3>
-              <p class="price">$39.99</p>
-              <form class="comment-form" action="/comments/" method="post">
-                <textarea name="comment" placeholder="Leave a comment..." required></textarea>
-                <button type="submit">Submit Comment</button>
-              </form>
-            </div>
-          </div>
+          {% endfor %}
         </div>
       </section>
     </div>
@@ -316,6 +245,22 @@
           events: "/availability/events"
         });
         calendar.render();
+
+        var miniCalendarEl = document.getElementById("mini-calendar");
+        if (miniCalendarEl) {
+          var miniCalendar = new FullCalendar.Calendar(miniCalendarEl, {
+            initialView: "dayGridMonth",
+            headerToolbar: {
+              left: '',
+              center: 'title',
+              right: ''
+            },
+            height: 200,         // Smaller height for the mini calendar
+            fixedWeekCount: false,
+            events: "/availability/events"
+          });
+          miniCalendar.render();
+        }
       });
     </script>
     <script src="/static/js/scripts.js"></script>

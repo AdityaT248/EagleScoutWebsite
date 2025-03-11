@@ -38,15 +38,14 @@
       </form>
       
       <h2>All Comments</h2>
-      <!-- Sample comments list; you can populate this dynamically -->
-      <div class="comment">
-        <p class="comment-author">Alice:</p>
-        <p>Great products and excellent service!</p>
-      </div>
-      <div class="comment">
-        <p class="comment-author">Bob:</p>
-        <p>I loved the elegant cutlery set. Highly recommended!</p>
-      </div>
+      {% for comment in comments %}
+        <div class="comment">
+          <p class="comment-author">{{ comment.author }}:</p>
+          <p>{{ comment.content }}</p>
+        </div>
+      {% else %}
+        <p>No comments available yet.</p>
+      {% endfor %}
     </div>
     
     <footer>

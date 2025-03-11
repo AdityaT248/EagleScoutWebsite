@@ -1,282 +1,197 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cutlery Rental Service - Home</title>
-    <!-- FullCalendar CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet" />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/static/css/styles.css" />
-    <style>
-      /* Global Styles */
-      html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f0f2f5;
-      }
-      header, footer {
-        background-color: #35424a;
-        color: #fff;
-        text-align: center;
-        padding: 15px;
-      }
-      footer {
-        font-size: 0.9em;
-      }
-      /* Main container */
-      .container {
-        display: flex;
-        height: calc(100vh - 130px);
-      }
-      /* Sidebar */
-      .sidebar {
-        width: 300px;
-        background: #ffffff;
-        padding: 20px;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-        overflow-y: auto;
-      }
-      .sidebar h2 {
-        margin-top: 0;
-      }
-      nav ul {
-        list-style: none;
-        padding: 0;
-        margin: 15px 0;
-      }
-      nav ul li {
-        margin: 10px 0;
-      }
-      nav ul li a {
-        text-decoration: none;
-        color: #35424a;
-        font-weight: 600;
-      }
-      nav ul li a:hover {
-        color: #e8491d;
-      }
-      /* Calendar improvements */
-      #calendar {
-        max-width: 260px;
-        margin: 0 auto 20px auto;
-        background: #ffffff;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-        margin-top: 20px;
-      }
-      .fc-toolbar {
-        margin-bottom: 15px;
-      }
-      .fc .fc-button {
-        background: #35424a;
-        border: none;
-        color: #fff;
-        border-radius: 3px;
-        padding: 5px 10px;
-        font-size: 0.9em;
-        padding: 6px 12px;
-        border-radius: 4px;
-        background-color: #35424a;
-        border: none;
-        color: #fff;
-        transition: background-color 0.3s;
-      }
-      .fc .fc-button:hover {
-        background: #e8491d;
-        background-color: #e8491d;
-      }
-      .fc .fc-button:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(232,73,29,0.5);
-      }
-      .fc-toolbar-title {
-        font-size: 1.2em;
-        font-weight: 600;
-        color: #35424a;
-      }
-      /* Main content (products grid) */
-      .main-content {
-        flex: 1;
-        padding: 20px;
-        overflow-y: auto;
-      }
-      .products-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 20px;
-      }
-      .product-card {
-        background: #fff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 15px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      .product-card img {
-        width: 100%;
-        border-radius: 8px;
-      }
-      .product-info {
-        padding: 10px 0;
-      }
-      .product-info h3 {
-        margin: 10px 0 5px;
-      }
-      .price {
-        font-size: 1.2em;
-        color: #e8491d;
-        margin-bottom: 10px;
-      }
-      .comment-form textarea {
-        width: 100%;
-        min-height: 60px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 5px;
-        resize: vertical;
-      }
-      .comment-form button {
-        background: #35424a;
-        color: #fff;
-        border: none;
-        padding: 8px 15px;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-top: 5px;
-      }
-      .comment-form button:hover {
-        background: #e8491d;
-      }
-      /* Buttons */
-      .btn {
-        background: #35424a;
-        color: #fff;
-        padding: 8px 12px;
-        border: none;
-        border-radius: 4px;
-        text-decoration: none;
-        font-weight: 600;
-        display: inline-block;
-        margin: 5px 0;
-      }
-      .btn:hover {
-        background: #e8491d;
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>Cutlery Rental Service</h1>
-      <nav>
-        <a class="btn" href="/">Home</a>
-        <a class="btn" href="/availability_page">Availability</a>
-        <a class="btn" href="/comments_page">Comments</a>
-        <a class="btn" href="/contact_page">Contact</a>
-        <a class="btn" href="/add_product">Add Product</a>
-      </nav>
-    </header>
-    
-    <div class="container">
-      <aside class="sidebar">
-        <!-- Mini calendar container -->
-        <div id="mini-calendar"></div>
-        <h2>Navigation</h2>
-        <nav>
-          <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/availability_page">Availability</a></li>
-            <li><a href="/comments_page">Comments</a></li>
-            <li><a href="/contact_page">Contact</a></li>
-            <li><a href="/add_product">Add Product</a></li>
-          </ul>
-        </nav>
-        <hr />
-        <h2>Contact Us</h2>
-        <p>
-          WhatsApp:<br>
-          <a class="btn" href="https://wa.me/your_whatsapp_number" target="_blank">Chat Now</a>
-        </p>
-      </aside>
-      
-      <section class="main-content">
-        <h2>Featured Items</h2>
-        <p>Explore our top cutlery and kitchenware items below.</p>
-        <!-- Insert this search/filter form above your products grid -->
-        <div class="search-filter" style="margin:20px 0; text-align:center;">
-          <form action="/" method="get">
-            <input type="text" name="search" placeholder="Search cutlery..." style="padding:8px; margin-right:5px;">
-            <input type="number" name="min_price" placeholder="Min Price" step="0.01" style="padding:8px; margin-right:5px;">
-            <input type="number" name="max_price" placeholder="Max Price" step="0.01" style="padding:8px; margin-right:5px;">
-            <select name="material" style="padding:8px; margin-right:5px;">
-              <option value="">All Materials</option>
-              <option value="stainless steel">Stainless Steel</option>
-              <option value="eco-friendly">Eco-Friendly</option>
-            </select>
-            <button type="submit" class="btn" style="padding:8px 12px;">Filter</button>
-          </form>
-        </div>
-        <div class="products-grid">
-          {% for product in products %}
-            <div class="product-card">
-              <img src="{{ product.image_url }}" alt="{{ product.name }}">
-              <div class="product-info">
-                <h3>{{ product.name }}</h3>
-                <p>{{ product.description }}</p>
-                <p class="price">${{ "%.2f"|format(product.price) }}</p>
-                <!-- New Comment button -->
-                <a class="btn comment-btn" href="/comments_page?product_id={{ loop.index0 }}">Comment</a>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-      </section>
-    </div>
-    
-    <footer>
-      <p>&copy; 2025 Cutlery Rental Service. All rights reserved.</p>
-    </footer>
-    
-    <!-- FullCalendar JS -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var calendarEl = document.getElementById("calendar");
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: "dayGridMonth",
-          headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          },
-          height: 'auto', // Let calendar adjust its height
-          events: "/availability/events"
-        });
-        calendar.render();
+{% extends "base.html" %}
 
-        var miniCalendarEl = document.getElementById("mini-calendar");
-        if (miniCalendarEl) {
-          var miniCalendar = new FullCalendar.Calendar(miniCalendarEl, {
-            initialView: "dayGridMonth",
-            headerToolbar: {
-              left: '',
-              center: 'title',
-              right: ''
-            },
-            height: 200,         // Smaller height for the mini calendar
-            fixedWeekCount: false,
-            events: "/availability/events"
-          });
-          miniCalendar.render();
-        }
-      });
-    </script>
-    <script src="/static/js/scripts.js"></script>
-  </body>
-</html>
+{% block title %}Premium Cutlery Rental Service{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">Premium Cutlery Rental Service</h1>
+    <p class="hero-subtitle">Elevate your dining experience with our high-quality cutlery collection for any occasion</p>
+    <a href="#products" class="btn btn-primary">Browse Collection</a>
+  </div>
+</section>
+
+<!-- Main Content -->
+<div class="container">
+  <!-- Search and Filter Section -->
+  <section class="search-section">
+    <h2 class="section-title">Find the Perfect Cutlery</h2>
+    
+    <div class="search-filter">
+      <div class="filter-group">
+        <label for="search-input">Search</label>
+        <input type="text" id="search-input" placeholder="Search products..." aria-label="Search products">
+      </div>
+      
+      <div class="filter-group">
+        <label for="price-range">Price Range</label>
+        <div class="price-range">
+          <input type="number" id="min-price" min="0" value="0" aria-label="Minimum price">
+          <input type="range" id="price-range" min="0" max="1000" value="1000" aria-label="Price range slider">
+          <input type="number" id="max-price" min="0" max="1000" value="1000" aria-label="Maximum price">
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <label for="category-filter">Category</label>
+        <select id="category-filter" aria-label="Filter by category">
+          <option value="all">All Categories</option>
+          <option value="forks">Forks</option>
+          <option value="knives">Knives</option>
+          <option value="spoons">Spoons</option>
+          <option value="sets">Complete Sets</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="availability-filter">Availability</label>
+        <select id="availability-filter" aria-label="Filter by availability">
+          <option value="all">All</option>
+          <option value="in-stock">In Stock</option>
+          <option value="limited">Limited</option>
+          <option value="out-of-stock">Out of Stock</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="sort-filter">Sort By</label>
+        <select id="sort-filter" aria-label="Sort products">
+          <option value="featured">Featured</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="name">Name</option>
+          <option value="rating">Rating</option>
+        </select>
+      </div>
+      
+      <div class="active-filters" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- Products Grid -->
+  <section id="products" class="products-section">
+    <h2 class="section-title">Our Collection</h2>
+    
+    <div class="products-grid">
+      <!-- Product Card 1 -->
+      <article class="product-card" data-category="forks" data-availability="in-stock" data-rating="4.5">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?w=500&auto=format&fit=crop&q=80" alt="Silver Fork Set" loading="lazy">
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Silver Fork Set</h3>
+          <div class="product-price" data-price="25">$25.00</div>
+          <div class="product-rating" aria-label="4.5 out of 5 stars, 42 reviews">
+            <div class="rating-stars">★★★★☆</div>
+            <span class="rating-count">(42)</span>
+          </div>
+          <p class="product-description">Elegant silver-plated forks perfect for formal dining events.</p>
+          <a href="#" class="btn btn-primary">Rent Now</a>
+        </div>
+      </article>
+      
+      <!-- Product Card 2 -->
+      <article class="product-card" data-category="knives" data-availability="in-stock" data-rating="5">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1593618998160-e34014e67546?w=500&auto=format&fit=crop&q=80" alt="Premium Steak Knives" loading="lazy">
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Premium Steak Knives</h3>
+          <div class="product-price" data-price="35">$35.00</div>
+          <div class="product-rating" aria-label="5 out of 5 stars, 28 reviews">
+            <div class="rating-stars">★★★★★</div>
+            <span class="rating-count">(28)</span>
+          </div>
+          <p class="product-description">High-quality stainless steel steak knives with wooden handles.</p>
+          <a href="#" class="btn btn-primary">Rent Now</a>
+        </div>
+      </article>
+      
+      <!-- Product Card 3 -->
+      <article class="product-card" data-category="spoons" data-availability="limited" data-rating="4">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1603199506016-b9a594b593c0?w=500&auto=format&fit=crop&q=80" alt="Dessert Spoon Collection" loading="lazy">
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Dessert Spoon Collection</h3>
+          <div class="product-price" data-price="20">$20.00</div>
+          <div class="product-rating" aria-label="4 out of 5 stars, 36 reviews">
+            <div class="rating-stars">★★★★☆</div>
+            <span class="rating-count">(36)</span>
+          </div>
+          <p class="product-description">Elegant dessert spoons perfect for serving cakes and ice cream.</p>
+          <a href="#" class="btn btn-primary">Rent Now</a>
+        </div>
+      </article>
+      
+      <!-- Product Card 4 -->
+      <article class="product-card" data-category="sets" data-availability="in-stock" data-rating="4.8">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?w=500&auto=format&fit=crop&q=80" alt="Complete Dining Set" loading="lazy">
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Complete Dining Set</h3>
+          <div class="product-price" data-price="75">$75.00</div>
+          <div class="product-rating" aria-label="4.8 out of 5 stars, 52 reviews">
+            <div class="rating-stars">★★★★★</div>
+            <span class="rating-count">(52)</span>
+          </div>
+          <p class="product-description">Full dining set including forks, knives, and spoons for 8 people.</p>
+          <a href="#" class="btn btn-primary">Rent Now</a>
+        </div>
+      </article>
+      
+      <!-- Product Card 5 -->
+      <article class="product-card" data-category="forks" data-availability="out-of-stock" data-rating="4.2">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1587301669187-732ea66e7617?w=500&auto=format&fit=crop&q=80" alt="Gold-Plated Forks" loading="lazy">
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Gold-Plated Forks</h3>
+          <div class="product-price" data-price="45">$45.00</div>
+          <div class="product-rating" aria-label="4.2 out of 5 stars, 18 reviews">
+            <div class="rating-stars">★★★★☆</div>
+            <span class="rating-count">(18)</span>
+          </div>
+          <p class="product-description">Luxury gold-plated forks for special occasions and events.</p>
+          <a href="#" class="btn btn-outline">Notify Me</a>
+        </div>
+      </article>
+      
+      <!-- Product Card 6 -->
+      <article class="product-card" data-category="sets" data-availability="limited" data-rating="4.6">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1622428051717-dcd9565a8e00?w=500&auto=format&fit=crop&q=80" alt="Vintage Cutlery Set" loading="lazy">
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Vintage Cutlery Set</h3>
+          <div class="product-price" data-price="95">$95.00</div>
+          <div class="product-rating" aria-label="4.6 out of 5 stars, 31 reviews">
+            <div class="rating-stars">★★★★★</div>
+            <span class="rating-count">(31)</span>
+          </div>
+          <p class="product-description">Antique-style cutlery set with ornate designs for 6 people.</p>
+          <a href="#" class="btn btn-primary">Rent Now</a>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>
+
+<!-- Chatbot Trigger -->
+<button class="chatbot-trigger" aria-label="Open chat assistant">💬</button>
+
+<!-- Chatbot Container -->
+<div class="chatbot-container" aria-label="Chat assistant">
+  <div class="chatbot-header">
+    <h3 class="chatbot-title">Cutlery Assistant</h3>
+    <button class="chatbot-close" aria-label="Close chat">✕</button>
+  </div>
+  <div class="chatbot-messages" aria-live="polite"></div>
+  <div class="chatbot-input">
+    <input type="text" placeholder="Ask about our cutlery..." aria-label="Type your message">
+    <button aria-label="Send message">Send</button>
+  </div>
+</div>
+{% endblock %}

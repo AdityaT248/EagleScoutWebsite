@@ -2,7 +2,6 @@ fastapi
 uvicorn
 pydantic
 python-multipart
-shutil
 os
 aiofiles
 jinja2

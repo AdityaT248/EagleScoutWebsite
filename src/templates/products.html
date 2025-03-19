@@ -1,0 +1,390 @@
+{% extends "base.html" %}
+
+{% block title %}Our Products - Zero Waste Cutlery Rental{% endblock %}
+
+{% block content %}
+<!-- Display message if present -->
+{% if message %}
+<div class="container mt-4">
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+{% endif %}
+
+<!-- Products Hero -->
+<section class="hero-section" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/images/products-hero.jpg');">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-4">Our Cutlery Collection</h1>
+                <p class="lead mb-0">Premium, sustainable options for every occasion</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product Filters -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex flex-wrap justify-content-center justify-content-md-between align-items-center mb-4">
+                    <h2 class="section-heading mb-3 mb-md-0">Browse Our Collection</h2>
+                    <div class="d-flex">
+                        <div class="input-group me-2" style="max-width: 300px;">
+                            <input type="text" class="form-control" placeholder="Search products..." aria-label="Search products">
+                            <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Sort by
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                                <li><a class="dropdown-item" href="#">Newest</a></li>
+                                <li><a class="dropdown-item" href="#">Price: Low to High</a></li>
+                                <li><a class="dropdown-item" href="#">Price: High to Low</a></li>
+                                <li><a class="dropdown-item" href="#">Most Popular</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-filters mb-4">
+                    <div class="btn-group flex-wrap" role="group" aria-label="Product filters">
+                        <button type="button" class="btn btn-primary active">All Items</button>
+                        <button type="button" class="btn btn-outline-primary">Dinner Sets</button>
+                        <button type="button" class="btn btn-outline-primary">Flatware</button>
+                        <button type="button" class="btn btn-outline-primary">Serving Utensils</button>
+                        <button type="button" class="btn btn-outline-primary">Specialty</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product Listings -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Product Card 1 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm product-card">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1603199506016-b9a594b593c0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" class="card-img-top" alt="Premium Stainless Steel Dinner Set">
+                        <span class="badge bg-success position-absolute top-0 end-0 m-3">Popular</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title h5">Premium Stainless Steel Dinner Set</h3>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star-half-alt text-warning"></i>
+                            <span class="ms-2 text-muted">(42 reviews)</span>
+                        </div>
+                        <p class="card-text">Complete dinner set with knives, forks, spoons, and dessert utensils. Perfect for formal events and dinner parties.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">$12.99/day</span>
+                            <span class="text-muted small">Sets of 4, 8, or 12</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 pt-0">
+                        <div class="d-grid gap-2">
+                            <a href="/products/1" class="btn btn-outline-primary">View Details</a>
+                            <a href="/booking" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product Card 2 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm product-card">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1544145307-d9f0e73510fb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" class="card-img-top" alt="Brushed Gold Flatware Collection">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title h5">Brushed Gold Flatware Collection</h3>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <span class="ms-2 text-muted">(28 reviews)</span>
+                        </div>
+                        <p class="card-text">Elegant brushed gold flatware that adds a touch of luxury to any table setting. Perfect for weddings and special occasions.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">$15.99/day</span>
+                            <span class="text-muted small">Sets of 4, 8, or 12</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 pt-0">
+                        <div class="d-grid gap-2">
+                            <a href="/products/2" class="btn btn-outline-primary">View Details</a>
+                            <a href="/booking" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product Card 3 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm product-card">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1592066575517-58df903152f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" class="card-img-top" alt="Matte Black Cutlery Set">
+                        <span class="badge bg-danger position-absolute top-0 end-0 m-3">New</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title h5">Matte Black Cutlery Set</h3>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="far fa-star text-warning"></i>
+                            <span class="ms-2 text-muted">(16 reviews)</span>
+                        </div>
+                        <p class="card-text">Modern matte black cutlery that makes a bold statement. Ideal for contemporary events and stylish dinner parties.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">$14.99/day</span>
+                            <span class="text-muted small">Sets of 4, 8, or 12</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 pt-0">
+                        <div class="d-grid gap-2">
+                            <a href="/products/3" class="btn btn-outline-primary">View Details</a>
+                            <a href="/booking" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product Card 4 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm product-card">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1630173314503-544080c4be23?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" class="card-img-top" alt="Eco-Friendly Bamboo Utensils">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title h5">Eco-Friendly Bamboo Utensils</h3>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star-half-alt text-warning"></i>
+                            <span class="ms-2 text-muted">(34 reviews)</span>
+                        </div>
+                        <p class="card-text">100% natural bamboo utensils for the eco-conscious host. Biodegradable and perfect for casual outdoor events.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">$9.99/day</span>
+                            <span class="text-muted small">Sets of 10, 20, or 50</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 pt-0">
+                        <div class="d-grid gap-2">
+                            <a href="/products/4" class="btn btn-outline-primary">View Details</a>
+                            <a href="/booking" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product Card 5 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm product-card">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1617692855027-33b14f061079?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" class="card-img-top" alt="Silver Serving Set">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title h5">Silver Serving Set</h3>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <span class="ms-2 text-muted">(22 reviews)</span>
+                        </div>
+                        <p class="card-text">Professional serving utensils including serving spoons, forks, cake servers, and tongs. Essential for buffet-style events.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">$8.99/day</span>
+                            <span class="text-muted small">Sets of 4 or 8 pieces</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 pt-0">
+                        <div class="d-grid gap-2">
+                            <a href="/products/5" class="btn btn-outline-primary">View Details</a>
+                            <a href="/booking" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product Card 6 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm product-card">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1622896784083-cc051313dbab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" class="card-img-top" alt="Copper Accent Collection">
+                        <span class="badge bg-primary position-absolute top-0 end-0 m-3">Featured</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title h5">Copper Accent Collection</h3>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="far fa-star text-warning"></i>
+                            <span class="ms-2 text-muted">(18 reviews)</span>
+                        </div>
+                        <p class="card-text">Elegant cutlery with copper accents on the handles. Brings warmth and sophistication to any table setting.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">$16.99/day</span>
+                            <span class="text-muted small">Sets of 4, 8, or 12</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 pt-0">
+                        <div class="d-grid gap-2">
+                            <a href="/products/6" class="btn btn-outline-primary">View Details</a>
+                            <a href="/booking" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Bulk Orders -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="fw-bold">Planning a Large Event?</h2>
+                <p class="lead">We offer special pricing and packages for large events and bulk orders.</p>
+                <p>Whether you're planning a wedding, corporate function, or festival, our team can help create a custom rental package that meets your needs and budget.</p>
+                <a href="/contact" class="btn btn-primary btn-lg">Request a Quote</a>
+            </div>
+            <div class="col-lg-6">
+                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Large event setup" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold">What Our Customers Say</h2>
+                <p class="lead text-muted">Real reviews from satisfied customers</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-star text-warning me-1"></i>
+                            <i class="fas fa-star text-warning me-1"></i>
+                            <i class="fas fa-star text-warning me-1"></i>
+                            <i class="fas fa-star text-warning me-1"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text mb-3">"The gold flatware set elevated our wedding reception! The pieces looked brand new, and the delivery was right on time. Highly recommend for any special occasion."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/women/33.jpg" class="rounded-circle me-3" width="50" height="50" alt="Customer photo">
+                            <div>
+                                <h5 class="mb-0">Lauren P.</h5>
+                                <p class="text-muted mb-0">Wedding, June 2023</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-star text-warning me-1"></i>
+                            <i class="fas fa-star text-warning me-1"></i>
+                            <i class="fas fa-star text-warning me-1"></i>
+                            <i class="fas fa-star text-warning me-1"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text mb-3">"Our company's sustainability initiative got a huge boost when we switched to Zero Waste Cutlery for our events. Their service is professional, and our employees love the eco-friendly approach."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/men/54.jpg" class="rounded-circle me-3" width="50" height="50" alt="Customer photo">
+                            <div>
+                                <h5 class="mb-0">Mark T.</h5>
+                                <p class="text-muted mb-0">Corporate Events</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-star text-warning me-1"></i>
+                            <i class="fas fa-star text-warning me-1"></i>
+                            <i class="fas fa-star text-warning me-1"></i>
+                            <i class="fas fa-star text-warning me-1"></i>
+                            <i class="fas fa-star-half-alt text-warning"></i>
+                        </div>
+                        <p class="card-text mb-3">"I used the matte black collection for my 40th birthday dinner party, and my guests couldn't stop complimenting the table setting. The quality was excellent, and the return process was hassle-free."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle me-3" width="50" height="50" alt="Customer photo">
+                            <div>
+                                <h5 class="mb-0">Sophia R.</h5>
+                                <p class="text-muted mb-0">Birthday Party</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold mb-4">Ready to Make Your Event Special?</h2>
+                <p class="lead mb-4">Browse our collection and book your premium cutlery today.</p>
+                <a href="/booking" class="btn btn-light btn-lg me-2">Book Now</a>
+                <a href="/contact" class="btn btn-outline-light btn-lg">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

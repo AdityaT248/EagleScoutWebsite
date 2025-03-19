@@ -1,145 +1,475 @@
 {% extends "base.html" %}
 
-{% block title %}Premium Cutlery Rental Service{% endblock %}
+{% block title %}Zero Waste Cutlery Rental - Sustainable Dining Solutions{% endblock %}
 
 {% block content %}
+<!-- Display message if present -->
+{% if message %}
+<div class="container mt-4">
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+{% endif %}
+
 <!-- Hero Section -->
-<section class="hero">
-  <div class="hero-content">
-    <h1 class="hero-title">Premium Cutlery Rental Service</h1>
-    <p class="hero-subtitle">Elevate your dining experience with our high-quality cutlery collection for any occasion</p>
-    <a href="#products" class="btn btn-primary">Browse Collection</a>
-  </div>
+<section class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                <span class="badge bg-secondary-color text-dark mb-3 px-3 py-2">Eco-Friendly Event Solutions</span>
+                <h1 class="display-4 fw-bold mb-4">Sustainable Cutlery Rental</h1>
+                <p class="lead mb-5">Premium eco-friendly cutlery for your events. Reduce waste without compromising on quality.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="/products" class="btn btn-light btn-lg px-4 rounded-pill shadow-sm">Browse Collection</a>
+                    <a href="/booking" class="btn btn-outline-light btn-lg px-4 rounded-pill">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-overlay-shape"></div>
 </section>
 
-<!-- Main Content -->
-<div class="container">
-  <!-- Search and Filter Section -->
-  <section class="search-section">
-    <h2 class="section-title">Find the Perfect Cutlery</h2>
-    
-    <div class="search-filter">
-      <div class="filter-group">
-        <label for="search-input">Search</label>
-        <input type="text" id="search-input" placeholder="Search products..." aria-label="Search products">
-      </div>
-      
-      <div class="filter-group">
-        <label for="price-range">Price Range</label>
-        <div class="price-range">
-          <input type="number" id="min-price" min="0" value="0" aria-label="Minimum price">
-          <input type="range" id="price-range" min="0" max="1000" value="1000" aria-label="Price range slider">
-          <input type="number" id="max-price" min="0" max="1000" value="1000" aria-label="Maximum price">
-        </div>
-      </div>
-      
-      <div class="filter-group">
-        <label for="category-filter">Category</label>
-        <select id="category-filter" aria-label="Filter by category">
-          <option value="all">All Categories</option>
-          <option value="forks">Forks</option>
-          <option value="knives">Knives</option>
-          <option value="spoons">Spoons</option>
-          <option value="sets">Complete Sets</option>
-        </select>
-      </div>
-      
-      <div class="filter-group">
-        <label for="availability-filter">Availability</label>
-        <select id="availability-filter" aria-label="Filter by availability">
-          <option value="all">All</option>
-          <option value="in-stock">In Stock</option>
-          <option value="limited">Limited</option>
-          <option value="out-of-stock">Out of Stock</option>
-        </select>
-      </div>
-      
-      <div class="filter-group">
-        <label for="sort-filter">Sort By</label>
-        <select id="sort-filter" aria-label="Sort products">
-          <option value="featured">Featured</option>
-          <option value="price-low">Price: Low to High</option>
-          <option value="price-high">Price: High to Low</option>
-          <option value="name">Name</option>
-          <option value="rating">Rating</option>
-        </select>
-      </div>
-      
-      <div class="active-filters" aria-live="polite"></div>
-    </div>
-  </section>
-
-  <!-- Products Grid -->
-  <section id="products" class="products-section">
-    <h2 class="section-title">Our Collection</h2>
-    
-        <div class="products-grid">
-      {% if products %}
-          {% for product in products %}
-          <article class="product-card" data-category="{{ product.category|default('other') }}" data-availability="{{ product.availability|default('in-stock') }}" data-rating="{{ product.rating|default(4) }}">
-            <div class="product-image">
-              <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy">
-            </div>
-              <div class="product-info">
-              <h3 class="product-title">{{ product.name }}</h3>
-              <div class="product-price" data-price="{{ product.price }}">
-                ${{ "%.2f"|format(product.price) }}
-              </div>
-              <div class="product-rating" aria-label="{{ product.rating|default(4) }} out of 5 stars">
-                <div class="rating-stars">
-                  {% for i in range(1, 6) %}
-                    {% if i <= product.rating|default(4) %}
-                      ★
-                    {% else %}
-                      ☆
-                    {% endif %}
-                  {% endfor %}
+<!-- Statistics Section -->
+<section class="py-3">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="stats-card py-4 px-4 rounded-4 shadow-sm">
+                    <div class="row text-center">
+                        <div class="col-md-4 mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
+                            <h3 class="text-primary-color fw-bold display-5 mb-1">50K+</h3>
+                            <p class="mb-0 text-neutral-600">Plastic utensils saved</p>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
+                            <h3 class="text-primary-color fw-bold display-5 mb-1">1000+</h3>
+                            <p class="mb-0 text-neutral-600">Happy customers</p>
+                        </div>
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                            <h3 class="text-primary-color fw-bold display-5 mb-1">95%</h3>
+                            <p class="mb-0 text-neutral-600">Waste reduction</p>
+                        </div>
+                    </div>
                 </div>
-                <span class="rating-count">({{ product.reviews|default(10) }})</span>
-              </div>
-              <p class="product-description">{{ product.description }}</p>
-              <a href="/checkout?product_id={{ product.id }}&name={{ product.name|urlencode }}&price={{ product.price }}&image_url={{ product.image_url|urlencode }}" class="btn btn-primary">Rent Now</a>
             </div>
-          </article>
-          {% endfor %}
-      {% else %}
-        <!-- Fallback static products if no dynamic products are available -->
-        <!-- Product Card 1 -->
-        <article class="product-card" data-category="forks" data-availability="in-stock" data-rating="4.5">
-          <div class="product-image">
-            <img src="https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?w=500&auto=format&fit=crop&q=80" alt="Silver Fork Set" loading="lazy">
-          </div>
-          <div class="product-info">
-            <h3 class="product-title">Silver Fork Set</h3>
-            <div class="product-price" data-price="25">$25.00</div>
-            <div class="product-rating" aria-label="4.5 out of 5 stars, 42 reviews">
-              <div class="rating-stars">★★★★☆</div>
-              <span class="rating-count">(42)</span>
-            </div>
-            <p class="product-description">Elegant silver-plated forks perfect for formal dining events.</p>
-            <a href="/checkout?product_id=1&name=Silver%20Fork%20Set&price=25&image_url=https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?w=500%26auto=format%26fit=crop%26q=80" class="btn btn-primary">Rent Now</a>
-          </div>
-        </article>
-        
-        <!-- Product Card 2 -->
-        <article class="product-card" data-category="knives" data-availability="in-stock" data-rating="5">
-          <div class="product-image">
-            <img src="https://images.unsplash.com/photo-1593618998160-e34014e67546?w=500&auto=format&fit=crop&q=80" alt="Premium Steak Knives" loading="lazy">
-          </div>
-          <div class="product-info">
-            <h3 class="product-title">Premium Steak Knives</h3>
-            <div class="product-price" data-price="35">$35.00</div>
-            <div class="product-rating" aria-label="5 out of 5 stars, 28 reviews">
-              <div class="rating-stars">★★★★★</div>
-              <span class="rating-count">(28)</span>
-            </div>
-            <p class="product-description">High-quality stainless steel steak knives with wooden handles.</p>
-            <a href="/checkout?product_id=2&name=Premium%20Steak%20Knives&price=35&image_url=https://images.unsplash.com/photo-1593618998160-e34014e67546?w=500%26auto=format%26fit=crop%26q=80" class="btn btn-primary">Rent Now</a>
-          </div>
-        </article>
-      {% endif %}
         </div>
-      </section>
     </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-12 mb-5" data-aos="fade-up">
+                <span class="badge bg-secondary-color text-dark mb-3 px-3 py-2">Why Choose Us</span>
+                <h2 class="fw-bold">Why Choose Zero Waste Cutlery?</h2>
+                <p class="lead text-muted mx-auto" style="max-width: 700px;">Elevate your event while protecting the environment</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 text-center p-4 border-0 shadow-sm">
+                    <div class="mb-4">
+                        <div class="feature-icon bg-light-success text-success rounded-circle mx-auto">
+                            <i class="fas fa-leaf fa-2x"></i>
+                        </div>
+                    </div>
+                    <h3 class="h4 mb-3">Eco-Friendly</h3>
+                    <p class="text-muted mb-0">Our reusable cutlery eliminates single-use plastic waste at your events, reducing your environmental footprint.</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 text-center p-4 border-0 shadow-sm">
+                    <div class="mb-4">
+                        <div class="feature-icon bg-light-warning text-secondary-color rounded-circle mx-auto">
+                            <i class="fas fa-star fa-2x"></i>
+                        </div>
+                    </div>
+                    <h3 class="h4 mb-3">Premium Quality</h3>
+                    <p class="text-muted mb-0">Elegant stainless steel cutlery that enhances your dining experience and impresses your guests.</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 text-center p-4 border-0 shadow-sm">
+                    <div class="mb-4">
+                        <div class="feature-icon bg-light-primary text-primary-color rounded-circle mx-auto">
+                            <i class="fas fa-hand-holding-heart fa-2x"></i>
+                        </div>
+                    </div>
+                    <h3 class="h4 mb-3">Hassle-Free</h3>
+                    <p class="text-muted mb-0">We deliver, collect, and clean everything. You just enjoy your event without worrying about logistics.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                <span class="badge bg-secondary-color text-dark mb-3 px-3 py-2">Our Collection</span>
+                <h2 class="fw-bold">Featured Collections</h2>
+                <p class="lead text-muted">Discover our most popular rental options</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <!-- Product 1 -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="hover-zoom">
+                        <img src="https://media.istockphoto.com/id/185307922/photo/cutlery.jpg?s=2048x2048&w=is&k=20&c=f5xqneU46sZ9XvZAQDyybreTiodP1eCS-ardrV4NdzA=" class="card-img-top product-img" alt="Stainless Steel Cutlery">
+                        <div class="position-absolute top-0 end-0 p-3">
+                            <span class="badge bg-primary text-white">Best Seller</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Stainless Steel Cutlery</h5>
+                        <p class="card-text">A premium set of stainless steel cutlery perfect for elegant dining experiences.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 text-primary-color mb-0">$29.99 / day</span>
+                            <div class="rating text-warning">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="text-muted ms-2">(38)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-top-0 d-flex justify-content-between">
+                        <a href="/products/1" class="btn btn-outline-primary rounded-pill">View Details</a>
+                        <a href="/booking?product=1" class="btn btn-primary rounded-pill">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 2 -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="hover-zoom">
+                        <img src="https://media.istockphoto.com/id/1220650125/photo/bunner-eco-friendly-disposable-kitchenware-utensils-on-white-background-wooden-forks-and.jpg?s=2048x2048&w=is&k=20&c=mPXodqihyVw8OCf2Dxnolxr4xVjFrE9QURAk7QRLbqA=" class="card-img-top product-img" alt="Eco-friendly Kitchenware">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Eco-friendly Kitchenware</h5>
+                        <p class="card-text">Sustainable kitchenware for eco-conscious cooking and serving.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 text-primary-color mb-0">$19.99 / day</span>
+                            <div class="rating text-warning">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span class="text-muted ms-2">(25)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-top-0 d-flex justify-content-between">
+                        <a href="/products/2" class="btn btn-outline-primary rounded-pill">View Details</a>
+                        <a href="/booking?product=2" class="btn btn-primary rounded-pill">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 3 -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="hover-zoom">
+                        <img src="https://media.istockphoto.com/id/105863327/photo/cutlery.jpg?s=2048x2048&w=is&k=20&c=TPZ4bUTdDnbv9V-HYSltl9pkoRfjqETJBpnMaG0xM6k=" class="card-img-top product-img" alt="Elegant Cutlery Set">
+                        <div class="position-absolute top-0 end-0 p-3">
+                            <span class="badge bg-secondary-color text-dark">New</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Elegant Cutlery Set</h5>
+                        <p class="card-text">Elegant cutlery set for fine dining and special occasions.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 text-primary-color mb-0">$34.99 / day</span>
+                            <div class="rating text-warning">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="text-muted ms-2">(45)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-top-0 d-flex justify-content-between">
+                        <a href="/products/3" class="btn btn-outline-primary rounded-pill">View Details</a>
+                        <a href="/booking?product=3" class="btn btn-primary rounded-pill">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a href="/products" class="btn btn-lg btn-primary rounded-pill px-4">View All Products</a>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                <span class="badge bg-secondary-color text-dark mb-3 px-3 py-2">Simple Process</span>
+                <h2 class="fw-bold">How It Works</h2>
+                <p class="lead text-muted">Renting premium cutlery has never been easier</p>
+            </div>
+        </div>
+        <div class="row process-steps">
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 text-center border-0">
+                    <div class="card-body">
+                        <div class="process-icon bg-primary-color text-white position-relative">
+                            <span class="process-number">1</span>
+                            <i class="fas fa-search fa-2x"></i>
+                        </div>
+                        <h3 class="h5 mt-4">Browse</h3>
+                        <p class="text-muted">Explore our wide selection of premium cutlery collections for your needs.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 text-center border-0">
+                    <div class="card-body">
+                        <div class="process-icon bg-primary-color text-white position-relative">
+                            <span class="process-number">2</span>
+                            <i class="fas fa-calendar-alt fa-2x"></i>
+                        </div>
+                        <h3 class="h5 mt-4">Book</h3>
+                        <p class="text-muted">Select your dates and place your booking online in minutes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 text-center border-0">
+                    <div class="card-body">
+                        <div class="process-icon bg-primary-color text-white position-relative">
+                            <span class="process-number">3</span>
+                            <i class="fas fa-truck fa-2x"></i>
+                        </div>
+                        <h3 class="h5 mt-4">Delivery</h3>
+                        <p class="text-muted">We deliver clean, sanitized cutlery directly to your location.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+                <div class="card h-100 text-center border-0">
+                    <div class="card-body">
+                        <div class="process-icon bg-primary-color text-white position-relative">
+                            <span class="process-number">4</span>
+                            <i class="fas fa-undo fa-2x"></i>
+                        </div>
+                        <h3 class="h5 mt-4">Return</h3>
+                        <p class="text-muted">We collect everything after your event. No cleaning needed!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                <span class="badge bg-secondary-color text-dark mb-3 px-3 py-2">Customer Reviews</span>
+                <h2 class="fw-bold">What Our Customers Say</h2>
+                <p class="lead text-muted">Join hundreds of satisfied customers</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 border-0 shadow-sm testimonial-card">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <i class="fas fa-quote-left fa-2x text-primary-color opacity-25"></i>
+                        </div>
+                        <p class="mb-4">"The quality of the cutlery was exceptional! My clients were impressed with the elegant table settings, and I loved the eco-friendly approach. Will definitely use again."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-3" width="60" height="60" alt="Customer">
+                            <div>
+                                <h5 class="mb-0">Sarah Johnson</h5>
+                                <p class="text-muted mb-0">Wedding Planner</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm testimonial-card">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <i class="fas fa-quote-left fa-2x text-primary-color opacity-25"></i>
+                        </div>
+                        <p class="mb-4">"When our dishwasher broke down, Zero Waste saved us! Quick delivery, excellent cutlery that our customers loved, and the pickup service was so convenient."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/men/44.jpg" class="rounded-circle me-3" width="60" height="60" alt="Customer">
+                            <div>
+                                <h5 class="mb-0">David Martinez</h5>
+                                <p class="text-muted mb-0">Restaurant Owner</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 border-0 shadow-sm testimonial-card">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <i class="fas fa-quote-left fa-2x text-primary-color opacity-25"></i>
+                        </div>
+                        <p class="mb-4">"I organized a corporate event for 200 people, and Zero Waste provided everything we needed. The booking process was simple, and the quality was outstanding. Highly recommend!"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle me-3" width="60" height="60" alt="Customer">
+                            <div>
+                                <h5 class="mb-0">Emily Wilson</h5>
+                                <p class="text-muted mb-0">Event Coordinator</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary-color text-white position-relative overflow-hidden">
+    <div class="container position-relative" style="z-index: 10;">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                <h2 class="display-5 fw-bold mb-4">Ready to Reduce Waste at Your Next Event?</h2>
+                <p class="lead mb-4">Join the Zero Waste movement today and make a difference.</p>
+                <div class="d-flex gap-3 justify-content-center">
+                    <a href="/booking" class="btn btn-light btn-lg px-4 rounded-pill shadow-sm">
+                        <i class="fas fa-calendar-plus me-2"></i>Book Now
+                    </a>
+                    <a href="/contact" class="btn btn-outline-light btn-lg px-4 rounded-pill">
+                        <i class="fas fa-envelope me-2"></i>Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="position-absolute top-0 end-0 d-none d-lg-block">
+        <svg width="400" height="400" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" opacity="0.1">
+            <path fill="#ffffff" d="M37.7,-64.9C47.9,-55.8,54.8,-43.2,63.1,-30.2C71.4,-17.2,81.2,-3.9,80.3,8.7C79.5,21.3,68.1,33.2,57,44.4C45.9,55.6,35.1,66.2,22,70.2C8.9,74.3,-6.5,71.7,-21.3,67.6C-36.1,63.4,-50.3,57.7,-58.9,47.2C-67.6,36.7,-70.6,21.5,-73,5.4C-75.3,-10.6,-76.9,-27.6,-70.7,-41.8C-64.5,-56,-50.3,-67.5,-36.1,-75C-21.9,-82.5,-7.6,-85.9,3.9,-82.1C15.5,-78.3,27.5,-74,37.7,-64.9Z" transform="translate(100 100)" />
+        </svg>
+    </div>
+    <div class="position-absolute bottom-0 start-0 d-none d-lg-block">
+        <svg width="300" height="300" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" opacity="0.1">
+            <path fill="#ffffff" d="M41.6,-71.2C53.2,-66.4,61.3,-53.2,68.6,-39.6C75.8,-26,82.3,-13,81.2,-0.6C80.1,11.7,71.4,23.5,64.6,36.8C57.8,50.2,52.9,65.2,42.6,72.5C32.2,79.7,16.1,79.2,1.2,77.4C-13.8,75.6,-27.6,72.5,-40.7,66.7C-53.8,60.9,-66.2,52.3,-72.8,40.2C-79.5,28,-80.4,12.4,-78.3,-2.1C-76.2,-16.5,-71.2,-30,-61.2,-38C-51.3,-46,-36.5,-48.6,-24.2,-53.3C-11.9,-58,-6,-64.9,3.9,-71.3C13.7,-77.7,27.5,-83.6,41.6,-82.6C55.7,-81.7,70.1,-73.8,82.2,-62.1C94.3,-50.4,104.1,-35,104.3,-19.3C104.5,-3.7,95.1,12.3,89.1,30.5C83,48.7,80.3,69.2,69.2,82.1C58.1,95,38.7,100.3,19.8,103.8C0.9,107.3,-17.6,109,-36.2,106.8C-54.9,104.6,-73.7,98.5,-84.6,85.3C-95.6,72.1,-98.7,51.8,-104,32.7C-109.3,13.5,-116.7,-4.5,-115.2,-22.3C-113.7,-40.1,-103.3,-57.7,-89.3,-72.6C-75.2,-87.5,-57.5,-99.7,-39.9,-101.2C-22.2,-102.8,-4.6,-93.7,9,-83.2C22.6,-72.8,32.3,-60.9,41.6,-71.2Z" transform="translate(100 100)" />
+        </svg>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Custom styles for index page */
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
     
+    .bg-light-success {
+        background-color: rgba(46, 125, 50, 0.1);
+    }
+    
+    .bg-light-warning {
+        background-color: rgba(255, 179, 0, 0.1);
+    }
+    
+    .bg-light-primary {
+        background-color: rgba(96, 173, 94, 0.1);
+    }
+    
+    .stats-card {
+        background-color: white;
+        margin-top: -60px;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .process-icon {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    
+    .process-number {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 35px;
+        height: 35px;
+        background-color: var(--secondary-color);
+        color: var(--neutral-900);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    
+    .process-steps .col-md-3:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: 45px;
+        right: -50%;
+        width: 100%;
+        border-top: 2px dashed var(--neutral-300);
+        z-index: -1;
+    }
+    
+    @media (max-width: 768px) {
+        .process-steps .col-md-3:not(:last-child)::after {
+            display: none;
+        }
+        
+        .stats-card {
+            margin-top: -30px;
+        }
+    }
+    
+    .hero-overlay-shape {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        background-color: white;
+        clip-path: polygon(0 100%, 100% 100%, 100% 0);
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add active class to navbar based on current page
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    navLinks.forEach(link => {
+      if (link.getAttribute('href') === '/') {
+        link.classList.add('active');
+      }
+    });
+  });
+</script>
 {% endblock %}

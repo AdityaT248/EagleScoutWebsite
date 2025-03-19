@@ -1,0 +1,381 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - Zero Waste Cutlery Rental{% endblock %}
+
+{% block content %}
+<!-- Display message if present -->
+{% if message %}
+<div class="container mt-4">
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+{% endif %}
+
+<!-- Product Detail -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <img src="{{ product.image_url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/products">Products</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+                    </ol>
+                </nav>
+                
+                <h1 class="h2 fw-bold mb-3">{{ product.name }}</h1>
+                
+                <div class="d-flex align-items-center mb-3">
+                    <!-- Rating Stars -->
+                    <div class="me-2">
+                        {% for i in range(5) %}
+                            {% if i < product.rating|int %}
+                                <i class="fas fa-star text-warning"></i>
+                            {% elif product.rating - i >= 0.5 %}
+                                <i class="fas fa-star-half-alt text-warning"></i>
+                            {% else %}
+                                <i class="far fa-star text-warning"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <span class="text-muted">({{ product.reviews }} reviews)</span>
+                </div>
+                
+                <div class="mb-4">
+                    <span class="h3 text-primary">${{ product.price }}/day</span>
+                    <span class="badge bg-{{ 'success' if product.availability == 'in-stock' else 'danger' }} ms-2">
+                        {{ product.availability|replace('-', ' ')|title }}
+                    </span>
+                </div>
+                
+                <p class="mb-4">{{ product.description }}</p>
+                
+                <div class="mb-4">
+                    <h5>Set Sizes Available:</h5>
+                    <div class="btn-group" role="group" aria-label="Set sizes">
+                        <input type="radio" class="btn-check" name="setSize" id="setSize1" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="setSize1">4 pieces</label>
+                        
+                        <input type="radio" class="btn-check" name="setSize" id="setSize2" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="setSize2">8 pieces</label>
+                        
+                        <input type="radio" class="btn-check" name="setSize" id="setSize3" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="setSize3">12 pieces</label>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <h5>Quantity:</h5>
+                    <div class="input-group" style="max-width: 150px;">
+                        <button class="btn btn-outline-secondary" type="button" id="decrementQuantity">-</button>
+                        <input type="number" class="form-control text-center" id="quantity" value="1" min="1">
+                        <button class="btn btn-outline-secondary" type="button" id="incrementQuantity">+</button>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 d-md-flex">
+                    <a href="/booking?product={{ product.id }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-calendar-plus me-2"></i>Book Now
+                    </a>
+                    <button class="btn btn-outline-secondary btn-lg">
+                        <i class="far fa-heart me-2"></i>Add to Favorites
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product Details -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <ul class="nav nav-tabs mb-4" id="productTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="details" aria-selected="true">Details</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="care-tab" data-bs-toggle="tab" data-bs-target="#care" type="button" role="tab" aria-controls="care" aria-selected="false">Care Instructions</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="productTabsContent">
+                    <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <h4>Product Specifications</h4>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Material</th>
+                                            <td>Premium Stainless Steel</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Finish</th>
+                                            <td>Polished</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Pieces per Set</th>
+                                            <td>4, 8, or 12</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Dishwasher Safe</th>
+                                            <td>Yes</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Weight</th>
+                                            <td>Medium</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <h4 class="mt-4">What's Included</h4>
+                                <ul>
+                                    <li>Dinner fork</li>
+                                    <li>Dinner knife</li>
+                                    <li>Soup spoon</li>
+                                    <li>Dessert spoon</li>
+                                    <li>Eco-friendly transport case</li>
+                                </ul>
+                                
+                                <h4 class="mt-4">Perfect For</h4>
+                                <p>Weddings, formal dinners, corporate events, and any occasion where you want to make a sophisticated impression while reducing environmental impact.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="care" role="tabpanel" aria-labelledby="care-tab">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <h4>Care & Maintenance</h4>
+                                <p>While we handle the professional cleaning after your rental period, here are some tips for handling during use:</p>
+                                
+                                <h5 class="mt-4">During Use</h5>
+                                <ul>
+                                    <li>Rinse cutlery soon after use to prevent food from drying on the surface</li>
+                                    <li>Safe for dishwasher use, but hand washing is recommended for best care</li>
+                                    <li>Avoid using abrasive cleaners or scrubbers that can scratch the surface</li>
+                                    <li>Do not soak in water for prolonged periods</li>
+                                </ul>
+                                
+                                <h5 class="mt-4">Before Return</h5>
+                                <ul>
+                                    <li>Rinse off food residue before returning</li>
+                                    <li>Use the provided eco-friendly containers for transport</li>
+                                    <li>Count pieces to ensure all items are being returned</li>
+                                </ul>
+                                
+                                <div class="alert alert-info mt-4">
+                                    <i class="fas fa-info-circle me-2"></i> Remember, we handle professional cleaning and sanitizing. You only need to rinse off food residue before returning.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h4 class="mb-0">Customer Reviews</h4>
+                                    <a href="#writeReview" class="btn btn-outline-primary">Write a Review</a>
+                                </div>
+                                
+                                <!-- Sample Reviews -->
+                                <div class="review-item pb-4 mb-4 border-bottom">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Reviewer" class="rounded-circle me-3" width="50" height="50">
+                                        <div>
+                                            <h5 class="mb-0">Sarah J.</h5>
+                                            <div class="text-muted small">May 15, 2023</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                    </div>
+                                    <h6>Perfect for my dinner party!</h6>
+                                    <p>These cutlery sets added such elegance to my dinner party. The quality is excellent, and I love that I'm helping the environment by not using disposable options. Will definitely rent again!</p>
+                                </div>
+                                
+                                <div class="review-item pb-4 mb-4 border-bottom">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Reviewer" class="rounded-circle me-3" width="50" height="50">
+                                        <div>
+                                            <h5 class="mb-0">Michael T.</h5>
+                                            <div class="text-muted small">April 3, 2023</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="far fa-star text-warning"></i>
+                                    </div>
+                                    <h6>Great product, on-time delivery</h6>
+                                    <p>Very satisfied with the quality of the cutlery and the service. Everything arrived on time and in perfect condition. The only small issue was that one spoon had a small spot, but it was barely noticeable.</p>
+                                </div>
+                                
+                                <!-- Write a Review Form -->
+                                <div id="writeReview" class="mt-5">
+                                    <h4 class="mb-4">Write a Review</h4>
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="reviewRating" class="form-label">Rating</label>
+                                            <div class="rating-input">
+                                                <i class="far fa-star rating-star" data-rating="1"></i>
+                                                <i class="far fa-star rating-star" data-rating="2"></i>
+                                                <i class="far fa-star rating-star" data-rating="3"></i>
+                                                <i class="far fa-star rating-star" data-rating="4"></i>
+                                                <i class="far fa-star rating-star" data-rating="5"></i>
+                                            </div>
+                                            <input type="hidden" id="reviewRating" name="rating" value="">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="reviewTitle" class="form-label">Title</label>
+                                            <input type="text" class="form-control" id="reviewTitle" name="title">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="reviewContent" class="form-label">Review</label>
+                                            <textarea class="form-control" id="reviewContent" name="content" rows="4"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Products -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">You Might Also Like</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm product-card">
+                    <img src="https://images.unsplash.com/photo-1544145307-d9f0e73510fb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" class="card-img-top" alt="Brushed Gold Flatware">
+                    <div class="card-body">
+                        <h5 class="card-title">Brushed Gold Flatware Collection</h5>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star-half-alt text-warning"></i>
+                            <span class="ms-2 text-muted">(28 reviews)</span>
+                        </div>
+                        <p class="card-text">Elegant brushed gold flatware for special occasions.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">$15.99/day</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 pt-0">
+                        <a href="/products/2" class="btn btn-outline-primary d-block">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm product-card">
+                    <img src="https://images.unsplash.com/photo-1592066575517-58df903152f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" class="card-img-top" alt="Matte Black Cutlery">
+                    <div class="card-body">
+                        <h5 class="card-title">Matte Black Cutlery Set</h5>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="far fa-star text-warning"></i>
+                            <span class="ms-2 text-muted">(16 reviews)</span>
+                        </div>
+                        <p class="card-text">Modern matte black cutlery for contemporary events.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">$14.99/day</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 pt-0">
+                        <a href="/products/3" class="btn btn-outline-primary d-block">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm product-card">
+                    <img src="https://images.unsplash.com/photo-1630173314503-544080c4be23?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" class="card-img-top" alt="Eco-Friendly Bamboo Utensils">
+                    <div class="card-body">
+                        <h5 class="card-title">Eco-Friendly Bamboo Utensils</h5>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star-half-alt text-warning"></i>
+                            <span class="ms-2 text-muted">(34 reviews)</span>
+                        </div>
+                        <p class="card-text">100% natural bamboo utensils for casual events.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">$9.99/day</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 pt-0">
+                        <a href="/products/4" class="btn btn-outline-primary d-block">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JavaScript for Product Detail Page -->
+<script>
+    // Quantity incrementer/decrementer
+    document.getElementById('incrementQuantity').addEventListener('click', function() {
+        const quantityInput = document.getElementById('quantity');
+        const currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+    });
+    
+    document.getElementById('decrementQuantity').addEventListener('click', function() {
+        const quantityInput = document.getElementById('quantity');
+        const currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+        }
+    });
+    
+    // Star rating for review form
+    const stars = document.querySelectorAll('.rating-star');
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            const rating = this.getAttribute('data-rating');
+            document.getElementById('reviewRating').value = rating;
+            
+            stars.forEach(s => {
+                const sRating = s.getAttribute('data-rating');
+                if (sRating <= rating) {
+                    s.classList.remove('far');
+                    s.classList.add('fas');
+                } else {
+                    s.classList.remove('fas');
+                    s.classList.add('far');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %} 

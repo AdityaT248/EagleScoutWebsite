@@ -1,11 +1,28 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, Field, EmailStr
+from typing import List, Optional
+from datetime import datetime
 
-class User(BaseModel):
-    id: int
-    username: str
+class UserBase(BaseModel):
+    name: str = Field(..., min_length=1, max_length=100)
     email: EmailStr
-    full_name: str = None
-    disabled: bool = False
+    
+class UserCreate(UserBase):
+    password: str = Field(..., min_length=8)
+    
+class UserUpdate(BaseModel):
+    name: Optional[str] = Field(None, min_length=1, max_length=100)
+    email: Optional[EmailStr] = None
+    password: Optional[str] = Field(None, min_length=8)
+    role: Optional[str] = None
+    
+class User(UserBase):
+    id: str
+    role: str  # user, admin
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+    
+    model_config = {"from_attributes": True}
 
-    class Config:
-        orm_mode = True
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str

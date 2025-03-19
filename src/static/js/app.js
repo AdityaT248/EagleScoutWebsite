@@ -3,8 +3,7 @@ class FilterSystem {
   constructor() {
     this.filters = {
       search: '',
-      minPrice: 0,
-      maxPrice: 1000,
+      priceRange: 'all',
       category: 'all',
       availability: 'all',
       sortBy: 'featured'
@@ -16,11 +15,11 @@ class FilterSystem {
   init() {
     // Initialize filter elements
     this.searchInput = document.querySelector('#search-input');
-    this.minPriceInput = document.querySelector('#min-price');
-    this.maxPriceInput = document.querySelector('#max-price');
+    this.priceRadios = document.querySelectorAll('input[name="price-filter"]');
     this.categorySelect = document.querySelector('#category-filter');
     this.availabilitySelect = document.querySelector('#availability-filter');
     this.sortSelect = document.querySelector('#sort-filter');
+    this.resetButton = document.querySelector('#reset-filters');
     this.activeFiltersContainer = document.querySelector('.active-filters');
     this.productsGrid = document.querySelector('.products-grid');
     
@@ -86,31 +85,16 @@ class FilterSystem {
       this.renderActiveFilters();
     }, 300));
     
-    // Price inputs
-    this.minPriceInput?.addEventListener('change', (e) => {
-      const value = parseFloat(e.target.value);
-      this.filters.minPrice = isNaN(value) ? 0 : value;
-      this.applyFilters();
-      this.renderActiveFilters();
-    });
-    
-    this.maxPriceInput?.addEventListener('change', (e) => {
-      const value = parseFloat(e.target.value);
-      this.filters.maxPrice = isNaN(value) ? 1000 : value;
-      this.applyFilters();
-      this.renderActiveFilters();
-    });
-    
-    // Price range slider
-    const priceRangeSlider = document.querySelector('#price-range');
-    if (priceRangeSlider) {
-      priceRangeSlider.addEventListener('input', (e) => {
-        this.maxPriceInput.value = e.target.value;
-        this.filters.maxPrice = parseFloat(e.target.value);
-        this.applyFilters();
-        this.renderActiveFilters();
+    // Price range radios
+    this.priceRadios?.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.checked) {
+          this.filters.priceRange = radio.value;
+          this.applyFilters();
+          this.renderActiveFilters();
+        }
       });
-    }
+    });
     
     // Category filter
     this.categorySelect?.addEventListener('change', (e) => {
@@ -131,6 +115,11 @@ class FilterSystem {
       this.filters.sortBy = e.target.value;
       this.applyFilters();
       this.renderActiveFilters();
+    });
+    
+    // Reset filters button
+    this.resetButton?.addEventListener('click', () => {
+      this.resetFilters();
     });
     
     // Add product form submission
@@ -241,8 +230,7 @@ class FilterSystem {
         tag.className = 'filter-tag';
         
         let displayValue = value;
-        if (key === 'minPrice') displayValue = `Min $${value}`;
-        if (key === 'maxPrice') displayValue = `Max $${value}`;
+        if (key === 'priceRange') displayValue = value.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
         if (key === 'sortBy') displayValue = value.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
         
         tag.innerHTML = `
@@ -255,22 +243,23 @@ class FilterSystem {
   }
   
   removeFilter(key) {
-    if (key === 'minPrice') {
-      this.filters.minPrice = 0;
-      if (this.minPriceInput) this.minPriceInput.value = 0;
-    } else if (key === 'maxPrice') {
-      this.filters.maxPrice = 1000;
-      if (this.maxPriceInput) this.maxPriceInput.value = 1000;
-      if (document.querySelector('#price-range')) {
-        document.querySelector('#price-range').value = 1000;
-      }
-    } else if (key === 'search') {
+    if (key === 'search') {
       this.filters.search = '';
       if (this.searchInput) this.searchInput.value = '';
-    } else {
-      this.filters[key] = 'all';
-      const input = document.querySelector(`#${key}-filter`);
-      if (input) input.value = 'all';
+    } else if (key === 'priceRange') {
+      this.filters.priceRange = 'all';
+      if (this.priceRadios) {
+        Array.from(this.priceRadios).find(radio => radio.value === 'all').checked = true;
+      }
+    } else if (key === 'category') {
+      this.filters.category = 'all';
+      if (this.categorySelect) this.categorySelect.value = 'all';
+    } else if (key === 'availability') {
+      this.filters.availability = 'all';
+      if (this.availabilitySelect) this.availabilitySelect.value = 'all';
+    } else if (key === 'sortBy') {
+      this.filters.sortBy = 'featured';
+      if (this.sortSelect) this.sortSelect.value = 'featured';
     }
     
     this.applyFilters();
@@ -280,65 +269,71 @@ class FilterSystem {
   applyFilters() {
     if (!this.productsGrid) return;
     
-    const products = Array.from(this.productsGrid.children);
+    const productCards = this.productsGrid.querySelectorAll('.product-card');
     let visibleCount = 0;
     
-    products.forEach(product => {
-      let visible = true;
+    productCards.forEach(card => {
+      // Search filter
+      const title = card.querySelector('.product-title').textContent.toLowerCase();
+      const description = card.querySelector('.product-description').textContent.toLowerCase();
+      const matchesSearch = this.filters.search === '' || 
+                           title.includes(this.filters.search) || 
+                           description.includes(this.filters.search);
       
-      // Apply search filter
-      if (this.filters.search) {
-        const searchableContent = [
-          product.querySelector('.product-title')?.textContent || '',
-          product.querySelector('.product-description')?.textContent || '',
-          product.dataset.category || ''
-        ].join(' ').toLowerCase();
-        
-        visible = searchableContent.includes(this.filters.search);
+      // Category filter
+      const category = card.dataset.category;
+      const matchesCategory = this.filters.category === 'all' || category === this.filters.category;
+      
+      // Availability filter
+      const availability = card.dataset.availability;
+      const matchesAvailability = this.filters.availability === 'all' || availability === this.filters.availability;
+      
+      // Price range filter
+      const price = parseFloat(card.dataset.price || 0);
+      let matchesPrice = true;
+      
+      if (this.filters.priceRange === 'under-50') {
+        matchesPrice = price < 50;
+      } else if (this.filters.priceRange === 'above-50') {
+        matchesPrice = price >= 50;
       }
       
-      // Apply price filter
-      if (visible) {
-        const priceElement = product.querySelector('.product-price');
-        const price = parseFloat(priceElement?.dataset.price || priceElement?.textContent.replace(/[^0-9.]/g, ''));
-        if (!isNaN(price)) {
-          visible = price >= this.filters.minPrice && price <= this.filters.maxPrice;
-        }
+      // Apply all filters
+      const isVisible = matchesSearch && matchesCategory && matchesAvailability && matchesPrice;
+      card.style.display = isVisible ? 'flex' : 'none';
+      
+      if (isVisible) visibleCount++;
+      
+      // Apply rental price based on filter
+      const productPrice = parseFloat(card.dataset.price || 0);
+      let rentalPrice = productPrice;
+      
+      if (this.filters.priceRange === 'under-50' && productPrice < 50) {
+        rentalPrice = 15;
+      } else if (this.filters.priceRange === 'above-50' && productPrice >= 50) {
+        rentalPrice = 30;
       }
       
-      // Apply category filter
-      if (visible && this.filters.category !== 'all') {
-        visible = product.dataset.category === this.filters.category;
-      }
-      
-      // Apply availability filter
-      if (visible && this.filters.availability !== 'all') {
-        visible = product.dataset.availability === this.filters.availability;
-      }
-      
-      // Update visibility with smooth transition
-      if (visible) {
-        visibleCount++;
-        if (product.style.display === 'none') {
-          product.style.opacity = '0';
-          product.style.display = '';
-          setTimeout(() => {
-            product.style.opacity = '1';
-          }, 50);
+      // Only update price display if it's a filtered price
+      if (this.filters.priceRange !== 'all') {
+        const priceDisplay = card.querySelector('.product-price');
+        if (priceDisplay) {
+          const originalPrice = productPrice.toFixed(2);
+          priceDisplay.innerHTML = `$${rentalPrice.toFixed(2)} <span class="original-price">($${originalPrice} value)</span>`;
         }
       } else {
-        product.style.opacity = '0';
-        setTimeout(() => {
-          product.style.display = 'none';
-        }, 300);
+        // Reset to original price
+        const priceDisplay = card.querySelector('.product-price');
+        if (priceDisplay) {
+          priceDisplay.textContent = `$${productPrice.toFixed(2)}`;
+        }
       }
     });
     
-    // Apply sorting
-    this.sortProducts();
-    
-    // Show "no results" message if needed
     this.updateNoResultsMessage(visibleCount === 0);
+    
+    // Sort the visible products
+    this.sortProducts();
   }
   
   sortProducts() {
@@ -406,28 +401,46 @@ class FilterSystem {
   }
   
   resetFilters() {
+    // Reset all filters to default
     this.filters = {
       search: '',
-      minPrice: 0,
-      maxPrice: 1000,
+      priceRange: 'all',
       category: 'all',
       availability: 'all',
       sortBy: 'featured'
     };
     
-    // Reset all inputs
+    // Reset UI elements
     if (this.searchInput) this.searchInput.value = '';
-    if (this.minPriceInput) this.minPriceInput.value = 0;
-    if (this.maxPriceInput) this.maxPriceInput.value = 1000;
+    
+    if (this.priceRadios) {
+      Array.from(this.priceRadios).find(radio => radio.value === 'all').checked = true;
+    }
+    
     if (this.categorySelect) this.categorySelect.value = 'all';
     if (this.availabilitySelect) this.availabilitySelect.value = 'all';
     if (this.sortSelect) this.sortSelect.value = 'featured';
     
-    const priceRangeSlider = document.querySelector('#price-range');
-    if (priceRangeSlider) priceRangeSlider.value = 1000;
-    
+    // Apply filters and update UI
     this.applyFilters();
     this.renderActiveFilters();
+    
+    // Show success message
+    const successMessage = document.createElement('div');
+    successMessage.className = 'alert alert-success filters-reset';
+    successMessage.textContent = 'Filters have been reset';
+    
+    const filterSection = document.querySelector('.search-filter');
+    if (filterSection) {
+      filterSection.appendChild(successMessage);
+      
+      // Remove after 3 seconds
+      setTimeout(() => {
+        if (successMessage.parentNode) {
+          successMessage.parentNode.removeChild(successMessage);
+        }
+      }, 3000);
+    }
   }
 }
 

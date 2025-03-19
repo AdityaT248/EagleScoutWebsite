@@ -1,30 +1,29 @@
-from pydantic import BaseModel
-from typing import Optional
+from pydantic import BaseModel, Field
+from typing import List, Optional
+from datetime import datetime, date
 
-class AvailabilityModel(BaseModel):
-    date: str
-    available: bool
+class AvailabilityBase(BaseModel):
+    date: date
+    status: str = Field(..., pattern=r"^(available|unavailable|limited)$")
+    note: Optional[str] = None
+    
+class AvailabilityCreate(AvailabilityBase):
+    pass
+    
+class AvailabilityUpdate(BaseModel):
+    status: Optional[str] = Field(None, pattern=r"^(available|unavailable|limited)$")
+    note: Optional[str] = None
+    
+class Availability(AvailabilityBase):
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+    
+    model_config = {"from_attributes": True}
 
 class AvailabilityResponse(BaseModel):
-    message: str
-    date: str
-    available: bool
-
-class AvailabilityCheckResponse(BaseModel):
-    date: str
-    available: bool
-
-class AvailabilityUpdateRequest(BaseModel):
-    available: bool
-
-class AvailabilityListResponse(BaseModel):
-    availability: list[AvailabilityCheckResponse]
-
-class Availability:
-    # Define the attributes and methods for the Availability class
-    def __init__(self, id: int, available: bool):
-        self.id = id
-        self.available = available
-
-    def __repr__(self):
-        return f"<Availability(id={self.id}, available={self.available})>"
+    availability: List[Availability]
+    
+class DateRangeRequest(BaseModel):
+    start_date: date
+    end_date: date
+    quantity: Optional[int] = 1

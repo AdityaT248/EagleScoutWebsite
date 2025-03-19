@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Terms & Conditions - Zero Waste Cutlery Rental{% endblock %}
+
+{% block content %}
+<!-- Display message if present -->
+{% if message %}
+<div class="container mt-4">
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+{% endif %}
+
+<!-- Hero Section -->
+<section class="page-header py-5 text-center bg-light">
+    <div class="container">
+        <h1 class="fw-bold">Terms & Conditions</h1>
+        <p class="lead">Please read these terms carefully before using our services</p>
+    </div>
+</section>
+
+<!-- Terms Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4 p-lg-5">
+                        <h2 class="h4 mb-4">1. Acceptance of Terms</h2>
+                        <p>By accessing and using Zero Waste Cutlery Rental services, you accept and agree to be bound by the terms and provisions of this agreement. In addition, when using particular services, you shall be subject to any posted guidelines or rules applicable to such services.</p>
+                        
+                        <h2 class="h4 mb-4 mt-5">2. Rental Agreement</h2>
+                        <p>When you place a booking with Zero Waste Cutlery Rental, you enter into a rental agreement. This agreement includes:</p>
+                        <ul>
+                            <li>Accepting responsibility for the proper use and care of all rented items</li>
+                            <li>Agreement to return all items in the same condition they were received</li>
+                            <li>Accepting liability for any damage, loss, or theft of rented items</li>
+                            <li>Agreement to pay the full rental fee as stated at the time of booking</li>
+                        </ul>
+                        
+                        <h2 class="h4 mb-4 mt-5">3. Booking and Payment</h2>
+                        <p>All bookings must be accompanied by payment in full. We accept various payment methods including credit/debit cards and PayPal. By making a payment, you authorize Zero Waste Cutlery Rental to charge the amount specified at checkout.</p>
+                        
+                        <h2 class="h4 mb-4 mt-5">4. Cancellation Policy</h2>
+                        <p>Our cancellation policy is as follows:</p>
+                        <ul>
+                            <li>Cancellations made 7 or more days before the rental start date will receive a full refund</li>
+                            <li>Cancellations made 3-6 days before the rental start date will receive a 50% refund</li>
+                            <li>Cancellations made less than 3 days before the rental start date are non-refundable</li>
+                            <li>All cancellations must be made in writing via email</li>
+                        </ul>
+                        
+                        <h2 class="h4 mb-4 mt-5">5. Delivery and Collection</h2>
+                        <p>If you opt for delivery and collection services:</p>
+                        <ul>
+                            <li>A delivery address must be provided at the time of booking</li>
+                            <li>Someone must be present to receive the delivery</li>
+                            <li>If no one is available to receive the delivery, the items will be returned to our facility and the delivery fee will still apply</li>
+                            <li>For collection, all items must be cleaned and packed in the same containers they were delivered in</li>
+                        </ul>
+                        
+                        <h2 class="h4 mb-4 mt-5">6. Damage, Loss, or Theft</h2>
+                        <p>You are responsible for all rented items from the time of delivery or pickup until they are returned or collected. If items are damaged, lost, or stolen:</p>
+                        <ul>
+                            <li>You will be charged the replacement cost of the item(s)</li>
+                            <li>Damage beyond normal wear and tear will incur repair or replacement costs</li>
+                            <li>Items not returned within 48 hours of the agreed return date will be considered lost and charged accordingly</li>
+                        </ul>
+                        
+                        <h2 class="h4 mb-4 mt-5">7. Use of Items</h2>
+                        <p>Rented items must be used for their intended purpose only. Do not:</p>
+                        <ul>
+                            <li>Use items in a manner that could cause damage</li>
+                            <li>Modify or alter any items</li>
+                            <li>Transfer or sublet items to any other party</li>
+                        </ul>
+                        
+                        <h2 class="h4 mb-4 mt-5">8. Limitation of Liability</h2>
+                        <p>Zero Waste Cutlery Rental is not liable for any injury, loss, or damage arising from the use of our rental items. By renting from us, you agree to indemnify and hold us harmless from any claims, demands, or damages.</p>
+                        
+                        <h2 class="h4 mb-4 mt-5">9. Changes to Terms</h2>
+                        <p>We reserve the right to modify these terms and conditions at any time. Changes will be effective immediately upon posting to our website. It is your responsibility to review these terms periodically.</p>
+                        
+                        <h2 class="h4 mb-4 mt-5">10. Contact Information</h2>
+                        <p>If you have any questions regarding these terms, please contact us at:</p>
+                        <p>Email: contact@zerowaste.com<br>
+                        Phone: (555) 123-4567<br>
+                        Address: 123 Eco Street, Green City, 12345</p>
+                        
+                        <div class="mt-5 text-center">
+                            <p class="mb-4">Last updated: March 10, 2023</p>
+                            <a href="/contact" class="btn btn-primary">Contact Us With Questions</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

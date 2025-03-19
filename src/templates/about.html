@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - Zero Waste Cutlery Rental{% endblock %}
+
+{% block content %}
+<!-- Display message if present -->
+{% if message %}
+<div class="container mt-4">
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+{% endif %}
+
+<!-- About Hero -->
+<section class="hero-section" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/images/about-hero.jpg');">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-4">About Zero Waste Cutlery</h1>
+                <p class="lead mb-0">Our mission is to make sustainable dining accessible for everyone</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Story -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="section-heading">Our Story</h2>
+                <p>Zero Waste Cutlery Rental was founded in 2022 with a simple mission: to reduce the environmental impact of single-use cutlery while providing a premium dining experience for our customers.</p>
+                <p>What began as a small collection of high-quality cutlery has grown into a comprehensive rental service used by restaurants, event planners, and eco-conscious individuals across the country.</p>
+                <p>We believe that sustainability shouldn't mean compromising on quality or elegance. Our carefully curated collection of premium stainless steel cutlery proves that eco-friendly choices can elevate any dining experience.</p>
+            </div>
+            <div class="col-lg-6">
+                <img src="https://images.unsplash.com/photo-1519671282429-b44660ead0a7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Our team discussing sustainable options" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Mission -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 order-lg-2 mb-4 mb-lg-0">
+                <h2 class="section-heading">Our Mission</h2>
+                <p>At Zero Waste Cutlery, we're committed to making a measurable impact on plastic waste reduction. Each year, billions of plastic utensils end up in landfills and oceans, taking hundreds of years to decompose.</p>
+                <p>By providing a convenient, high-quality alternative to disposable cutlery, we're helping our customers significantly reduce their environmental footprint while still enjoying beautiful table settings.</p>
+                <p>We're proud to report that in 2023 alone, our rental service helped prevent over 50,000 pieces of disposable cutlery from entering landfills.</p>
+            </div>
+            <div class="col-lg-6 order-lg-1">
+                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80" alt="Eco-friendly cutlery collection" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Process -->
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5 text-center">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="fw-bold">How We Do It</h2>
+                <p class="lead text-muted">Our sustainable process from start to finish</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 70px; height: 70px;">
+                            <i class="fas fa-handshake fa-2x"></i>
+                        </div>
+                        <h3 class="h5">1. Eco-Sourcing</h3>
+                        <p class="text-muted mb-0">We carefully source high-quality, durable cutlery designed to last for years.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 70px; height: 70px;">
+                            <i class="fas fa-truck fa-2x"></i>
+                        </div>
+                        <h3 class="h5">2. Efficient Delivery</h3>
+                        <p class="text-muted mb-0">We optimize delivery routes to minimize carbon emissions during transportation.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 70px; height: 70px;">
+                            <i class="fas fa-soap fa-2x"></i>
+                        </div>
+                        <h3 class="h5">3. Eco-Cleaning</h3>
+                        <p class="text-muted mb-0">We use biodegradable, non-toxic cleaning products in our sanitization process.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 70px; height: 70px;">
+                            <i class="fas fa-recycle fa-2x"></i>
+                        </div>
+                        <h3 class="h5">4. Complete Lifecycle</h3>
+                        <p class="text-muted mb-0">When cutlery reaches the end of its rental life, we recycle it responsibly.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Team -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold">Meet Our Team</h2>
+                <p class="lead text-muted">The passionate people behind Zero Waste Cutlery</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow">
+                    <img src="https://randomuser.me/api/portraits/women/75.jpg" class="card-img-top" alt="Team Member">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-0">Emma Rodriguez</h5>
+                        <p class="text-muted">Founder & CEO</p>
+                        <p class="card-text">Emma's background in sustainable business practices and her passion for reducing single-use plastic led to the creation of Zero Waste Cutlery.</p>
+                        <div class="social-links">
+                            <a href="#" class="text-dark me-2"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-dark me-2"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" class="card-img-top" alt="Team Member">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-0">Michael Chen</h5>
+                        <p class="text-muted">Operations Director</p>
+                        <p class="card-text">Michael oversees our eco-friendly cleaning and delivery processes, ensuring every rental meets our high standards of quality and sustainability.</p>
+                        <div class="social-links">
+                            <a href="#" class="text-dark me-2"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-dark me-2"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow">
+                    <img src="https://randomuser.me/api/portraits/women/45.jpg" class="card-img-top" alt="Team Member">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-0">Sarah Johnson</h5>
+                        <p class="text-muted">Sustainability Officer</p>
+                        <p class="card-text">With a background in environmental science, Sarah ensures that every aspect of our business adheres to the highest ecological standards.</p>
+                        <div class="social-links">
+                            <a href="#" class="text-dark me-2"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-dark me-2"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Impact Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold">Our Environmental Impact</h2>
+                <p class="lead text-muted">Making a measurable difference for our planet</p>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <div class="p-4">
+                    <h3 class="display-4 text-success fw-bold">50K+</h3>
+                    <p class="lead">Plastic utensils saved from landfills</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="p-4">
+                    <h3 class="display-4 text-success fw-bold">1,000+</h3>
+                    <p class="lead">Happy eco-conscious customers</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="p-4">
+                    <h3 class="display-4 text-success fw-bold">95%</h3>
+                    <p class="lead">Waste reduction at events</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold mb-4">Join Our Sustainable Movement</h2>
+                <p class="lead mb-4">Make your next event eco-friendly without compromising on style or quality.</p>
+                <a href="/contact" class="btn btn-light btn-lg">Contact Us Today</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

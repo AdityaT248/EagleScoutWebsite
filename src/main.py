@@ -20,6 +20,24 @@ from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 from starlette.templating import _TemplateResponse
+from src.utils.database import get_reviews, add_review, get_product_ratings
+
+from src.routes import (
+    contact_routes,
+    product_routes,
+    booking_routes,
+    comments_routes,
+    availability_routes,
+    auth_routes
+)
+from src.config import (
+    APP_NAME,
+    DEBUG,
+    STATIC_DIR,
+    TEMPLATES_DIR,
+    UPLOADS_DIR,
+    SECRET_KEY
+)
 
 products = [
     {
@@ -92,7 +110,18 @@ products = [
 
 comments = []
 
-app = FastAPI()
+# Create upload directories if they don't exist
+os.makedirs(UPLOADS_DIR, exist_ok=True)
+os.makedirs(os.path.join(STATIC_DIR, "images", "products"), exist_ok=True)
+os.makedirs(os.path.join(STATIC_DIR, "images", "comments"), exist_ok=True)
+
+# Initialize app
+app = FastAPI(
+    title=APP_NAME,
+    description="Zero Waste Cutlery Rental Platform",
+    version="1.0.0",
+    debug=DEBUG
+)
 
 # Add CORS middleware
 app.add_middleware(
@@ -103,14 +132,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Add session middleware (only once)
-app.add_middleware(SessionMiddleware, secret_key="your-secret-key")
+# Add session middleware
+app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
+
+# Mount static files
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+app.mount("/uploads", StaticFiles(directory=UPLOADS_DIR), name="uploads")
+
+# Setup templates
+templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
 # Include routers
-app.include_router(availability_router, prefix="/availability", tags=["availability"])
-app.include_router(comments_router, prefix="/comments", tags=["comments"])
-app.include_router(contact_router, prefix="/contact", tags=["contact"])
-app.include_router(upload_router, prefix="/upload", tags=["upload"])
+app.include_router(auth_routes.router, tags=["Authentication"])
+app.include_router(product_routes.router, tags=["Products"])
+app.include_router(booking_routes.router, tags=["Bookings"])
+app.include_router(comments_routes.router, tags=["Comments"])
+app.include_router(availability_routes.router, tags=["Availability"])
+app.include_router(contact_routes.router, tags=["Contact"])
 
 # Create the uploads directory if it doesn't exist
 uploads_dir = Path("uploads")
@@ -163,14 +201,71 @@ def admin_dashboard(request: Request):
         return RedirectResponse(url="/admin/login", status_code=303)
     return templates.TemplateResponse("admin_dashboard.html", {"request": request, "products": products})
 
-@app.get("/", include_in_schema=False)
-def home(request: Request):
-    images = [f"/uploads/{file.name}" for file in uploads_dir.iterdir() if file.is_file()]
-    return templates.TemplateResponse("index.html", {
-        "request": request, 
-        "images": images, 
-        "products": products
-    })
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    """Home page"""
+    return templates.TemplateResponse(
+        "index.html", 
+        {"request": request}
+    )
+
+@app.get("/about", response_class=HTMLResponse)
+async def about(request: Request):
+    """About page"""
+    return templates.TemplateResponse(
+        "about.html", 
+        {"request": request}
+    )
+
+@app.get("/faq", response_class=HTMLResponse)
+async def faq(request: Request):
+    """FAQ page"""
+    return templates.TemplateResponse(
+        "faq.html", 
+        {"request": request}
+    )
+
+@app.get("/terms", response_class=HTMLResponse)
+async def terms(request: Request):
+    """Terms & Conditions page"""
+    return templates.TemplateResponse(
+        "terms.html", 
+        {"request": request, "message": None}
+    )
+
+@app.get("/privacy", response_class=HTMLResponse)
+async def privacy(request: Request):
+    """Privacy Policy page"""
+    return templates.TemplateResponse(
+        "privacy.html", 
+        {"request": request, "message": None}
+    )
+
+@app.get("/admin", response_class=HTMLResponse)
+async def admin_dashboard(request: Request):
+    """Admin dashboard"""
+    return templates.TemplateResponse(
+        "admin/dashboard.html", 
+        {"request": request}
+    )
+
+@app.exception_handler(404)
+async def not_found_exception_handler(request: Request, exc: HTTPException):
+    """Handle 404 errors"""
+    return templates.TemplateResponse(
+        "errors/404.html", 
+        {"request": request}, 
+        status_code=404
+    )
+
+@app.exception_handler(500)
+async def server_error_exception_handler(request: Request, exc: HTTPException):
+    """Handle 500 errors"""
+    return templates.TemplateResponse(
+        "errors/500.html", 
+        {"request": request}, 
+        status_code=500
+    )
 
 @app.post("/upload-image/")
 async def upload_image(file: UploadFile = File(...)):
@@ -228,9 +323,66 @@ def checkout_page(request: Request, product_id: str = None, name: str = None, pr
 def comments_page(request: Request):
     return templates.TemplateResponse("comments.html", {"request": request, "comments": comments})
 
+@app.get("/products", response_class=HTMLResponse)
+async def products_page(request: Request):
+    """Products page"""
+    return templates.TemplateResponse(
+        "products/index.html", 
+        {"request": request, "products": products}
+    )
+
+@app.get("/products/{product_id}", response_class=HTMLResponse)
+async def product_detail(request: Request, product_id: int):
+    """Product detail page"""
+    product = next((p for p in products if p["id"] == product_id), None)
+    if not product:
+        return RedirectResponse(url="/products", status_code=303)
+    
+    return templates.TemplateResponse(
+        "products/detail.html",
+        {"request": request, "product": product}
+    )
+
+@app.get("/booking", response_class=HTMLResponse)
+async def booking_page(request: Request, product: int = None):
+    """Booking page"""
+    selected_product = None
+    if product:
+        selected_product = next((p for p in products if p["id"] == int(product)), None)
+    
+    return templates.TemplateResponse(
+        "booking.html", 
+        {"request": request, "selected_product": selected_product}
+    )
+
+@app.post("/booking", response_class=HTMLResponse)
+async def booking_submit(request: Request):
+    """Handle booking form submission"""
+    # This would normally process the form data
+    return templates.TemplateResponse(
+        "booking.html", 
+        {"request": request, "message": "Your booking has been submitted. We'll contact you shortly to confirm."}
+    )
+
+# Redirect /book to /booking for the Book Now button
+@app.get("/book", response_class=HTMLResponse)
+async def book_redirect(request: Request):
+    """Redirect to booking page"""
+    return RedirectResponse(url="/booking", status_code=303)
+
 @app.get("/contact", include_in_schema=False)
 def contact_page(request: Request):
+    """Contact page"""
     return templates.TemplateResponse("contact.html", {"request": request})
+
+@app.post("/contact", response_class=HTMLResponse)
+async def contact_submit(request: Request):
+    """Handle contact form submission"""
+    # Process form submission here
+    return templates.TemplateResponse(
+        "contact.html",
+        {"request": request, "message": "Your message has been sent. We'll get back to you soon!"}
+    )
 
 @app.get("/home_page", include_in_schema=False)
 def home_page_old(request: Request):
@@ -458,3 +610,33 @@ async def add_admin_status_to_templates(request: Request, call_next):
     if isinstance(response, _TemplateResponse):
         response.context["is_admin"] = is_admin(request)
     return response
+
+@app.post("/reviews", response_class=HTMLResponse)
+async def submit_review(
+    request: Request,
+    content: str = Form(...),
+    author: str = Form(None),
+    product_id: int = Form(None),
+    rating: float = Form(None),
+    redirect_url: str = Form("/")
+):
+    """Submit a product review"""
+    add_review(content, author, product_id, rating)
+    return RedirectResponse(url=redirect_url, status_code=303)
+
+@app.get("/api/reviews")
+async def get_product_reviews(
+    product_id: int = None
+):
+    """Get reviews for a product"""
+    reviews = get_reviews(product_id)
+    return {"reviews": reviews}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "src.main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=DEBUG
+    )

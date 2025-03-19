@@ -1,0 +1,537 @@
+{% extends "base.html" %}
+
+{% block title %}Book Your Cutlery - Zero Waste Cutlery Rental{% endblock %}
+
+{% block content %}
+<!-- Display message if present -->
+{% if message %}
+<div class="container mt-4">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+{% endif %}
+
+<!-- Booking Hero -->
+<section class="hero-section" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/images/booking-hero.jpg');">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-4">Book Your Sustainable Cutlery</h1>
+                <p class="lead mb-0">Easy reservation process for your eco-friendly event</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Booking Process -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold">How Booking Works</h2>
+                <p class="lead text-muted">Simple steps to rent your sustainable cutlery</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-3 mb-4 mb-md-0">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                            <i class="fas fa-calendar-alt fa-2x"></i>
+                        </div>
+                        <h3 class="h5 mb-3">1. Select Dates</h3>
+                        <p class="text-muted mb-0">Choose when you need the cutlery and for how long.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-4 mb-md-0">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                            <i class="fas fa-utensils fa-2x"></i>
+                        </div>
+                        <h3 class="h5 mb-3">2. Choose Items</h3>
+                        <p class="text-muted mb-0">Select the cutlery sets and quantities needed for your event.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-4 mb-md-0">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                            <i class="fas fa-map-marker-alt fa-2x"></i>
+                        </div>
+                        <h3 class="h5 mb-3">3. Delivery Details</h3>
+                        <p class="text-muted mb-0">Provide your delivery address and preferred time windows.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                            <i class="fas fa-credit-card fa-2x"></i>
+                        </div>
+                        <h3 class="h5 mb-3">4. Confirm & Pay</h3>
+                        <p class="text-muted mb-0">Review your order, pay securely, and receive confirmation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Booking Form -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-md-5">
+                        <h2 class="card-title mb-4">Book Your Cutlery</h2>
+                        
+                        <form id="bookingForm" action="/booking" method="post">
+                            <!-- Step 1: Event Details -->
+                            <div class="booking-step active" id="step1">
+                                <h3 class="h4 mb-4">Step 1: Event Details</h3>
+                                
+                                <div class="mb-4">
+                                    <label for="eventName" class="form-label">Event Name</label>
+                                    <input type="text" class="form-control" id="eventName" name="event_name" required>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="eventType" class="form-label">Event Type</label>
+                                        <select class="form-select" id="eventType" name="event_type" required>
+                                            <option value="" selected disabled>Select event type</option>
+                                            <option value="wedding">Wedding</option>
+                                            <option value="corporate">Corporate Event</option>
+                                            <option value="birthday">Birthday Party</option>
+                                            <option value="dinner">Dinner Party</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="guestCount" class="form-label">Number of Guests</label>
+                                        <input type="number" class="form-control" id="guestCount" name="guest_count" min="1" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="startDate" class="form-label">Start Date</label>
+                                        <input type="date" class="form-control" id="startDate" name="start_date" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="endDate" class="form-label">End Date</label>
+                                        <input type="date" class="form-control" id="endDate" name="end_date" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="button" class="btn btn-primary" onclick="nextStep(1, 2)">Next: Choose Items</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2: Choose Items -->
+                            <div class="booking-step" id="step2" style="display: none;">
+                                <h3 class="h4 mb-4">Step 2: Choose Items</h3>
+                                
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle"></i> Select the items you need for your event. Prices shown are per day. Minimum rental is 2 days.
+                                </div>
+                                
+                                {% if selected_product %}
+                                <div class="alert alert-success mb-4">
+                                    <i class="fas fa-check-circle me-2"></i> You've selected <strong>{{ selected_product.name }}</strong>! We've pre-filled this option for you.
+                                </div>
+                                {% endif %}
+                                
+                                <div class="table-responsive mb-4">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Price/Day</th>
+                                                <th>Quantity</th>
+                                                <th>Set Size</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Premium Stainless Steel Dinner Set</td>
+                                                <td>$12.99</td>
+                                                <td>
+                                                    <input type="number" class="form-control form-control-sm" name="qty_item1" min="0" value="{% if selected_product and selected_product.id == 1 %}1{% else %}0{% endif %}" onchange="updateSubtotal(this, 12.99, 'subtotal1')">
+                                                </td>
+                                                <td>
+                                                    <select class="form-select form-select-sm" name="size_item1">
+                                                        <option value="4">4 pieces</option>
+                                                        <option value="8">8 pieces</option>
+                                                        <option value="12">12 pieces</option>
+                                                    </select>
+                                                </td>
+                                                <td><span id="subtotal1">${% if selected_product and selected_product.id == 1 %}12.99{% else %}0.00{% endif %}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Brushed Gold Flatware Collection</td>
+                                                <td>$15.99</td>
+                                                <td>
+                                                    <input type="number" class="form-control form-control-sm" name="qty_item2" min="0" value="{% if selected_product and selected_product.id == 2 %}1{% else %}0{% endif %}" onchange="updateSubtotal(this, 15.99, 'subtotal2')">
+                                                </td>
+                                                <td>
+                                                    <select class="form-select form-select-sm" name="size_item2">
+                                                        <option value="4">4 pieces</option>
+                                                        <option value="8">8 pieces</option>
+                                                        <option value="12">12 pieces</option>
+                                                    </select>
+                                                </td>
+                                                <td><span id="subtotal2">${% if selected_product and selected_product.id == 2 %}15.99{% else %}0.00{% endif %}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Matte Black Cutlery Set</td>
+                                                <td>$14.99</td>
+                                                <td>
+                                                    <input type="number" class="form-control form-control-sm" name="qty_item3" min="0" value="{% if selected_product and selected_product.id == 3 %}1{% else %}0{% endif %}" onchange="updateSubtotal(this, 14.99, 'subtotal3')">
+                                                </td>
+                                                <td>
+                                                    <select class="form-select form-select-sm" name="size_item3">
+                                                        <option value="4">4 pieces</option>
+                                                        <option value="8">8 pieces</option>
+                                                        <option value="12">12 pieces</option>
+                                                    </select>
+                                                </td>
+                                                <td><span id="subtotal3">${% if selected_product and selected_product.id == 3 %}14.99{% else %}0.00{% endif %}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Eco-Friendly Bamboo Utensils</td>
+                                                <td>$9.99</td>
+                                                <td>
+                                                    <input type="number" class="form-control form-control-sm" name="qty_item4" min="0" value="0" onchange="updateSubtotal(this, 9.99, 'subtotal4')">
+                                                </td>
+                                                <td>
+                                                    <select class="form-select form-select-sm" name="size_item4">
+                                                        <option value="10">10 pieces</option>
+                                                        <option value="20">20 pieces</option>
+                                                        <option value="50">50 pieces</option>
+                                                    </select>
+                                                </td>
+                                                <td><span id="subtotal4">$0.00</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Silver Serving Set</td>
+                                                <td>$8.99</td>
+                                                <td>
+                                                    <input type="number" class="form-control form-control-sm" name="qty_item5" min="0" value="0" onchange="updateSubtotal(this, 8.99, 'subtotal5')">
+                                                </td>
+                                                <td>
+                                                    <select class="form-select form-select-sm" name="size_item5">
+                                                        <option value="4">4 pieces</option>
+                                                        <option value="8">8 pieces</option>
+                                                    </select>
+                                                </td>
+                                                <td><span id="subtotal5">$0.00</span></td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="table-light">
+                                                <th colspan="4" class="text-end">Estimated Total:</th>
+                                                <th><span id="totalAmount">$0.00</span></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(2, 1)">Previous: Event Details</button>
+                                    <button type="button" class="btn btn-primary" onclick="nextStep(2, 3)">Next: Delivery Details</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3: Delivery Details -->
+                            <div class="booking-step" id="step3" style="display: none;">
+                                <h3 class="h4 mb-4">Step 3: Delivery Details</h3>
+                                
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="selfPickup" name="self_pickup">
+                                    <label class="form-check-label" for="selfPickup">I'll pick up and return the items myself</label>
+                                </div>
+                                
+                                <div id="deliverySection">
+                                    <div class="mb-3">
+                                        <label for="address" class="form-label">Delivery Address</label>
+                                        <input type="text" class="form-control" id="address" name="address" placeholder="Street address">
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="city" class="form-label">City</label>
+                                            <input type="text" class="form-control" id="city" name="city">
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="state" class="form-label">State</label>
+                                            <input type="text" class="form-control" id="state" name="state">
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="zipCode" class="form-label">Zip Code</label>
+                                            <input type="text" class="form-control" id="zipCode" name="zip_code">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="deliveryDate" class="form-label">Preferred Delivery Date</label>
+                                            <input type="date" class="form-control" id="deliveryDate" name="delivery_date">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="deliveryTime" class="form-label">Preferred Time Window</label>
+                                            <select class="form-select" id="deliveryTime" name="delivery_time">
+                                                <option value="morning">Morning (9am - 12pm)</option>
+                                                <option value="afternoon">Afternoon (12pm - 5pm)</option>
+                                                <option value="evening">Evening (5pm - 8pm)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pickupDate" class="form-label">Preferred Pickup Date</label>
+                                            <input type="date" class="form-control" id="pickupDate" name="pickup_date">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pickupTime" class="form-label">Preferred Time Window</label>
+                                            <select class="form-select" id="pickupTime" name="pickup_time">
+                                                <option value="morning">Morning (9am - 12pm)</option>
+                                                <option value="afternoon">Afternoon (12pm - 5pm)</option>
+                                                <option value="evening">Evening (5pm - 8pm)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="deliveryNotes" class="form-label">Delivery Instructions</label>
+                                        <textarea class="form-control" id="deliveryNotes" name="delivery_notes" rows="3" placeholder="Parking instructions, gate codes, etc."></textarea>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(3, 2)">Previous: Choose Items</button>
+                                    <button type="button" class="btn btn-primary" onclick="nextStep(3, 4)">Next: Contact & Payment</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 4: Contact & Payment -->
+                            <div class="booking-step" id="step4" style="display: none;">
+                                <h3 class="h4 mb-4">Step 4: Contact & Payment Information</h3>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="firstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="firstName" name="first_name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="lastName" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="lastName" name="last_name" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">Email Address</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phone" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                                    </div>
+                                </div>
+                                
+                                <hr class="my-4">
+                                
+                                <h4 class="h5 mb-3">Payment Details</h4>
+                                
+                                <div class="alert alert-info mb-4">
+                                    <i class="fas fa-info-circle me-2"></i> For security, we'll collect payment information when we confirm your order. A deposit of 25% will be required to secure your booking.
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                                        <label class="form-check-label" for="termsCheck">
+                                            I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms and Conditions</a>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(4, 3)">Previous: Delivery Details</button>
+                                    <button type="submit" class="btn btn-success">Complete Booking</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold">Frequently Asked Questions</h2>
+                <p class="lead text-muted">Common questions about our booking process</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="accordion" id="bookingFaq">
+                    <div class="accordion-item mb-3 border-0 shadow-sm">
+                        <h2 class="accordion-header" id="faqOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                                When do I need to place my booking?
+                            </button>
+                        </h2>
+                        <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#bookingFaq">
+                            <div class="accordion-body">
+                                We recommend booking at least 2 weeks in advance for smaller events and 4-6 weeks for larger events (over 100 guests). However, we do our best to accommodate last-minute bookings when inventory allows.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item mb-3 border-0 shadow-sm">
+                        <h2 class="accordion-header" id="faqTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                                What is your cancellation policy?
+                            </button>
+                        </h2>
+                        <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#bookingFaq">
+                            <div class="accordion-body">
+                                Cancellations made 7 or more days before the rental start date receive a full refund minus a 10% processing fee. Cancellations within 3-7 days receive a 50% refund. Cancellations less than 3 days before the rental start date are non-refundable. Changes to your order can be made up to 3 days before your event, subject to availability.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item mb-3 border-0 shadow-sm">
+                        <h2 class="accordion-header" id="faqThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                                How do delivery and pickup work?
+                            </button>
+                        </h2>
+                        <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqThree" data-bs-parent="#bookingFaq">
+                            <div class="accordion-body">
+                                We offer delivery and pickup services within a 30-mile radius of our location. Our team will deliver your order on the selected date and time window. For pickup, we provide clean, eco-friendly containers for easy transport. All cutlery is thoroughly sanitized before delivery, and we only ask that you rinse items before returning them.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 shadow-sm">
+                        <h2 class="accordion-header" id="faqFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseFour" aria-expanded="false" aria-controls="faqCollapseFour">
+                                What if I need to change my order?
+                            </button>
+                        </h2>
+                        <div id="faqCollapseFour" class="accordion-collapse collapse" aria-labelledby="faqFour" data-bs-parent="#bookingFaq">
+                            <div class="accordion-body">
+                                Changes to your order can be made up to 3 days before your event, subject to availability. Please contact our customer service team as soon as possible to request any changes. We'll do our best to accommodate your needs.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Terms and Conditions Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="fw-bold">1. Rental Agreement</h6>
+                <p>By completing a booking with Zero Waste Cutlery, you agree to all terms and conditions outlined in this agreement.</p>
+                
+                <h6 class="fw-bold">2. Deposit and Payment</h6>
+                <p>A 25% non-refundable deposit is required to secure your booking. The remaining balance is due 3 days before your rental period begins.</p>
+                
+                <h6 class="fw-bold">3. Cancellation Policy</h6>
+                <p>Cancellations made 7 or more days before the rental start date receive a full refund minus a 10% processing fee. Cancellations within 3-7 days receive a 50% refund. Cancellations less than 3 days before the rental start date are non-refundable.</p>
+                
+                <h6 class="fw-bold">4. Damage or Loss</h6>
+                <p>The customer is responsible for all items while in their possession. A replacement fee will be charged for lost, damaged, or unreturned items beyond normal wear and tear.</p>
+                
+                <h6 class="fw-bold">5. Cleaning</h6>
+                <p>Cutlery should be rinsed before return. Professional cleaning is included in the rental price. A cleaning fee may be assessed for excessively soiled items.</p>
+                
+                <h6 class="fw-bold">6. Delivery and Pickup</h6>
+                <p>Delivery fees are based on location and order size. The customer is responsible for providing accurate delivery information and ensuring someone is available to receive the items during the scheduled delivery window.</p>
+                
+                <h6 class="fw-bold">7. Privacy Policy</h6>
+                <p>Customer information will only be used for order processing and will not be shared with third parties except as required for delivery services.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I Understand</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Form Functionality -->
+<script>
+    function nextStep(currentStep, nextStep) {
+        document.getElementById('step' + currentStep).style.display = 'none';
+        document.getElementById('step' + nextStep).style.display = 'block';
+    }
+    
+    function prevStep(currentStep, prevStep) {
+        document.getElementById('step' + currentStep).style.display = 'none';
+        document.getElementById('step' + prevStep).style.display = 'block';
+    }
+    
+    function updateSubtotal(input, price, subtotalId) {
+        const quantity = input.value;
+        const subtotal = quantity * price;
+        document.getElementById(subtotalId).textContent = '$' + subtotal.toFixed(2);
+        updateTotal();
+    }
+    
+    function updateTotal() {
+        let total = 0;
+        for (let i = 1; i <= 5; i++) {
+            const subtotalText = document.getElementById('subtotal' + i).textContent;
+            const subtotalValue = parseFloat(subtotalText.replace('$', ''));
+            total += subtotalValue;
+        }
+        document.getElementById('totalAmount').textContent = '$' + total.toFixed(2);
+    }
+    
+    document.getElementById('selfPickup').addEventListener('change', function() {
+        const deliverySection = document.getElementById('deliverySection');
+        if (this.checked) {
+            deliverySection.style.display = 'none';
+        } else {
+            deliverySection.style.display = 'block';
+        }
+    });
+    
+    // Calculate initial total on page load for pre-selected products
+    document.addEventListener('DOMContentLoaded', function() {
+        updateTotal();
+    });
+</script>
+{% endblock %} 

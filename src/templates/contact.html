@@ -1,108 +1,242 @@
 {% extends "base.html" %}
 
-{% block title %}Contact Us - Cutlery Rental{% endblock %}
+{% block title %}Contact Us - Zero Waste Cutlery Rental{% endblock %}
 
 {% block content %}
-<div class="container">
-  <div class="breadcrumb">
-    <a href="/">Home</a>
-    <span class="separator">/</span>
-    <span>Contact Us</span>
-  </div>
-  
-  <h1>Contact Us</h1>
-  <p class="section-description">We'd love to hear from you. Reach out with any questions or inquiries.</p>
-  
-  <div class="contact-grid">
-    <div class="contact-form-container">
-      <h2>Send Us a Message</h2>
-      <form class="contact-form" action="/contact/" method="post">
-        <div class="form-group">
-          <label for="contact-name">Your Name</label>
-          <input type="text" id="contact-name" name="name" placeholder="Enter your name" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="contact-email">Email Address</label>
-          <input type="email" id="contact-email" name="email" placeholder="Enter your email" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="contact-phone">Phone Number</label>
-          <input type="tel" id="contact-phone" name="phone" placeholder="Enter your phone number">
-        </div>
-        
-        <div class="form-group">
-          <label for="contact-subject">Subject</label>
-          <select id="contact-subject" name="subject" required>
-            <option value="" disabled selected>Select a subject</option>
-            <option value="general">General Inquiry</option>
-            <option value="reservation">Reservation</option>
-            <option value="feedback">Feedback</option>
-            <option value="support">Customer Support</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label for="contact-message">Your Message</label>
-          <textarea id="contact-message" name="message" placeholder="Type your message here" required></textarea>
-        </div>
-        
-        <button type="submit" class="btn btn-primary">Send Message</button>
-      </form>
+<!-- Display message if present -->
+{% if message %}
+<div class="container mt-4">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    
-    <div class="contact-info-container">
-      <div class="contact-info-card">
-        <div class="contact-info-header">
-          <i class="fas fa-map-marker-alt"></i>
-          <h3>Our Location</h3>
-        </div>
-        <p>1234 Kitchen Street</p>
-        <p>Culinary City, CC 12345</p>
-        <p>United States</p>
-      </div>
-      
-      <div class="contact-info-card">
-        <div class="contact-info-header">
-          <i class="fas fa-phone-alt"></i>
-          <h3>Phone</h3>
-        </div>
-        <p>Main: (123) 456-7890</p>
-        <p>Support: (123) 456-7891</p>
-        <p>Reservations: (123) 456-7892</p>
-      </div>
-      
-      <div class="contact-info-card">
-        <div class="contact-info-header">
-          <i class="fas fa-envelope"></i>
-          <h3>Email</h3>
-        </div>
-        <p>info@cutleryrental.com</p>
-        <p>support@cutleryrental.com</p>
-        <p>reservations@cutleryrental.com</p>
-      </div>
-      
-      <div class="contact-info-card">
-        <div class="contact-info-header">
-          <i class="fas fa-clock"></i>
-          <h3>Business Hours</h3>
-        </div>
-        <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-        <p>Saturday: 10:00 AM - 4:00 PM</p>
-        <p>Sunday: Closed</p>
-      </div>
-    </div>
-  </div>
-  
-  <div class="map-container">
-    <h2>Find Us</h2>
-    <div class="map-placeholder">
-      <!-- Replace with actual map embed code -->
-      <div style="background-color: var(--surface-color-alt); height: 300px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-lg); margin-top: var(--spacing-md);">
-        <p>Map placeholder - Replace with Google Maps or other map service</p>
-      </div>
-    </div>
-  </div>
 </div>
+{% endif %}
+
+<!-- Contact Hero -->
+<section class="hero-section" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/images/contact-hero.jpg');">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-4">Contact Us</h1>
+                <p class="lead mb-0">Get in touch with our team for bookings, questions, or support</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Information -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 mb-5 mb-lg-0">
+                <h2 class="section-heading mb-4">Get In Touch</h2>
+                <p class="mb-4">We're here to help with any questions about our cutlery rental service, availability, or special requests for your event.</p>
+                
+                <div class="d-flex mb-4">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-map-marker-alt text-primary fa-2x me-3"></i>
+                    </div>
+                    <div>
+                        <h5>Address</h5>
+                        <p class="text-muted">123 Eco Street, Green City, CA 94123</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex mb-4">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-phone-alt text-primary fa-2x me-3"></i>
+                    </div>
+                    <div>
+                        <h5>Phone</h5>
+                        <p class="text-muted">(123) 456-7890</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex mb-4">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-envelope text-primary fa-2x me-3"></i>
+                    </div>
+                    <div>
+                        <h5>Email</h5>
+                        <p class="text-muted">hello@zerowastecutlery.com</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex mb-4">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-clock text-primary fa-2x me-3"></i>
+                    </div>
+                    <div>
+                        <h5>Working Hours</h5>
+                        <p class="text-muted">Monday - Friday: 9AM - 5PM<br>Saturday: 10AM - 2PM<br>Sunday: Closed</p>
+                    </div>
+                </div>
+                
+                <h4 class="mt-5 mb-3">Connect With Us</h4>
+                <div class="social-icons">
+                    <a href="#" class="me-3 text-decoration-none">
+                        <i class="fab fa-facebook-f fa-2x text-primary"></i>
+                    </a>
+                    <a href="#" class="me-3 text-decoration-none">
+                        <i class="fab fa-instagram fa-2x text-primary"></i>
+                    </a>
+                    <a href="#" class="me-3 text-decoration-none">
+                        <i class="fab fa-twitter fa-2x text-primary"></i>
+                    </a>
+                    <a href="#" class="text-decoration-none">
+                        <i class="fab fa-linkedin-in fa-2x text-primary"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-5">
+                        <h2 class="card-title mb-4">Send Us a Message</h2>
+                        <form action="/contact" method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Your Name</label>
+                                        <input type="text" class="form-control" id="name" name="name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Your Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" name="phone">
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="subject" name="subject" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Your Message</label>
+                                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+                                <label class="form-check-label" for="newsletter">
+                                    Subscribe to our newsletter for updates and eco-friendly tips
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold">Frequently Asked Questions</h2>
+                <p class="lead text-muted">Quick answers to common questions</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="accordion" id="contactFaq">
+                    <div class="accordion-item mb-3 border-0 shadow-sm">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                How far in advance should I book my cutlery rental?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#contactFaq">
+                            <div class="accordion-body">
+                                We recommend booking at least 2-3 weeks in advance for small to medium events and 4-6 weeks for large events. However, we always try to accommodate last-minute requests when possible, so don't hesitate to contact us even if your event is coming up soon.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item mb-3 border-0 shadow-sm">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Do you offer delivery and pickup services?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#contactFaq">
+                            <div class="accordion-body">
+                                Yes, we offer delivery and pickup services within a 30-mile radius of our location. Delivery fees vary based on distance and order size. For locations outside this radius, please contact us for custom arrangements.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item mb-3 border-0 shadow-sm">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                What happens if items are damaged or lost?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#contactFaq">
+                            <div class="accordion-body">
+                                We understand that accidents happen. Our rental agreement includes a small allowance for normal wear and tear. For lost or significantly damaged items, we charge a replacement fee that varies by item. We recommend handling the cutlery with care and counting pieces before returning them.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 shadow-sm">
+                        <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Do I need to clean the cutlery before returning it?
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#contactFaq">
+                            <div class="accordion-body">
+                                We ask that you rinse off food residue from the cutlery before returning it, but you don't need to thoroughly wash or sanitize the items. We have a professional eco-friendly cleaning process that ensures all cutlery is sanitized and polished before the next rental.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h2 class="fw-bold">Find Us</h2>
+                <p class="lead text-muted">Visit our eco-friendly showroom</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="embed-responsive" style="height: 450px;">
+                    <!-- Replace with your actual Google Maps embed code -->
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d100939.98555098464!2d-122.50764017845324!3d37.75781499602959!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80859a6d00690021%3A0x4a501367f076adff!2sSan%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1652892205810!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold mb-4">Ready to Go Zero Waste?</h2>
+                <p class="lead mb-4">Join thousands of eco-conscious hosts who have made the switch to sustainable cutlery rental.</p>
+                <a href="#" class="btn btn-light btn-lg me-2">Book Now</a>
+                <a href="/products" class="btn btn-outline-light btn-lg">View Products</a>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

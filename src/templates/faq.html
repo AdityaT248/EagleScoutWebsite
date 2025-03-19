@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block title %}Frequently Asked Questions - Zero Waste Cutlery Rental{% endblock %}
+
+{% block content %}
+<!-- Display message if present -->
+{% if message %}
+<div class="container mt-4">
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+{% endif %}
+
+<!-- Hero Section -->
+<section class="page-header py-5 text-center bg-light">
+    <div class="container">
+        <h1 class="fw-bold">Frequently Asked Questions</h1>
+        <p class="lead">Find answers to commonly asked questions about our services</p>
+    </div>
+</section>
+
+<!-- FAQ Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-4 p-lg-5">
+                        <h2 class="h4 mb-4 text-primary-color">About Our Service</h2>
+                        
+                        <div class="accordion" id="accordionGeneralFAQ">
+                            <div class="accordion-item border-0 mb-3 shadow-sm">
+                                <h3 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        What is Zero Waste Cutlery Rental?
+                                    </button>
+                                </h3>
+                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionGeneralFAQ">
+                                    <div class="accordion-body">
+                                        <p>Zero Waste Cutlery Rental is a sustainable alternative to disposable cutlery for events and gatherings. We offer high-quality stainless steel, silver, and other premium cutlery for rent, helping to reduce waste while enhancing your dining experience.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item border-0 mb-3 shadow-sm">
+                                <h3 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Why rent cutlery instead of buying or using disposables?
+                                    </button>
+                                </h3>
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionGeneralFAQ">
+                                    <div class="accordion-body">
+                                        <p>Renting cutlery offers several benefits:</p>
+                                        <ul>
+                                            <li>Eco-friendly: Reduces single-use plastic waste</li>
+                                            <li>Cost-effective: Access to high-quality items without the high purchase cost</li>
+                                            <li>Convenience: No need to store large quantities of cutlery you rarely use</li>
+                                            <li>Variety: Choose from different styles to match your event theme</li>
+                                            <li>Hassle-free: We handle cleaning and sanitizing</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item border-0 mb-3 shadow-sm">
+                                <h3 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        What types of events do you service?
+                                    </button>
+                                </h3>
+                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionGeneralFAQ">
+                                    <div class="accordion-body">
+                                        <p>We cater to a wide range of events, including:</p>
+                                        <ul>
+                                            <li>Weddings and engagement parties</li>
+                                            <li>Corporate events and conferences</li>
+                                            <li>Family gatherings and reunions</li>
+                                            <li>Holiday parties</li>
+                                            <li>Graduation celebrations</li>
+                                            <li>Dinner parties</li>
+                                            <li>Outdoor events and picnics</li>
+                                        </ul>
+                                        <p>Whatever your event, we have cutlery options to suit your needs!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h2 class="h4 mb-4 mt-5 text-primary-color">Rental Process</h2>
+                        
+                        <div class="accordion" id="accordionRentalFAQ">
+                            <div class="accordion-item border-0 mb-3 shadow-sm">
+                                <h3 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                        How does the rental process work?
+                                    </button>
+                                </h3>
+                                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionRentalFAQ">
+                                    <div class="accordion-body">
+                                        <p>Our rental process is simple:</p>
+                                        <ol>
+                                            <li>Browse our collection and select the cutlery you need</li>
+                                            <li>Choose your rental dates and quantity</li>
+                                            <li>Complete your booking and payment online</li>
+                                            <li>Receive your cutlery through delivery or pickup</li>
+                                            <li>Enjoy your event!</li>
+                                            <li>Return the items according to your rental agreement</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item border-0 mb-3 shadow-sm">
+                                <h3 class="accordion-header" id="headingFive">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                        How far in advance should I book?
+                                    </button>
+                                </h3>
+                                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionRentalFAQ">
+                                    <div class="accordion-body">
+                                        <p>We recommend booking as early as possible, especially for weekend events and peak seasons. For smaller events, 1-2 weeks notice is usually sufficient. For larger events (50+ guests), weddings, or during holiday seasons, we recommend booking 4-6 weeks in advance to ensure availability.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item border-0 mb-3 shadow-sm">
+                                <h3 class="accordion-header" id="headingSix">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                        What is your cancellation policy?
+                                    </button>
+                                </h3>
+                                <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionRentalFAQ">
+                                    <div class="accordion-body">
+                                        <p>Our cancellation policy is as follows:</p>
+                                        <ul>
+                                            <li>Cancellations made 7 or more days before the rental start date will receive a full refund</li>
+                                            <li>Cancellations made 3-6 days before the rental start date will receive a 50% refund</li>
+                                            <li>Cancellations made less than 3 days before the rental start date are non-refundable</li>
+                                        </ul>
+                                        <p>If you need to change your dates rather than cancel, please contact us as soon as possible, and we'll do our best to accommodate you, subject to availability.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h2 class="h4 mb-4 mt-5 text-primary-color">Delivery & Returns</h2>
+                        
+                        <div class="accordion" id="accordionLogisticsFAQ">
+                            <div class="accordion-item border-0 mb-3 shadow-sm">
+                                <h3 class="accordion-header" id="headingSeven">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                        Do you offer delivery?
+                                    </button>
+                                </h3>
+                                <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionLogisticsFAQ">
+                                    <div class="accordion-body">
+                                        <p>Yes, we offer delivery within a 30-mile radius of our location. Delivery fees start at $10, depending on distance and order size. For orders over $100, we may waive the delivery fee. You can also choose to pick up your rental items from our location at no additional cost.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item border-0 mb-3 shadow-sm">
+                                <h3 class="accordion-header" id="headingEight">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                                        Do I need to clean the cutlery before returning?
+                                    </button>
+                                </h3>
+                                <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordionLogisticsFAQ">
+                                    <div class="accordion-body">
+                                        <p>We ask that you rinse off food residue before returning the cutlery. This helps prevent staining and makes our professional cleaning process more efficient. There's no need to fully wash or sanitize the items, as we handle that process when they're returned to ensure they meet our high hygiene standards for the next client.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item border-0 mb-3 shadow-sm">
+                                <h3 class="accordion-header" id="headingNine">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                                        What happens if an item is damaged or lost?
+                                    </button>
+                                </h3>
+                                <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-bs-parent="#accordionLogisticsFAQ">
+                                    <div class="accordion-body">
+                                        <p>We understand accidents happen. If items are damaged or lost:</p>
+                                        <ul>
+                                            <li>Minor wear and tear is covered in your rental cost</li>
+                                            <li>For significant damage or lost items, you will be charged the replacement cost</li>
+                                            <li>We offer an optional Damage Protection Plan for $5 per order, which covers up to $200 in potential damages</li>
+                                        </ul>
+                                        <p>We'll always discuss any damage issues with you before applying charges.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h2 class="h4 mb-4 mt-5 text-primary-color">Payment & Pricing</h2>
+                        
+                        <div class="accordion" id="accordionPaymentFAQ">
+                            <div class="accordion-item border-0 mb-3 shadow-sm">
+                                <h3 class="accordion-header" id="headingTen">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                                        How is pricing calculated?
+                                    </button>
+                                </h3>
+                                <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen" data-bs-parent="#accordionPaymentFAQ">
+                                    <div class="accordion-body">
+                                        <p>Our pricing is based on several factors:</p>
+                                        <ul>
+                                            <li>Type of cutlery (standard, premium, specialty)</li>
+                                            <li>Quantity needed</li>
+                                            <li>Duration of rental (per day)</li>
+                                            <li>Delivery options (if selected)</li>
+                                        </ul>
+                                        <p>Each product page shows the daily rental price. For rentals longer than 3 days, we offer discounted rates. You can see the final price breakdown during checkout before completing your order.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item border-0 mb-3 shadow-sm">
+                                <h3 class="accordion-header" id="headingEleven">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+                                        What payment methods do you accept?
+                                    </button>
+                                </h3>
+                                <div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="headingEleven" data-bs-parent="#accordionPaymentFAQ">
+                                    <div class="accordion-body">
+                                        <p>We accept various payment methods including:</p>
+                                        <ul>
+                                            <li>Credit/debit cards (Visa, Mastercard, American Express, Discover)</li>
+                                            <li>PayPal</li>
+                                            <li>Apple Pay (on compatible devices)</li>
+                                            <li>Google Pay (on compatible devices)</li>
+                                        </ul>
+                                        <p>For large corporate events, we can also arrange invoicing with approved credit terms.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item border-0 mb-3 shadow-sm">
+                                <h3 class="accordion-header" id="headingTwelve">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
+                                        Is a deposit required?
+                                    </button>
+                                </h3>
+                                <div id="collapseTwelve" class="accordion-collapse collapse" aria-labelledby="headingTwelve" data-bs-parent="#accordionPaymentFAQ">
+                                    <div class="accordion-body">
+                                        <p>Yes, we require full payment at the time of booking to secure your rental. For large orders (over $300), we offer the option of a 50% deposit at booking, with the remaining balance due 3 days before your rental start date.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-5 text-center">
+                            <p>Can't find an answer to your question?</p>
+                            <a href="/contact" class="btn btn-primary">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

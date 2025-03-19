@@ -1,251 +1,175 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Premium cutlery rental service for all occasions. Browse our collection of high-quality forks, knives, spoons, and complete dining sets.">
-    <title>{% block title %}Cutlery Rental{% endblock %}</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
+    <title>{% block title %}Zero Waste Cutlery Rental{% endblock %}</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- FullCalendar CSS (only loaded when needed) -->
-    {% if request.path == '/availability' %}
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet">
-    {% endif %}
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <!-- Custom JavaScript -->
-    <script src="/static/js/app.js" defer></script>
+    <link rel="stylesheet" href="/static/css/main.css">
+    {% block extra_css %}{% endblock %}
 </head>
-<body>    
-    <header>
-        <div class="header-container">
-            <a href="/" class="logo">Cutlery Rental</a>
-            
-            <div class="nav-wrapper">
-                <nav>
-                    <ul>
-                        <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
-                        <li><a href="/availability"><i class="fas fa-calendar-alt"></i> Availability</a></li>
-                        <li><a href="/comments"><i class="fas fa-star"></i> Reviews</a></li>
-                        <li><a href="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
-                        {% if request.session.get('is_admin', False) %}
-                            <li class="admin-nav-item">
-                                <a href="/admin/dashboard" class="admin-link">
-                                    <i class="fas fa-user-shield"></i> Admin Dashboard
-                                </a>
-                                <div class="admin-dropdown">
-                                    <a href="/add_product" class="dropdown-item">
-                                        <i class="fas fa-plus"></i> Add Product
-                                    </a>
-                                    <a href="/admin/logout" class="dropdown-item">
-                                        <i class="fas fa-sign-out-alt"></i> Logout
-                                    </a>
-                                </div>
-                            </li>
-                        {% else %}
-                            <li><a href="/admin/login"><i class="fas fa-user"></i> Admin Login</a></li>
-                        {% endif %}
-                    </ul>
-                </nav>
-                
-                <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
-                    <i class="fas fa-moon"></i>
-                </button>
-            </div>
-            
-            <div class="menu-toggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar py-2 bg-secondary-color text-dark text-center">
+        <div class="container">
+            <small><i class="fas fa-leaf me-2"></i>Sustainable cutlery rentals - Reducing plastic waste one event at a time!</small>
         </div>
-    </header>
-
-    <div class="nav-menu">
-        <nav>
-            <ul>
-                <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="/availability"><i class="fas fa-calendar-alt"></i> Availability</a></li>
-                <li><a href="/comments"><i class="fas fa-star"></i> Reviews</a></li>
-                <li><a href="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
-                {% if request.session.get('is_admin', False) %}
-                    <li><a href="/admin/dashboard"><i class="fas fa-user-shield"></i> Admin Dashboard</a></li>
-                    <li><a href="/add_product"><i class="fas fa-plus"></i> Add Product</a></li>
-                    <li><a href="/admin/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                {% else %}
-                    <li><a href="/admin/login"><i class="fas fa-user"></i> Admin Login</a></li>
-                {% endif %}
-            </ul>
-        </nav>
     </div>
 
-    <main id="main-content">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <i class="fas fa-utensils me-2"></i>
+                <span>Zero Waste Cutlery</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products"><i class="fas fa-utensils me-1"></i> Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about"><i class="fas fa-info-circle me-1"></i> About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact"><i class="far fa-envelope me-1"></i> Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex gap-2">
+                    <a href="/booking" class="btn btn-light rounded-pill">
+                        <i class="fas fa-calendar-plus me-1"></i> Book Now
+                    </a>
+                    <a href="/admin/login" class="btn btn-warning rounded-pill">
+                        <i class="fas fa-user me-1"></i> Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
         {% block content %}{% endblock %}
     </main>
-    
-    <footer>
+
+    <!-- Newsletter -->
+    <section class="py-5 bg-secondary-color">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Cutlery Rental</h3>
-                    <p>Premium cutlery rental service for all occasions. We provide high-quality cutlery for weddings, parties, corporate events, and more.</p>
-                    <div class="social-links">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="/"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="/availability"><i class="fas fa-chevron-right"></i> Availability</a></li>
-                        <li><a href="/comments"><i class="fas fa-chevron-right"></i> Reviews</a></li>
-                        <li><a href="/contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
-                        {% if is_admin %}
-                            <li><a href="/add_product"><i class="fas fa-chevron-right"></i> Add Product</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Contact Us</h3>
-                    <div class="contact-info">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <p>123 Cutlery Street, Silvertown, NY 10001</p>
-                    </div>
-                    <div class="contact-info">
-                        <i class="fas fa-phone"></i>
-                        <p>(123) 456-7890</p>
-                    </div>
-                    <div class="contact-info">
-                        <i class="fas fa-envelope"></i>
-                        <p>info@cutleryrental.com</p>
-                    </div>
-                    <div class="contact-info">
-                        <i class="fas fa-clock"></i>
-                        <p>Mon-Fri: 9am - 5pm</p>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h3>Newsletter</h3>
-                    <p>Subscribe to our newsletter for the latest updates and offers.</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Your email address" aria-label="Email for newsletter">
-                        <button type="submit" class="btn btn-primary">Subscribe</button>
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="fw-bold mb-3">Stay Updated</h2>
+                    <p class="mb-4">Join our newsletter for eco-friendly tips and exclusive offers</p>
+                    <form class="newsletter-form d-flex gap-2 justify-content-center">
+                        <input type="email" class="form-control form-control-lg" placeholder="Your email address" style="max-width: 400px;">
+                        <button type="submit" class="btn btn-primary btn-lg">Subscribe</button>
                     </form>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Cutlery Rental. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
-                <p class="footer-credit">Website designed by Aditya Thakkar</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5>Zero Waste Cutlery Rental</h5>
+                    <p class="text-light opacity-75">Sustainable cutlery rentals for eco-conscious events. Reduce waste while enjoying premium dining experiences.</p>
+                    <div class="social-icons">
+                        <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/">Home</a></li>
+                        <li class="mb-2"><a href="/products">Products</a></li>
+                        <li class="mb-2"><a href="/about">About Us</a></li>
+                        <li class="mb-2"><a href="/booking">Book Now</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Resources</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/faq">FAQ</a></li>
+                        <li class="mb-2"><a href="/contact">Contact</a></li>
+                        <li class="mb-2"><a href="/terms">Terms & Conditions</a></li>
+                        <li class="mb-2"><a href="/privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Contact Us</h5>
+                    <address class="text-light opacity-75">
+                        <p class="mb-2"><i class="fas fa-map-marker-alt me-2"></i>123 Eco Street, Green City, 12345</p>
+                        <p class="mb-2"><i class="fas fa-phone me-2"></i>(555) 123-4567</p>
+                        <p class="mb-2"><i class="fas fa-envelope me-2"></i>contact@zerowaste.com</p>
+                    </address>
+                </div>
+            </div>
+            <hr>
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p class="mb-0">&copy; <span id="currentYear"></span> Zero Waste Cutlery. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0"><i class="fas fa-leaf me-2"></i>Making events sustainable since 2022</p>
+                </div>
             </div>
         </div>
     </footer>
-    
-    <!-- WhatsApp Chat Button -->
-    <a href="https://wa.me/1234567890" class="whatsapp-button" aria-label="Chat on WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-    
-    <!-- AI Chatbot Trigger -->
-    <button class="chatbot-trigger" id="chatbot-trigger" aria-label="Open AI Assistant">
-        <i class="fas fa-comment-dots"></i>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="btn btn-primary rounded-circle">
+        <i class="fas fa-arrow-up"></i>
     </button>
-    
-    <!-- Chatbot Container -->
-    <div class="chatbot-container" id="chatbot-container" aria-label="Chat assistant">
-        <div class="chatbot-header">
-            <h3 class="chatbot-title">Cutlery Assistant</h3>
-            <button class="chatbot-close" id="chatbot-close" aria-label="Close chat">✕</button>
-        </div>
-        <div class="chatbot-messages" id="chatbot-messages" aria-live="polite">
-            <!-- Welcome message will be added by JavaScript -->
-        </div>
-        <div class="chatbot-input">
-            <input type="text" id="chatbot-input" placeholder="Ask about our cutlery..." aria-label="Type your message">
-            <button id="chatbot-send" aria-label="Send message"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
 
-    <style>
-    /* Add this to the end of your existing styles or in the appropriate place */
-    header {
-        position: relative;
-        z-index: 100; /* Higher z-index to ensure it's above the dashboard header */
-    }
-
-    .header-container {
-        padding: 15px 20px;
-    }
-
-    .admin-nav-item {
-        position: relative;
-    }
-
-    .admin-nav-item:hover .admin-dropdown {
-        display: block;
-    }
-
-    .admin-link {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        padding-right: 20px;
-        position: relative;
-    }
-
-    .admin-link::after {
-        content: '\f107';
-        font-family: 'Font Awesome 5 Free';
-        font-weight: 900;
-        position: absolute;
-        right: 0;
-        transition: transform 0.3s ease;
-    }
-
-    .admin-nav-item:hover .admin-link::after {
-        transform: rotate(180deg);
-    }
-
-    .admin-dropdown {
-        display: none;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background-color: var(--surface-color);
-        min-width: 200px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        border-radius: var(--radius-md);
-        z-index: 1000;
-        padding: 8px 0;
-        border: 1px solid var(--border-color);
-    }
-
-    .dropdown-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 12px 16px;
-        color: var(--text-primary);
-        transition: background-color 0.2s ease;
-        font-size: 0.95rem;
-    }
-
-    .dropdown-item:hover {
-        background-color: rgba(var(--primary-color-rgb), 0.1);
-        color: var(--primary-color);
-    }
-
-    @media (max-width: 768px) {
-        .admin-dropdown {
-            display: none !important;
-        }
-    }
-    </style>
+    <!-- Bootstrap JS with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Custom JavaScript -->
+    <script>
+        document.getElementById('currentYear').innerHTML = new Date().getFullYear();
+        
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        
+        // Back to top button
+        const backToTopBtn = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
